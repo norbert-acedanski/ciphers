@@ -3,6 +3,7 @@ fileToDecipherWithCaesarCipherName = "textToDecipherWithCaesarCipher.txt"
 fileToDecipherWithVigenereCipherName = "textToDecipherWithVigenereCipher.txt"
 latinAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 polishAlphabet = "AĄBCĆDEĘFGHIJKLŁMNŃOÓPRSŚTUWYZŹŻ"
+cipherMode, decipherMode = 1, -1
 
 
 def readFile(filename):
@@ -15,12 +16,12 @@ def caesarCipher(text, shift, alphabet):
     table = str.maketrans(alphabet, shiftedAlphabed)
     return text.translate(table)
 
-def vigenereCipher(text, keyword, alphabet):
+def vigenereCipher(text, keyword, alphabet, mode=cipherMode):
     cipheredText = ""
     numberOfOtherCharacters = 0
     for (characterNumber, character) in enumerate(text):
         if character in alphabet:
-            cipheredText += alphabet[(alphabet.index(character) + alphabet.index(keyword[(characterNumber - numberOfOtherCharacters) % len(keyword)])) % len(alphabet)]
+            cipheredText += alphabet[(alphabet.index(character) + mode*alphabet.index(keyword[(characterNumber - numberOfOtherCharacters) % len(keyword)])) % len(alphabet)]
         else:
             cipheredText += character
             numberOfOtherCharacters += 1
@@ -31,4 +32,6 @@ if __name__ == '__main__':
     print(caesarCipher(textToCipher, -3, latinAlphabet))
     textToDecipher = readFile(fileToDecipherWithCaesarCipherName)
     print(caesarCipher(textToDecipher, 3, latinAlphabet))
-    print(vigenereCipher(textToCipher, "LION", latinAlphabet))
+    print(vigenereCipher(textToCipher, "LION", latinAlphabet, mode=cipherMode))
+    textToDecipher = readFile(fileToDecipherWithVigenereCipherName)
+    print(vigenereCipher(textToDecipher, "LION", latinAlphabet, mode=decipherMode))
