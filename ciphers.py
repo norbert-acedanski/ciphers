@@ -1,7 +1,7 @@
 fileToCipherName = "textToCipher.txt"
 fileToDecipherWithCaesarCipherName = "textToDecipherWithCaesarCipher.txt"
 fileToDecipherWithVigenereCipherName = "textToDecipherWithVigenereCipher.txt"
-englishAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+latinAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 polishAlphabet = "AĄBCĆDEĘFGHIJKLŁMNŃOÓPRSŚTUWYZŹŻ"
 
 
@@ -28,7 +28,7 @@ def vigenereCipher(text, keyword, alphabet):
 
 if __name__ == '__main__':
     textToCipher = readFile(fileToCipherName)
-    print(caesarCipher(textToCipher, -3, englishAlphabet))
+    print(caesarCipher(textToCipher, -3, latinAlphabet))
     textToDecipher = readFile(fileToDecipherWithCaesarCipherName)
-    print(caesarCipher(textToDecipher, 3, englishAlphabet))
-    print(vigenereCipher(textToCipher, "LION", englishAlphabet))
+    print(caesarCipher(textToDecipher, 3, latinAlphabet))
+    print(vigenereCipher(textToCipher, "LION", latinAlphabet))
