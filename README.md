@@ -18,11 +18,12 @@ Python 3.8.0
 6. Script should print the result to the terminal.
 
 # Usage
-Use it to play with ciphering and deciphering messages as you wish. Script can be used to brute force some messages in order to decipher them.
+Use it to play with ciphering and deciphering messages as you wish.  
+Script can be used to brute force some messages in order to decipher them.  
 Project also contains basic examples of ciphering and deciphering.
 
 # References
-Caesar cipher - https://en.wikipedia.org/wiki/Caesar_cipher
+Caesar cipher - https://en.wikipedia.org/wiki/Caesar_cipher  
 Vigenère cipher - https://en.wikipedia.org/wiki/Vigen%C3%A8re_cipher
 
 # Licence
