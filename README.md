@@ -42,6 +42,7 @@ Script can be used to brute force some messages in order to decipher them.
 Project also contains basic examples of ciphering and deciphering.
 
 # References
+Ciphers - http://practicalcryptography.com/ciphers/  
 Caesar cipher - https://en.wikipedia.org/wiki/Caesar_cipher  
 Vigenère cipher - https://en.wikipedia.org/wiki/Vigen%C3%A8re_cipher  
 Bacon cipher - https://en.wikipedia.org/wiki/Bacon%27s_cipher
