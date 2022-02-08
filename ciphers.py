@@ -26,9 +26,9 @@ def caesarCipher(text, shift, alphabet, includeDigits=False):
     table = str.maketrans(alphabet, shiftedAlphabed)
     return text.translate(table)
 
-def vigenereCipher(text, keyword, alphabet, mode=cipherMode, shift=0):
-    if shift != 0:
-        keyword = caesarCipher(keyword, shift, alphabet)
+def vigenereCipher(text, keyword, alphabet, mode=cipherMode, keywordShift=0):
+    if keywordShift != 0:
+        keyword = caesarCipher(keyword, keywordShift, alphabet)
     processedText = ""
     numberOfOtherCharacters = 0
     for (characterNumber, character) in enumerate(text):
