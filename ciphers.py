@@ -26,8 +26,8 @@ def caesarCipher(text, shift, alphabet, includeDigits=False):
     table = str.maketrans(alphabet, shiftedAlphabed)
     return text.translate(table)
 
-def vigenereCipher(text, keyword, alphabet, mode=cipherMode, casesarShiftKeyWord=False, shift=0):
-    if casesarShiftKeyWord:
+def vigenereCipher(text, keyword, alphabet, mode=cipherMode, shift=0):
+    if shift != 0:
         keyword = caesarCipher(keyword, shift, alphabet)
     processedText = ""
     numberOfOtherCharacters = 0
