@@ -1,3 +1,6 @@
+from concurrent.futures import process
+
+
 fileToCipherName = "textToCipher.txt"
 fileToDecipherWithCaesarCipherName = "textToDecipherWithCaesarCipher.txt"
 fileToDecipherWithVigenereCipherName = "textToDecipherWithVigenereCipher.txt"
@@ -39,6 +42,23 @@ def vigenereCipher(text, keyword, alphabet, mode=cipherMode, keywordShift=0):
             numberOfOtherCharacters += 1
     return processedText
 
+def baconCipher(text, alphabet, uniqueCoding=False):
+    processedText = ""
+    if alphabet == latinAlphabet:
+        if uniqueCoding:
+            for character in text:
+                if character in alphabet:
+                    processedText += str(format(alphabet.index(character), "05b"))
+                else:
+                    processedText += character
+            processedText = processedText.replace("1", "a")
+            processedText = processedText.replace("0", "b")
+        else:
+            pass
+    else:
+        pass
+    return processedText
+
 if __name__ == '__main__':
     textToCipher = readFile(fileToCipherName)
     print(caesarCipher(textToCipher, -3, latinAlphabet))
@@ -49,3 +69,4 @@ if __name__ == '__main__':
     print(vigenereCipher(textToCipher, "LION", latinAlphabet, keywordShift=2))
     textToDecipher = readFile(fileToDecipherWithVigenereCipherName)
     print(vigenereCipher(textToDecipher, "LION", latinAlphabet, mode=decipherMode))
+    print(baconCipher(textToCipher, latinAlphabet, uniqueCoding=True))
