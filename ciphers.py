@@ -46,11 +46,7 @@ def baconCipher(text, alphabet, uniqueCoding=False):
     processedText = ""
     if alphabet == latinAlphabet:
         if uniqueCoding:
-            for character in text:
-                if character in alphabet:
-                    processedText += str(format(alphabet.index(character), "05b"))
-                else:
-                    processedText += character
+            processedText = "".join(character if character not in alphabet else str(format(alphabet.index(character), "05b")) for character in text)
             processedText = processedText.replace("0", "a")
             processedText = processedText.replace("1", "b")
         else:
