@@ -17,15 +17,15 @@ def caesarCipher(text, shift, alphabet):
     return text.translate(table)
 
 def vigenereCipher(text, keyword, alphabet, mode=cipherMode):
-    cipheredText = ""
+    processedText = ""
     numberOfOtherCharacters = 0
     for (characterNumber, character) in enumerate(text):
         if character in alphabet:
-            cipheredText += alphabet[(alphabet.index(character) + mode*alphabet.index(keyword[(characterNumber - numberOfOtherCharacters) % len(keyword)])) % len(alphabet)]
+            processedText += alphabet[(alphabet.index(character) + mode*alphabet.index(keyword[(characterNumber - numberOfOtherCharacters) % len(keyword)])) % len(alphabet)]
         else:
-            cipheredText += character
+            processedText += character
             numberOfOtherCharacters += 1
-    return cipheredText
+    return processedText
 
 if __name__ == '__main__':
     textToCipher = readFile(fileToCipherName)
