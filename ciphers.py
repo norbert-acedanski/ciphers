@@ -46,6 +46,6 @@ if __name__ == '__main__':
     textToDecipher = readFile(fileToDecipherWithCaesarCipherName)
     print(caesarCipher(textToDecipher, 3, latinAlphabet))
     print(vigenereCipher(textToCipher, "LION", latinAlphabet, mode=cipherMode))
-    print(vigenereCipher(textToCipher, "LION", latinAlphabet, casesarShiftKeyWord=True, shift=2))
+    print(vigenereCipher(textToCipher, "LION", latinAlphabet, keywordShift=2))
     textToDecipher = readFile(fileToDecipherWithVigenereCipherName)
     print(vigenereCipher(textToDecipher, "LION", latinAlphabet, mode=decipherMode))
