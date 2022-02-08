@@ -51,8 +51,8 @@ def baconCipher(text, alphabet, uniqueCoding=False):
                     processedText += str(format(alphabet.index(character), "05b"))
                 else:
                     processedText += character
-            processedText = processedText.replace("1", "a")
-            processedText = processedText.replace("0", "b")
+            processedText = processedText.replace("0", "a")
+            processedText = processedText.replace("1", "b")
         else:
             pass
     else:
