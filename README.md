@@ -13,8 +13,16 @@ Python 3.8.0
 1. Copy the text you want to cipher/decipher to proper .txt files.
 2. Use _readFile_ function to load text from the file.
 3. Use _caesarCipher_ or _vigenereCipher_ to cipher or decipher messages.
-4. _caesarCipher_ accepts 3 arguments: __text__ - text to cipher (from _readFile_ function), __shift__ - shift of the ciphered alphabet, __alphabet__ - kind of alphabet you work with (latin, polish, etc.) - both are variables in the script. Function can be used either to cipher or decipher messages.
-5. _vigenereCipher_ accepts 3 arguments and 1 optional argument: __text__ - text to cipher (from _readFile_ function), __keyword__ - word used as a key to cipher/decipher a message, __alphabet__ - kind of alphabet you work with (latin, polish, etc.) - both are variables in the script, __mode__ - optional argument used to determine the operation mode of the function (_cipherMode_ and _decipherMode_ - these are variables in the script) - cipher mode is a default mode. Function can be used either to cipher or decipher messages.
+4. _caesarCipher_ accepts 3 arguments and 1 optional argument:
+ - __text__ - text to cipher (from _readFile_ function),
+ - __shift__ - shift of the ciphered alphabet,
+ - __alphabet__ - kind of alphabet you work with (latin, polish, etc.) - both are variables in the script,
+ - __includeDigits__ - specifies whether numbers contained in the text should be shifted (_True_/_False_ variable with _False_ being default option). Function can be used either to cipher or decipher messages.
+5. _vigenereCipher_ accepts 3 arguments and 1 optional argument:
+ - __text__ - text to cipher (from _readFile_ function),
+ - __keyword__ - word used as a key to cipher/decipher a message,
+ - __alphabet__ - kind of alphabet you work with (latin, polish, etc.) - both are variables in the script,
+ - __mode__ - optional argument used to determine the operation mode of the function (_cipherMode_ and _decipherMode_ - these are variables in the script) - cipher mode is a default mode. Function can be used either to cipher or decipher messages.
 6. Script should print the result to the terminal.
 
 # Usage
