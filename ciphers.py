@@ -11,7 +11,17 @@ def readFile(filename):
         text = inFile.read().upper()
     return text
 
-def caesarCipher(text, shift, alphabet):
+def caesarCipher(text, shift, alphabet, includeDigits=False):
+    processedText = ""
+    if includeDigits:
+        for character in text:
+            if character in alphabet:
+                processedText += alphabet[(alphabet.index(character) + shift) % len(alphabet)]
+            elif character.isdigit():
+                processedText += str((int(character) + shift) % 10)
+            else:
+                processedText += character
+        return processedText
     shiftedAlphabed = alphabet[shift:] + alphabet[:shift]
     table = str.maketrans(alphabet, shiftedAlphabed)
     return text.translate(table)
@@ -30,6 +40,7 @@ def vigenereCipher(text, keyword, alphabet, mode=cipherMode):
 if __name__ == '__main__':
     textToCipher = readFile(fileToCipherName)
     print(caesarCipher(textToCipher, -3, latinAlphabet))
+    print(caesarCipher(textToCipher, 3, latinAlphabet, includeDigits=True))
     textToDecipher = readFile(fileToDecipherWithCaesarCipherName)
     print(caesarCipher(textToDecipher, 3, latinAlphabet))
     print(vigenereCipher(textToCipher, "LION", latinAlphabet, mode=cipherMode))
