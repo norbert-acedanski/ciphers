@@ -42,14 +42,14 @@ def vigenereCipher(text, keyword, alphabet, mode=cipherMode, keywordShift=0):
             numberOfOtherCharacters += 1
     return processedText
 
-def baconCipher(text, alphabet, uniqueCoding=False):
+def baconCipher(text, alphabet, lettersToCodeWith=["a", "b"], uniqueCoding=False):
     processedText = ""
     if alphabet == latinAlphabet and uniqueCoding == False:
         pass
     else:
         processedText = "".join(character if character not in alphabet else str(format(alphabet.index(character), "05b")) for character in text)
-        processedText = processedText.replace("0", "a")
-        processedText = processedText.replace("1", "b")
+        processedText = processedText.replace("0", lettersToCodeWith[0])
+        processedText = processedText.replace("1", lettersToCodeWith[1])
     return processedText
 
 if __name__ == '__main__':
@@ -62,4 +62,4 @@ if __name__ == '__main__':
     print(vigenereCipher(textToCipher, "LION", latinAlphabet, keywordShift=2))
     textToDecipher = readFile(fileToDecipherWithVigenereCipherName)
     print(vigenereCipher(textToDecipher, "LION", latinAlphabet, mode=decipherMode))
-    print(baconCipher(textToCipher, latinAlphabet, uniqueCoding=True))
+    print(baconCipher(textToCipher, latinAlphabet, lettersToCodeWith=["c", "d"], uniqueCoding=True))
