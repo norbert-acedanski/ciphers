@@ -27,13 +27,14 @@ Python 3.8.0
         - __alphabet__ - kind of alphabet you work with (latin, polish, etc.) - both are variables in the script,
     - Optional arguments:
         - __mode__ - optional argument used to determine the operation mode of the function (_cipherMode_ and _decipherMode_ - these are variables in the script) - cipher mode is a default mode. Function can be used either to cipher or decipher messages.
-        - __keywordShift__ - int variable, that specifies, what shift should the keyword have. Default value is 0.
-6. _baconCipher_ accepts 2 arguments and 1 optiona argument:
+        - __keywordShift__ - int variable, that specifies, what shift should the keyword have. Default value is _0_.
+6. _baconCipher_ accepts 2 arguments and 2 optional arguments:
     - Required arguments:
         - __text__ - text to cipher (from _readFile_ function),
         - __alphabet__ - kind of alphabet you work with (latin, polish, etc.) - both are variables in the script,
     - Optional argument:
-        - __uniqueCoding__ - bool variable, that specifies whether to use unique encoding on bacon ciphering. Default value is False.
+        - __lettersToCodeWith__ - list of 2 characters to encode the message with. Default value is _["a", "b"]_.
+        - __uniqueCoding__ - bool variable, that specifies whether to use unique encoding on bacon ciphering. Default value is _False_.
 7. Script should print the result to the terminal.
 
 # Usage
