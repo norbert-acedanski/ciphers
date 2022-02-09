@@ -1,9 +1,8 @@
-from concurrent.futures import process
-
-
 fileToCipherName = "textToCipher.txt"
 fileToDecipherWithCaesarCipherName = "textToDecipherWithCaesarCipher.txt"
 fileToDecipherWithVigenereCipherName = "textToDecipherWithVigenereCipher.txt"
+fileToDecipherWithBaconCipherName_1 = "textToDecipherWithBaconCipher_1.txt"
+fileToDecipherWithBaconCipherName_2 = "textToDecipherWithBaconCipher_2.txt"
 latinAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 polishAlphabet = "AĄBCĆDEĘFGHIJKLŁMNŃOÓPRSŚTUWYZŹŻ"
 cipherMode, decipherMode = 1, -1
@@ -42,16 +41,35 @@ def vigenereCipher(text, keyword, alphabet, mode=cipherMode, keywordShift=0):
             numberOfOtherCharacters += 1
     return processedText
 
-def baconCipher(text, alphabet, lettersToCodeWith=["a", "b"], uniqueCoding=False):
+def baconCipherEncoding(text, alphabet, lettersToCodeWith=["a", "b"], uniqueCoding=False):
     processedText = ""
     if alphabet == latinAlphabet and uniqueCoding == False:
-        alphabet = alphabet.replace("J", "")
-        alphabet = alphabet.replace("V", "")
-        text = text.replace("J", "I")
-        text = text.replace("V", "U")
+        alphabet = alphabet.replace("J", "").replace("V", "")
+        text = text.replace("J", "I").replace("V", "U")
     processedText = "".join(character if character not in alphabet else str(format(alphabet.index(character), "05b")) for character in text)
-    processedText = processedText.replace("0", lettersToCodeWith[0])
-    processedText = processedText.replace("1", lettersToCodeWith[1])
+    processedText = processedText.replace("0", lettersToCodeWith[0]).replace("1", lettersToCodeWith[1])
+    return processedText
+
+def baconCipherDecoding(text, alphabet, lettersToDecodeWith=["a", "b"], uniqueCoding=False):
+    if alphabet == latinAlphabet and uniqueCoding == False:
+        alphabet = alphabet.replace("J", "").replace("V", "")
+    matchLettersToCode = {key: format(value, "05b") for (value, key) in enumerate(alphabet)}
+    for key in matchLettersToCode:
+        matchLettersToCode[key] = matchLettersToCode[key].replace("0", lettersToDecodeWith[0]).replace("1", lettersToDecodeWith[1])
+    textIndex = 0
+    numberOfDifferentCharacters = 0
+    processedText = ""
+    while textIndex < len(text):
+        encryptedCodePart = text[textIndex:textIndex + 5]
+        numberOfDifferentCharacters = len(encryptedCodePart.replace(lettersToDecodeWith[0], "").replace(lettersToDecodeWith[1], ""))
+        if numberOfDifferentCharacters > 0:
+            processedText += text[textIndex:textIndex + 1]
+            textIndex += 1
+        else:
+            processedText += list(matchLettersToCode.keys())[list(matchLettersToCode.values()).index(encryptedCodePart)]
+            textIndex += 5
+    if alphabet == latinAlphabet.replace("J", "").replace("V", "") and uniqueCoding == False:
+        return processedText.replace("I", "(I/J)").replace("U", "(U/V)")
     return processedText
 
 if __name__ == '__main__':
@@ -64,5 +82,9 @@ if __name__ == '__main__':
     print(vigenereCipher(textToCipher, "LION", latinAlphabet, keywordShift=2))
     textToDecipher = readFile(fileToDecipherWithVigenereCipherName)
     print(vigenereCipher(textToDecipher, "LION", latinAlphabet, mode=decipherMode))
-    print(baconCipher(textToCipher, latinAlphabet, lettersToCodeWith=["c", "d"], uniqueCoding=True))
-    print(baconCipher(textToCipher, latinAlphabet, lettersToCodeWith=["c", "d"], uniqueCoding=False))
+    print(baconCipherEncoding(textToCipher, latinAlphabet, lettersToCodeWith=["c", "d"], uniqueCoding=True))
+    print(baconCipherEncoding(textToCipher, latinAlphabet, uniqueCoding=False))
+    textToDecipher = readFile(fileToDecipherWithBaconCipherName_1)
+    print(baconCipherDecoding(textToDecipher, latinAlphabet, lettersToDecodeWith=["A", "G"], uniqueCoding=True))
+    textToDecipher = readFile(fileToDecipherWithBaconCipherName_2)
+    print(baconCipherDecoding(textToDecipher, latinAlphabet, lettersToDecodeWith=["G", "A"]))
