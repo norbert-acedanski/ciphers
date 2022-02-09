@@ -12,7 +12,7 @@ Python 3.8.0
 
 1. Copy the text you want to cipher/decipher to proper .txt files.
 2. Use _readFile_ function to load text from the file.
-3. Use _caesarCipher_, _vigenereCipher_ or _baconCIpher_ to cipher or decipher messages.
+3. Use _caesarCipher_, _vigenereCipher_, _baconCipherEncoding_ or _baconCipherDecoding_ to cipher or decipher messages.
 4. _caesarCipher_ accepts 3 arguments and 1 optional argument:
     - Required arguments:
         - __text__ - text to cipher (from _readFile_ function),
@@ -28,14 +28,21 @@ Python 3.8.0
     - Optional arguments:
         - __mode__ - optional argument used to determine the operation mode of the function (_cipherMode_ and _decipherMode_ - these are variables in the script) - cipher mode is a default mode. Function can be used either to cipher or decipher messages.
         - __keywordShift__ - int variable, that specifies, what shift should the keyword have. Default value is _0_.
-6. _baconCipher_ accepts 2 arguments and 2 optional arguments:
+6. _baconCipherEncoding_ accepts 2 arguments and 2 optional arguments:
     - Required arguments:
         - __text__ - text to cipher (from _readFile_ function),
         - __alphabet__ - kind of alphabet you work with (latin, polish, etc.) - both are variables in the script,
     - Optional argument:
         - __lettersToCodeWith__ - list of 2 characters to encode the message with. Default value is _["a", "b"]_.
         - __uniqueCoding__ - bool variable, that specifies whether to use unique encoding on bacon ciphering. Default value is _False_.
-7. Script should print the result to the terminal.
+7. _baconCipherDecoding_ accepts 2 arguments and 2 optional arguments:
+    - Required arguments:
+        - __text__ - text to cipher (from _readFile_ function),
+        - __alphabet__ - kind of alphabet you work with (latin, polish, etc.) - both are variables in the script,
+    - Optional argument:
+        - __lettersToCodeWith__ - list of 2 characters to decode the message with. Default value is _["a", "b"]_.
+        - __uniqueCoding__ - bool variable, that specifies whether to use unique encoding on bacon deciphering. Default value is _False_.
+8. Script should print the result to the terminal.
 
 # Usage
 Use it to play with ciphering and deciphering messages as you wish.  
