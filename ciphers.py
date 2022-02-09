@@ -45,11 +45,13 @@ def vigenereCipher(text, keyword, alphabet, mode=cipherMode, keywordShift=0):
 def baconCipher(text, alphabet, lettersToCodeWith=["a", "b"], uniqueCoding=False):
     processedText = ""
     if alphabet == latinAlphabet and uniqueCoding == False:
-        pass
-    else:
-        processedText = "".join(character if character not in alphabet else str(format(alphabet.index(character), "05b")) for character in text)
-        processedText = processedText.replace("0", lettersToCodeWith[0])
-        processedText = processedText.replace("1", lettersToCodeWith[1])
+        alphabet = alphabet.replace("J", "")
+        alphabet = alphabet.replace("V", "")
+        text = text.replace("J", "I")
+        text = text.replace("V", "U")
+    processedText = "".join(character if character not in alphabet else str(format(alphabet.index(character), "05b")) for character in text)
+    processedText = processedText.replace("0", lettersToCodeWith[0])
+    processedText = processedText.replace("1", lettersToCodeWith[1])
     return processedText
 
 if __name__ == '__main__':
@@ -63,3 +65,4 @@ if __name__ == '__main__':
     textToDecipher = readFile(fileToDecipherWithVigenereCipherName)
     print(vigenereCipher(textToDecipher, "LION", latinAlphabet, mode=decipherMode))
     print(baconCipher(textToCipher, latinAlphabet, lettersToCodeWith=["c", "d"], uniqueCoding=True))
+    print(baconCipher(textToCipher, latinAlphabet, lettersToCodeWith=["c", "d"], uniqueCoding=False))
