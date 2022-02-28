@@ -1,7 +1,7 @@
 # ciphers
 
 # About The Project
-Script gives an oportunity to encode/cipher some text with Caesar and Vigenère ciphers and also decode messages.
+Script gives an oportunity to encode/cipher some text with Caesar, Vigenère, Bacon and Atbash ciphers and also decode messages.
 
 # Built With
 Python 3.8.0
@@ -12,7 +12,7 @@ Python 3.8.0
 
 1. Copy the text you want to cipher/decipher to proper .txt files.
 2. Use _readFile_ function to load text from the file.
-3. Use _caesarCipher_, _vigenereCipher_, _baconCipherEncoding_ or _baconCipherDecoding_ to cipher or decipher messages.
+3. Use _caesarCipher_, _vigenereCipher_, _baconCipherEncoding_, _baconCipherDecoding_, or _atbashCipher_ to cipher or decipher messages.
 4. _caesarCipher_ accepts 3 arguments and 1 optional argument:
     - Required arguments:
         - __text__ - text to cipher (from _readFile_ function),
@@ -42,7 +42,13 @@ Python 3.8.0
     - Optional argument:
         - __lettersToCodeWith__ - list of 2 characters to decode the message with. Default value is _["a", "b"]_.
         - __uniqueCoding__ - bool variable, that specifies whether to use unique encoding on bacon deciphering. Default value is _False_.
-8. Script should print the result to the terminal.
+8. _atbashCipher_ accepts 2 arguments and 1 optional argument:
+    - Required arguments:
+        - __text__ - text to cipher (from _readFile_ function),
+        - __alphabet__ - kind of alphabet you work with (latin, polish, etc.) - both are variables in the script,
+    - Optional argument:
+        - __includeDigits__ - specifies whether numbers contained in the text should be ciphered (_True_/_False_ variable with _False_ being default option). Function can be used either to cipher or decipher messages.
+9. Script should print the result to the terminal.
 
 # Usage
 Use it to play with ciphering and deciphering messages as you wish.  
@@ -53,7 +59,8 @@ Project also contains basic examples of ciphering and deciphering.
 Ciphers - http://practicalcryptography.com/ciphers/  
 Caesar cipher - https://en.wikipedia.org/wiki/Caesar_cipher  
 Vigenère cipher - https://en.wikipedia.org/wiki/Vigen%C3%A8re_cipher  
-Bacon cipher - https://en.wikipedia.org/wiki/Bacon%27s_cipher
+Bacon cipher - https://en.wikipedia.org/wiki/Bacon%27s_cipher  
+Atbash cipher - https://en.wikipedia.org/wiki/Atbash
 
 # Licence
 Distributed under the MIT License. See LICENSE file for more information.
