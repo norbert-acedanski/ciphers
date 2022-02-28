@@ -1,8 +1,12 @@
+from concurrent.futures import process
+
+
 fileToCipherName = "textToCipher.txt"
 fileToDecipherWithCaesarCipherName = "textToDecipherWithCaesarCipher.txt"
 fileToDecipherWithVigenereCipherName = "textToDecipherWithVigenereCipher.txt"
 fileToDecipherWithBaconCipherName_1 = "textToDecipherWithBaconCipher_1.txt"
 fileToDecipherWithBaconCipherName_2 = "textToDecipherWithBaconCipher_2.txt"
+fileToDecipherWithAtbashCipher = "textToDecipherWithAtbashCipher.txt"
 latinAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 polishAlphabet = "AĄBCĆDEĘFGHIJKLŁMNŃOÓPRSŚTUWYZŹŻ"
 cipherMode, decipherMode = 1, -1
@@ -72,6 +76,20 @@ def baconCipherDecoding(text, alphabet, lettersToDecodeWith=["a", "b"], uniqueCo
         return processedText.replace("I", "(I/J)").replace("U", "(U/V)")
     return processedText
 
+def atbashCipher(text, alphabet, includeDigits=False):
+    if includeDigits == True:
+        processedText = ""
+        for character in text:
+            if character in alphabet:
+                processedText += alphabet[len(alphabet) - alphabet.index(character) - 1]
+            elif character.isdigit():
+                processedText += str(9 - int(character))
+            else:
+                processedText += character
+        return processedText
+    processedText = "".join([alphabet[len(alphabet) - alphabet.index(character) - 1] if character in alphabet else character for character in text])
+    return processedText
+
 if __name__ == '__main__':
     textToCipher = readFile(fileToCipherName)
     print(caesarCipher(textToCipher, -3, latinAlphabet))
@@ -88,3 +106,6 @@ if __name__ == '__main__':
     print(baconCipherDecoding(textToDecipher, latinAlphabet, lettersToDecodeWith=["A", "G"], uniqueCoding=True))
     textToDecipher = readFile(fileToDecipherWithBaconCipherName_2)
     print(baconCipherDecoding(textToDecipher, latinAlphabet, lettersToDecodeWith=["G", "A"]))
+    print(atbashCipher(textToCipher, latinAlphabet, True))
+    textToDecipher = readFile(fileToDecipherWithAtbashCipher)
+    print(atbashCipher(textToDecipher, latinAlphabet, True))
