@@ -1,12 +1,12 @@
-from concurrent.futures import process
-
+import random
 
 fileToCipherName = "textToCipher.txt"
 fileToDecipherWithCaesarCipherName = "textToDecipherWithCaesarCipher.txt"
 fileToDecipherWithVigenereCipherName = "textToDecipherWithVigenereCipher.txt"
 fileToDecipherWithBaconCipherName_1 = "textToDecipherWithBaconCipher_1.txt"
 fileToDecipherWithBaconCipherName_2 = "textToDecipherWithBaconCipher_2.txt"
-fileToDecipherWithAtbashCipher = "textToDecipherWithAtbashCipher.txt"
+fileToDecipherWithAtbashCipherName = "textToDecipherWithAtbashCipher.txt"
+fileToDecipherWithSimpleSubstitutionCipherName = "textToDecipherWithSimpleSubstitutionCipher.txt"
 latinAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 polishAlphabet = "AĄBCĆDEĘFGHIJKLŁMNŃOÓPRSŚTUWYZŹŻ"
 cipherMode, decipherMode = 1, -1
@@ -90,6 +90,18 @@ def atbashCipher(text, alphabet, includeDigits=False):
     processedText = "".join([alphabet[len(alphabet) - alphabet.index(character) - 1] if character in alphabet else character for character in text])
     return processedText
 
+def simpleSubstitutionGenerateRandomKey(alphabet):
+    return "".join(random.sample(alphabet, len(alphabet)))
+
+def simpleSubstitutionCipher(text, key, mode=cipherMode):
+    alphabet = sorted(key)
+    processedText = ""
+    if mode == cipherMode:
+        processedText = "".join(key[alphabet.index(character)] if character in key else character for character in text)
+    elif mode == decipherMode:
+        processedText = "".join(alphabet[key.index(character)] if character in key else character for character in text)
+    return processedText
+
 if __name__ == '__main__':
     textToCipher = readFile(fileToCipherName)
     print(caesarCipher(textToCipher, -3, latinAlphabet))
@@ -107,5 +119,11 @@ if __name__ == '__main__':
     textToDecipher = readFile(fileToDecipherWithBaconCipherName_2)
     print(baconCipherDecoding(textToDecipher, latinAlphabet, lettersToDecodeWith=["G", "A"]))
     print(atbashCipher(textToCipher, latinAlphabet, True))
-    textToDecipher = readFile(fileToDecipherWithAtbashCipher)
+    textToDecipher = readFile(fileToDecipherWithAtbashCipherName)
     print(atbashCipher(textToDecipher, latinAlphabet, True))
+    randomKey = simpleSubstitutionGenerateRandomKey(latinAlphabet)
+    print(f"Randomly generated key: {randomKey}")
+    randomKey = "phqgiumeaylnofdxjkrcvstzwb".upper()
+    print(simpleSubstitutionCipher(textToCipher, randomKey))
+    textToDecipher = readFile(fileToDecipherWithSimpleSubstitutionCipherName)
+    print(simpleSubstitutionCipher(textToDecipher, randomKey, mode=decipherMode))
