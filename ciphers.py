@@ -9,6 +9,7 @@ fileToDecipherWithAtbashCipherName = "textToDecipherWithAtbashCipher.txt"
 fileToDecipherWithSimpleSubstitutionCipherName = "textToDecipherWithSimpleSubstitutionCipher.txt"
 latinAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 polishAlphabet = "AĄBCĆDEĘFGHIJKLŁMNŃOÓPRSŚTUWYZŹŻ"
+russianAlphabet = "AБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
 cipherMode, decipherMode = 1, -1
 
 
