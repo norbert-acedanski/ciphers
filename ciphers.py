@@ -1,4 +1,5 @@
 import random
+import sys
 
 fileToCipherName = "textToCipher.txt"
 fileToDecipherWithCaesarCipherName = "textToDecipherWithCaesarCipher.txt"
@@ -103,6 +104,26 @@ def simpleSubstitutionCipher(text, key, mode=cipherMode):
         processedText = "".join(alphabet[key.index(character)] if character in key else character for character in text)
     return processedText
 
+def columnarTranspositionCipher(text, keyword, ending="x"):
+    for character in keyword:
+        if not character.isalpha():
+            print("Keyword must contain only letters!")
+            sys.exit()
+    text = text.replace(" ", "")
+    if len(ending) != 1:
+        print("Wrong length of \"ending\" character!")
+        sys.exit()
+    ending = ending.upper()
+    separatedList = [text[i:i + len(keyword)] for i in range(0, len(text), len(keyword))]
+    if len(separatedList[-1]) < len(keyword):
+        separatedList[-1] += "".join([ending for i in range(len(keyword) - len(separatedList[-1]))])
+    keywordDictionary = {character: "" for character in keyword}
+    for characterNumber, character in enumerate(keyword):
+        keywordDictionary[character] = "".join([separatedList[i][characterNumber] for i in range(len(separatedList))])
+    sortedKeys = sorted(keywordDictionary.keys())
+    processedText = "".join([keywordDictionary[key] for key in sortedKeys])
+    return processedText
+
 if __name__ == '__main__':
     textToCipher = readFile(fileToCipherName)
     print(caesarCipher(textToCipher, -3, latinAlphabet))
@@ -128,3 +149,4 @@ if __name__ == '__main__':
     print(simpleSubstitutionCipher(textToCipher, randomKey))
     textToDecipher = readFile(fileToDecipherWithSimpleSubstitutionCipherName)
     print(simpleSubstitutionCipher(textToDecipher, randomKey, mode=decipherMode))
+    print(columnarTranspositionCipher(textToCipher, "zebra", "A"))
