@@ -104,7 +104,7 @@ def simpleSubstitutionCipher(text, key, mode=cipherMode):
         processedText = "".join(alphabet[key.index(character)] if character in key else character for character in text)
     return processedText
 
-def columnarTranspositionCipher(text, keyword, ending="x"):
+def columnarTranspositionCipherEncoding(text, keyword, ending="x"):
     for character in keyword:
         if not character.isalpha():
             print("Keyword must contain only letters!")
@@ -149,4 +149,4 @@ if __name__ == '__main__':
     print(simpleSubstitutionCipher(textToCipher, randomKey))
     textToDecipher = readFile(fileToDecipherWithSimpleSubstitutionCipherName)
     print(simpleSubstitutionCipher(textToDecipher, randomKey, mode=decipherMode))
-    print(columnarTranspositionCipher(textToCipher, "zebra", "A"))
+    print(columnarTranspositionCipherEncoding(textToCipher, "zebra", "A"))
