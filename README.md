@@ -12,7 +12,7 @@ Python 3.8.0
 
 1. Copy the text you want to cipher/decipher to proper .txt files.
 2. Use _readFile_ function to load text from the file.
-3. Use _caesarCipher_, _vigenereCipher_, _baconCipherEncoding_, _baconCipherDecoding_, _atbashCipher_, _simpleSubstitutionCipher_ or _columnarTranspositionCipher_ to cipher or decipher messages.
+3. Use _caesarCipher_, _vigenereCipher_, _baconCipherEncoding_, _baconCipherDecoding_, _atbashCipher_, _simpleSubstitutionCipher_, _columnarTranspositionCipher_ or _autokey_ to cipher or decipher messages.
 4. _caesarCipher_ accepts 3 arguments and 1 optional argument:
     - Required arguments:
         - __text__ - text to cipher (from _readFile_ function),
@@ -55,13 +55,18 @@ Python 3.8.0
         - __alphabet__ - kind of alphabet you work with (latin, polish, etc.) - all are variables in the script,
     - Optional arguments:
         - __mode__ - optional argument used to determine the operation mode of the function (_cipherMode_ and _decipherMode_ - these are variables in the script) - cipher mode is a default mode. Function can be used either to cipher or decipher messages.
-11. _columnarTranspositionCipher_ accepts 2 arguments and 1 optional argument:
+11. _columnarTranspositionCipherEncoding_ accepts 2 arguments and 1 optional argument:
     - Required arguments:
         - __text__ - text to cipher (from _readFile_ function),
         - __keyword__ - word used as a key to cipher/decipher a message (not longer than text to cipher),
     - Optional arguments:
         - __ending__ - A character to fill the missing spaces when they appear.
-12. Script should print the result to the terminal.
+12. _autokeyCipher_ accepts 3 arguments and no optional arguments:
+    - Required arguments:
+        - __text__ - text to cipher (from _readFile_ function),
+        - __keyword__ - word used as a key to cipher a message (not longer than text to cipher),
+        - __alphabet__ - kind of alphabet you work with (latin, polish, etc.) - all are variables in the script,
+13. Script should print the result to the terminal.
 
 # Usage
 Use it to play with ciphering and deciphering messages as you wish.  
@@ -76,6 +81,7 @@ Project also contains basic examples of ciphering and deciphering.
 [5] Atbash cipher - https://en.wikipedia.org/wiki/Atbash  
 [6] Simple Substitution cipher - https://en.wikipedia.org/wiki/Substitution_cipher#Simple_substitution  
 [7] Columnar Transposition cipher - https://en.wikipedia.org/wiki/Transposition_cipher#Columnar_transposition  
+[8] Autokey cipher - https://en.wikipedia.org/wiki/Autokey_cipher  
 
 # Licence
 Distributed under the MIT License. See LICENSE file for more information.
