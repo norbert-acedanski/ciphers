@@ -124,6 +124,18 @@ def columnarTranspositionCipherEncoding(text, keyword, ending="x"):
     processedText = "".join([keywordDictionary[key] for key in sortedKeys])
     return processedText
 
+def autokeyCipher(text, keyword, alphabet):
+    if any(char.isdigit() for char in text):
+        print("Please remove numbers from the input text")
+        sys.exit()
+    text = text.replace(" ", "")
+    keyPhrase = keyword.upper() + text[:-len(keyword)]
+    processedText = ""
+    for textCharacter, keyPhraseCharacter in zip(text, keyPhrase):
+        processedText += alphabet[(alphabet.index(textCharacter) + alphabet.index(keyPhraseCharacter)) % len(alphabet)]
+    # processedText = "".join([alphabet[(alphabet.index(textCharacter) + alphabet.index(keyPhraseCharacter)) % len(alphabet)] for textCharacter, keyPhraseCharacter in zip(text, keyPhrase)])
+    return processedText
+
 if __name__ == '__main__':
     textToCipher = readFile(fileToCipherName)
     print(caesarCipher(textToCipher, -3, latinAlphabet))
@@ -150,3 +162,4 @@ if __name__ == '__main__':
     textToDecipher = readFile(fileToDecipherWithSimpleSubstitutionCipherName)
     print(simpleSubstitutionCipher(textToDecipher, randomKey, mode=decipherMode))
     print(columnarTranspositionCipherEncoding(textToCipher, "zebra", "A"))
+    print(autokeyCipher("".join(character for character in textToCipher if not character.isdigit()), "fortification", latinAlphabet))
