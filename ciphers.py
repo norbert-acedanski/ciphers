@@ -185,4 +185,4 @@ if __name__ == '__main__':
     print(simpleSubstitutionCipher(textToDecipher, randomKey, mode=decipherMode))
     print(columnarTranspositionCipherEncoding(textToCipher, "zebra", "A"))
     print(autokeyCipher("".join(character for character in textToCipher if not character.isdigit()), "fortification", latinAlphabet))
-    print(railFenceCipher(textToCipher, 5))
+    print(railFenceCipherEncoding(textToCipher, 5))
