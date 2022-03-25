@@ -68,6 +68,22 @@ Python 3.8.0
         - __alphabet__ - kind of alphabet you work with (latin, polish, etc.) - all are variables in the script,
 13. Script should print the result to the terminal.
 
+# Planned Ciphers:
+
+- Beaufort Cipher
+- Bifid Cipher
+- columnarTranspositionCipherDecoding
+- autokeyCipherDecoding
+- Porta Cipher
+- Running Key Cipher
+- Homophonic Substitution Cipher
+- Hill Cipher
+- Straddle Checkerboard Cipher
+- Trifid Cipher
+- Morse Cipher
+- Fractionated Morse Cipher
+- Playfair Cipher
+
 # Usage
 Use it to play with ciphering and deciphering messages as you wish.  
 Script can be used to brute force some messages in order to decipher them.  
