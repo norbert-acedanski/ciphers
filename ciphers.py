@@ -136,6 +136,28 @@ def autokeyCipher(text: str, keyword: str, alphabet: str) -> str:
     # processedText = "".join([alphabet[(alphabet.index(textCharacter) + alphabet.index(keyPhraseCharacter)) % len(alphabet)] for textCharacter, keyPhraseCharacter in zip(text, keyPhrase)])
     return processedText
 
+def railFenceCipherEncoding(text: str, numberOfRails: int, removeSpaces: bool=False) -> str:
+    if numberOfRails < 2:
+        print("Number of rails should be at least 2!")
+        sys.exit()
+    if removeSpaces:
+        text = text.replace(" ", "")
+    listsOfText = [["." for j in range(len(text))] for i in range(numberOfRails)]
+    for rail in range(numberOfRails):
+        listsOfText[rail][rail] = text[rail]
+    for letter in range(numberOfRails, len(text)):
+        if ((letter - numberOfRails) // (numberOfRails - 1)) % 2 == 0:
+            listsOfText[numberOfRails - 1 - ((letter - numberOfRails) % (numberOfRails - 1) + 1)][letter] = text[letter]
+        else:
+            listsOfText[((letter - numberOfRails) % (numberOfRails - 1) + 1)][letter] = text[letter]
+    # for list in listsOfText:
+    #     print(list)
+    processedTextList = []
+    processedTextList += ["".join(processedList) for processedList in listsOfText]
+    processedText = "".join(processedTextList)
+    processedText = processedText.replace(".", "")
+    return processedText
+
 if __name__ == '__main__':
     textToCipher = readFile(fileToCipherName)
     print(caesarCipher(textToCipher, -3, latinAlphabet))
@@ -163,3 +185,4 @@ if __name__ == '__main__':
     print(simpleSubstitutionCipher(textToDecipher, randomKey, mode=decipherMode))
     print(columnarTranspositionCipherEncoding(textToCipher, "zebra", "A"))
     print(autokeyCipher("".join(character for character in textToCipher if not character.isdigit()), "fortification", latinAlphabet))
+    print(railFenceCipher(textToCipher, 5))
