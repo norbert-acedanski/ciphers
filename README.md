@@ -66,13 +66,19 @@ Python 3.8.0
         - __text__ - text to cipher (from _readFile_ function),
         - __keyword__ - word used as a key to cipher a message (not longer than text to cipher),
         - __alphabet__ - kind of alphabet you work with (latin, polish, etc.) - all are variables in the script,
-13. Script should print the result to the terminal.
+13. _railFenceCipherEncoding_ accepts 2 arguments and 1 optional argument:
+    - Required arguments:
+        - __text__ - text to cipher (from _readFile_ function),
+        - __numberOfRails__ - number of rails the text should be split to,
+    - Optional arguments:
+        - __removeSpaces__ - optional argument, that specifies, whether to remove all spaces from the input text
+14. Script should print the result to the terminal.
 
 # Planned Ciphers:
 
 - Beaufort Cipher
 - Bifid Cipher
-- Rail-fence Cipher
+- Rail-fence Cipher Decoding
 - columnarTranspositionCipherDecoding
 - autokeyCipherDecoding
 - Porta Cipher
@@ -99,6 +105,7 @@ Project also contains basic examples of ciphering and deciphering.
 [6] Simple Substitution cipher - https://en.wikipedia.org/wiki/Substitution_cipher#Simple_substitution  
 [7] Columnar Transposition cipher - https://en.wikipedia.org/wiki/Transposition_cipher#Columnar_transposition  
 [8] Autokey cipher - https://en.wikipedia.org/wiki/Autokey_cipher  
+[9] Rail-fence cipher - https://en.wikipedia.org/wiki/Rail_fence_cipher
 
 # Licence
 Distributed under the MIT License. See LICENSE file for more information.
