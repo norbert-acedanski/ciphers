@@ -186,3 +186,4 @@ if __name__ == '__main__':
     print(columnarTranspositionCipherEncoding(textToCipher, "zebra", "A"))
     print(autokeyCipher("".join(character for character in textToCipher if not character.isdigit()), "fortification", latinAlphabet))
     print(railFenceCipherEncoding(textToCipher, 5))
+    print(railFenceCipherEncoding(textToCipher, 5, True))
