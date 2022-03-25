@@ -14,12 +14,12 @@ russianAlphabet = "AБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭ
 cipherMode, decipherMode = 1, -1
 
 
-def readFile(filename):
+def readFile(filename: str) -> str:
     with open(filename, "r", encoding="utf-8") as inFile:
         text = inFile.read().upper()
     return text
 
-def caesarCipher(text, shift, alphabet, includeDigits=False):
+def caesarCipher(text: str, shift: int, alphabet: str, includeDigits: bool=False) -> str:
     processedText = ""
     if includeDigits:
         for character in text:
@@ -34,7 +34,7 @@ def caesarCipher(text, shift, alphabet, includeDigits=False):
     table = str.maketrans(alphabet, shiftedAlphabed)
     return text.translate(table)
 
-def vigenereCipher(text, keyword, alphabet, mode=cipherMode, keywordShift=0):
+def vigenereCipher(text: str, keyword: str, alphabet, mode: int=cipherMode, keywordShift: int=0) -> str:
     if keywordShift != 0:
         keyword = caesarCipher(keyword, keywordShift, alphabet)
     processedText = ""
@@ -47,7 +47,7 @@ def vigenereCipher(text, keyword, alphabet, mode=cipherMode, keywordShift=0):
             numberOfOtherCharacters += 1
     return processedText
 
-def baconCipherEncoding(text, alphabet, lettersToCodeWith=["a", "b"], uniqueCoding=False):
+def baconCipherEncoding(text: str, alphabet: str, lettersToCodeWith: list=["a", "b"], uniqueCoding: bool=False) -> str:
     processedText = ""
     if alphabet == latinAlphabet and uniqueCoding == False:
         alphabet = alphabet.replace("J", "").replace("V", "")
@@ -56,7 +56,7 @@ def baconCipherEncoding(text, alphabet, lettersToCodeWith=["a", "b"], uniqueCodi
     processedText = processedText.replace("0", lettersToCodeWith[0]).replace("1", lettersToCodeWith[1])
     return processedText
 
-def baconCipherDecoding(text, alphabet, lettersToDecodeWith=["a", "b"], uniqueCoding=False):
+def baconCipherDecoding(text: str, alphabet: str, lettersToDecodeWith: list=["a", "b"], uniqueCoding: bool=False) -> str:
     if alphabet == latinAlphabet and uniqueCoding == False:
         alphabet = alphabet.replace("J", "").replace("V", "")
     matchLettersToCode = {key: format(value, "05b") for (value, key) in enumerate(alphabet)}
@@ -78,7 +78,7 @@ def baconCipherDecoding(text, alphabet, lettersToDecodeWith=["a", "b"], uniqueCo
         return processedText.replace("I", "(I/J)").replace("U", "(U/V)")
     return processedText
 
-def atbashCipher(text, alphabet, includeDigits=False):
+def atbashCipher(text: str, alphabet: str, includeDigits: bool=False) -> str:
     if includeDigits == True:
         processedText = ""
         for character in text:
@@ -92,10 +92,10 @@ def atbashCipher(text, alphabet, includeDigits=False):
     processedText = "".join([alphabet[len(alphabet) - alphabet.index(character) - 1] if character in alphabet else character for character in text])
     return processedText
 
-def simpleSubstitutionGenerateRandomKey(alphabet):
+def simpleSubstitutionGenerateRandomKey(alphabet: str) -> str:
     return "".join(random.sample(alphabet, len(alphabet)))
 
-def simpleSubstitutionCipher(text, key, mode=cipherMode):
+def simpleSubstitutionCipher(text: str, key: str, mode: int=cipherMode) -> str:
     alphabet = sorted(key)
     processedText = ""
     if mode == cipherMode:
@@ -104,7 +104,7 @@ def simpleSubstitutionCipher(text, key, mode=cipherMode):
         processedText = "".join(alphabet[key.index(character)] if character in key else character for character in text)
     return processedText
 
-def columnarTranspositionCipherEncoding(text, keyword, ending="x"):
+def columnarTranspositionCipherEncoding(text: str, keyword: str, ending: str="x") -> str:
     for character in keyword:
         if not character.isalpha():
             print("Keyword must contain only letters!")
@@ -124,7 +124,7 @@ def columnarTranspositionCipherEncoding(text, keyword, ending="x"):
     processedText = "".join([keywordDictionary[key] for key in sortedKeys])
     return processedText
 
-def autokeyCipher(text, keyword, alphabet):
+def autokeyCipher(text: str, keyword: str, alphabet: str) -> str:
     if any(char.isdigit() for char in text):
         print("Please remove numbers from the input text")
         sys.exit()
