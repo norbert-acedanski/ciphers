@@ -72,6 +72,7 @@ Python 3.8.0
 
 - Beaufort Cipher
 - Bifid Cipher
+- Rail-fence Cipher
 - columnarTranspositionCipherDecoding
 - autokeyCipherDecoding
 - Porta Cipher
