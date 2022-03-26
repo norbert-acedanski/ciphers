@@ -8,6 +8,7 @@ fileToDecipherWithBaconCipherName_1 = "textToDecipherWithBaconCipher_1.txt"
 fileToDecipherWithBaconCipherName_2 = "textToDecipherWithBaconCipher_2.txt"
 fileToDecipherWithAtbashCipherName = "textToDecipherWithAtbashCipher.txt"
 fileToDecipherWithSimpleSubstitutionCipherName = "textToDecipherWithSimpleSubstitutionCipher.txt"
+fileToDecipherWithRailFeceCipherName = "textToDecipherWithRailFenceCipher.txt"
 latinAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 polishAlphabet = "AĄBCĆDEĘFGHIJKLŁMNŃOÓPRSŚTUWYZŹŻ"
 russianAlphabet = "AБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
@@ -142,7 +143,7 @@ def railFenceCipherEncoding(text: str, numberOfRails: int, removeSpaces: bool=Fa
         sys.exit()
     if removeSpaces:
         text = text.replace(" ", "")
-    listsOfText = [["." for j in range(len(text))] for i in range(numberOfRails)]
+    listsOfText = [["" for j in range(len(text))] for i in range(numberOfRails)]
     for rail in range(numberOfRails):
         listsOfText[rail][rail] = text[rail]
     for letter in range(numberOfRails, len(text)):
@@ -155,7 +156,36 @@ def railFenceCipherEncoding(text: str, numberOfRails: int, removeSpaces: bool=Fa
     processedTextList = []
     processedTextList += ["".join(processedList) for processedList in listsOfText]
     processedText = "".join(processedTextList)
-    processedText = processedText.replace(".", "")
+    # processedText = processedText.replace(".", "")
+    return processedText
+
+def railFenceCipherDecoding(text: str, numberOfRails: int) -> str:
+    if numberOfRails < 2:
+        print("Number of rails should be at least 2!")
+        sys.exit()
+    listsOfText = [["" for j in range(len(text))] for i in range(numberOfRails)]
+    textIndex, lastTextIndex = 0, 0
+    indexesList = [[2*(numberOfRails - i - 1), 2*i] for i in range(numberOfRails)]
+    for listIndex in range(numberOfRails):
+        inListIndex = listIndex
+        # if indexesList[listIndex][0] == 0:
+        #     indexesListIndex = 1
+        # elif indexesList[listIndex][1] == 0:
+        #     indexesListIndex = 0              #Line below is not the same, yet more elegant and works as it should
+        indexesListIndex = 1 if indexesList[listIndex][0] == 0 else 0
+        while inListIndex < len(text):
+            listsOfText[listIndex][inListIndex] = text[textIndex]
+            if indexesList[listIndex][0] != 0 and indexesList[listIndex][1]:
+                indexesListIndex = (textIndex - lastTextIndex) % 2
+            inListIndex += indexesList[listIndex][indexesListIndex]
+            textIndex += 1
+        lastTextIndex = textIndex
+    # for list in listsOfText:
+    #     print(list)
+    processedText = ""
+    for letterIndex in range(len(text)):
+        for listIndex in range(numberOfRails):
+            processedText += listsOfText[listIndex][letterIndex]
     return processedText
 
 if __name__ == '__main__':
@@ -187,3 +217,5 @@ if __name__ == '__main__':
     print(autokeyCipher("".join(character for character in textToCipher if not character.isdigit()), "fortification", latinAlphabet))
     print(railFenceCipherEncoding(textToCipher, 5))
     print(railFenceCipherEncoding(textToCipher, 5, True))
+    textToDecipher = readFile(fileToDecipherWithRailFeceCipherName)
+    print(railFenceCipherDecoding(textToDecipher, 4))
