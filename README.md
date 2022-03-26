@@ -1,7 +1,7 @@
 # ciphers
 
 # About The Project
-Script gives an oportunity to encode/cipher some text with Caesar, Vigenère, Bacon Atbash, Simple Substitution and Columnar Transposition ciphers and also decode messages.
+Script gives an oportunity to encode/cipher some text with Caesar, Vigenère, Bacon Atbash, Simple Substitution, Columnar Transposition, Autokey and Rail-Fence ciphers and also decode messages.
 
 # Built With
 Python 3.8.0
@@ -72,13 +72,16 @@ Python 3.8.0
         - __numberOfRails__ - number of rails the text should be split to,
     - Optional arguments:
         - __removeSpaces__ - optional argument, that specifies, whether to remove all spaces from the input text
-14. Script should print the result to the terminal.
+14. _railFenceCipherEncoding_ accepts 2 arguments:
+    - Required arguments:
+        - __text__ - text to cipher (from _readFile_ function),
+        - __numberOfRails__ - number of rails the text should be split to,
+15. Script should print the result to the terminal.
 
 # Planned Ciphers:
 
 - Beaufort Cipher
 - Bifid Cipher
-- Rail-fence Cipher Decoding
 - columnarTranspositionCipherDecoding
 - autokeyCipherDecoding
 - Porta Cipher
