@@ -12,6 +12,8 @@ file_to_decipher_with_rail_fece_cipher_name = "text_to_decipher_with_rail_fence_
 LATIN_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 POLISH_ALPHABET = "AĄBCĆDEĘFGHIJKLŁMNŃOÓPRSŚTUWYZŹŻ"
 RUSSIAN_ALPHABET = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
+GREEK_ALPHABET = "ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ"
+HEBREW_ALPHABET = "אבגדהוזחטיכךלמםנןסעפףצץקרשת"
 CIPHER_MODE, DECIPHER_MODE = 1, -1
 
 
