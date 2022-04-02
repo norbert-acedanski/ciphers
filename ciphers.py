@@ -1,194 +1,193 @@
 import random
 import sys
 
-fileToCipherName = "textToCipher.txt"
-fileToDecipherWithCaesarCipherName = "textToDecipherWithCaesarCipher.txt"
-fileToDecipherWithVigenereCipherName = "textToDecipherWithVigenereCipher.txt"
-fileToDecipherWithBaconCipherName_1 = "textToDecipherWithBaconCipher_1.txt"
-fileToDecipherWithBaconCipherName_2 = "textToDecipherWithBaconCipher_2.txt"
-fileToDecipherWithAtbashCipherName = "textToDecipherWithAtbashCipher.txt"
-fileToDecipherWithSimpleSubstitutionCipherName = "textToDecipherWithSimpleSubstitutionCipher.txt"
-fileToDecipherWithRailFeceCipherName = "textToDecipherWithRailFenceCipher.txt"
-latinAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-polishAlphabet = "AĄBCĆDEĘFGHIJKLŁMNŃOÓPRSŚTUWYZŹŻ"
-russianAlphabet = "AБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
-cipherMode, decipherMode = 1, -1
+file_to_cipher_name = "text_to_cipher.txt"
+file_to_decipher_with_caesar_cipher_name = "text_to_decipher_with_caesar_cipher.txt"
+file_to_decipher_with_vigenere_cipher_name = "text_to_decipher_with_vigenere_cipher.txt"
+file_to_decipher_with_bacon_cipher_name_1 = "text_to_decipher_with_bacon_cipher_1.txt"
+file_to_decipher_with_bacon_cipher_name_2 = "text_to_decipher_with_bacon_cipher_2.txt"
+file_to_decipher_with_atbash_cipher_name = "text_to_decipher_with_atbash_cipher.txt"
+file_to_decipher_with_simple_substitution_cipher_name = "text_to_decipher_with_simple_substitution_cipher.txt"
+file_to_decipher_with_rail_fece_cipher_name = "text_to_decipher_with_rail_fence_cipher.txt"
+LATIN_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+POLISH_ALPHABET = "AĄBCĆDEĘFGHIJKLŁMNŃOÓPRSŚTUWYZŹŻ"
+RUSSIAN_ALPHABET = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
+CIPHER_MODE, DECIPHER_MODE = 1, -1
 
 
-def readFile(filename: str) -> str:
-    with open(filename, "r", encoding="utf-8") as inFile:
-        text = inFile.read().upper()
+def read_file(filename: str) -> str:
+    with open(filename, "r", encoding="utf-8") as in_file:
+        text = in_file.read().upper()
     return text
 
-def caesarCipher(text: str, shift: int, alphabet: str, includeDigits: bool=False) -> str:
-    processedText = ""
-    if includeDigits:
+def caesar_cipher(text: str, shift: int, alphabet: str, include_digits: bool=False) -> str:
+    processed_text = ""
+    if include_digits:
         for character in text:
             if character in alphabet:
-                processedText += alphabet[(alphabet.index(character) + shift) % len(alphabet)]
+                processed_text += alphabet[(alphabet.index(character) + shift) % len(alphabet)]
             elif character.isdigit():
-                processedText += str((int(character) + shift) % 10)
+                processed_text += str((int(character) + shift) % 10)
             else:
-                processedText += character
-        return processedText
-    shiftedAlphabed = alphabet[shift:] + alphabet[:shift]
-    table = str.maketrans(alphabet, shiftedAlphabed)
+                processed_text += character
+        return processed_text
+    shifted_alphabed = alphabet[shift:] + alphabet[:shift]
+    table = str.maketrans(alphabet, shifted_alphabed)
     return text.translate(table)
 
-def vigenereCipher(text: str, keyword: str, alphabet, mode: int=cipherMode, keywordShift: int=0) -> str:
-    if keywordShift != 0:
-        keyword = caesarCipher(keyword, keywordShift, alphabet)
-    processedText = ""
-    numberOfOtherCharacters = 0
-    for (characterNumber, character) in enumerate(text):
+def vigenere_cipher(text: str, keyword: str, alphabet, mode: int=CIPHER_MODE, keyword_shift: int=0) -> str:
+    if keyword_shift != 0:
+        keyword = caesar_cipher(keyword, keyword_shift, alphabet)
+    processed_text = ""
+    number_of_other_characters = 0
+    for (character_number, character) in enumerate(text):
         if character in alphabet:
-            processedText += alphabet[(alphabet.index(character) + mode*alphabet.index(keyword[(characterNumber - numberOfOtherCharacters) % len(keyword)])) % len(alphabet)]
+            processed_text += alphabet[(alphabet.index(character) + mode*alphabet.index(keyword[(character_number - number_of_other_characters) % len(keyword)])) % len(alphabet)]
         else:
-            processedText += character
-            numberOfOtherCharacters += 1
-    return processedText
+            processed_text += character
+            number_of_other_characters += 1
+    return processed_text
 
-def baconCipherEncoding(text: str, alphabet: str, lettersToCodeWith: list=["a", "b"], uniqueCoding: bool=False) -> str:
-    processedText = ""
-    if alphabet == latinAlphabet and uniqueCoding == False:
+def bacon_cipher_encoding(text: str, alphabet: str, letters_to_code_with: list=["a", "b"], unique_coding: bool=False) -> str:
+    processed_text = ""
+    if alphabet == LATIN_ALPHABET and unique_coding == False:
         alphabet = alphabet.replace("J", "").replace("V", "")
         text = text.replace("J", "I").replace("V", "U")
-    processedText = "".join(character if character not in alphabet else str(format(alphabet.index(character), "05b")) for character in text)
-    processedText = processedText.replace("0", lettersToCodeWith[0]).replace("1", lettersToCodeWith[1])
-    return processedText
+    processed_text = "".join(character if character not in alphabet else str(format(alphabet.index(character), "05b")) for character in text)
+    processed_text = processed_text.replace("0", letters_to_code_with[0]).replace("1", letters_to_code_with[1])
+    return processed_text
 
-def baconCipherDecoding(text: str, alphabet: str, lettersToDecodeWith: list=["a", "b"], uniqueCoding: bool=False) -> str:
-    if alphabet == latinAlphabet and uniqueCoding == False:
+def bacon_cipher_decoding(text: str, alphabet: str, letters_to_decode_with: list=["a", "b"], unique_coding: bool=False) -> str:
+    if alphabet == LATIN_ALPHABET and unique_coding == False:
         alphabet = alphabet.replace("J", "").replace("V", "")
-    matchLettersToCode = {key: format(value, "05b") for (value, key) in enumerate(alphabet)}
-    for key in matchLettersToCode:
-        matchLettersToCode[key] = matchLettersToCode[key].replace("0", lettersToDecodeWith[0]).replace("1", lettersToDecodeWith[1])
-    textIndex = 0
-    numberOfDifferentCharacters = 0
-    processedText = ""
-    while textIndex < len(text):
-        encryptedCodePart = text[textIndex:textIndex + 5]
-        numberOfDifferentCharacters = len(encryptedCodePart.replace(lettersToDecodeWith[0], "").replace(lettersToDecodeWith[1], ""))
-        if numberOfDifferentCharacters > 0:
-            processedText += text[textIndex:textIndex + 1]
-            textIndex += 1
+    match_letters_to_code = {key: format(value, "05b") for (value, key) in enumerate(alphabet)}
+    for key in match_letters_to_code:
+        match_letters_to_code[key] = match_letters_to_code[key].replace("0", letters_to_decode_with[0]).replace("1", letters_to_decode_with[1])
+    text_index = 0
+    number_of_different_characters = 0
+    processed_text = ""
+    while text_index < len(text):
+        encrypted_code_part = text[text_index:text_index + 5]
+        number_of_different_characters = len(encrypted_code_part.replace(letters_to_decode_with[0], "").replace(letters_to_decode_with[1], ""))
+        if number_of_different_characters > 0:
+            processed_text += text[text_index:text_index + 1]
+            text_index += 1
         else:
-            processedText += list(matchLettersToCode.keys())[list(matchLettersToCode.values()).index(encryptedCodePart)]
-            textIndex += 5
-    if alphabet == latinAlphabet.replace("J", "").replace("V", "") and uniqueCoding == False:
-        return processedText.replace("I", "(I/J)").replace("U", "(U/V)")
-    return processedText
+            processed_text += list(match_letters_to_code.keys())[list(match_letters_to_code.values()).index(encrypted_code_part)]
+            text_index += 5
+    if alphabet == LATIN_ALPHABET.replace("J", "").replace("V", "") and unique_coding == False:
+        return processed_text.replace("I", "(I/J)").replace("U", "(U/V)")
+    return processed_text
 
-def atbashCipher(text: str, alphabet: str, includeDigits: bool=False) -> str:
-    if includeDigits == True:
-        processedText = ""
+def atbash_cipher(text: str, alphabet: str, include_digits: bool=False) -> str:
+    if include_digits == True:
+        processed_text = ""
         for character in text:
             if character in alphabet:
-                processedText += alphabet[len(alphabet) - alphabet.index(character) - 1]
+                processed_text += alphabet[len(alphabet) - alphabet.index(character) - 1]
             elif character.isdigit():
-                processedText += str(9 - int(character))
+                processed_text += str(9 - int(character))
             else:
-                processedText += character
-        return processedText
-    processedText = "".join([alphabet[len(alphabet) - alphabet.index(character) - 1] if character in alphabet else character for character in text])
-    return processedText
+                processed_text += character
+        return processed_text
+    processed_text = "".join([alphabet[len(alphabet) - alphabet.index(character) - 1] if character in alphabet else character for character in text])
+    return processed_text
 
-def simpleSubstitutionGenerateRandomKey(alphabet: str) -> str:
+def simple_substitution_generate_random_key(alphabet: str) -> str:
     return "".join(random.sample(alphabet, len(alphabet)))
 
-def simpleSubstitutionCipher(text: str, key: str, mode: int=cipherMode) -> str:
+def simple_substitution_cipher(text: str, key: str, mode: int=CIPHER_MODE) -> str:
     alphabet = sorted(key)
-    processedText = ""
-    if mode == cipherMode:
-        processedText = "".join(key[alphabet.index(character)] if character in key else character for character in text)
-    elif mode == decipherMode:
-        processedText = "".join(alphabet[key.index(character)] if character in key else character for character in text)
-    return processedText
+    processed_text = ""
+    if mode == CIPHER_MODE:
+        processed_text = "".join(key[alphabet.index(character)] if character in key else character for character in text)
+    elif mode == DECIPHER_MODE:
+        processed_text = "".join(alphabet[key.index(character)] if character in key else character for character in text)
+    return processed_text
 
-def columnarTranspositionCipherEncoding(text: str, keyword: str, ending: str="x") -> str:
-    for character in keyword:
-        if not character.isalpha():
-            print("Keyword must contain only letters!")
-            sys.exit()
+def columnar_transposition_cipher_encoding(text: str, keyword: str, ending: str="x") -> str:
+    if any(char.isdigit() for char in keyword):
+        print("Keyword must contain only letters!")
+        sys.exit()
     text = text.replace(" ", "")
     if len(ending) != 1:
         print("Wrong length of \"ending\" character!")
         sys.exit()
     ending = ending.upper()
-    separatedList = [text[i:i + len(keyword)] for i in range(0, len(text), len(keyword))]
-    if len(separatedList[-1]) < len(keyword):
-        separatedList[-1] += "".join([ending for i in range(len(keyword) - len(separatedList[-1]))])
-    keywordDictionary = {character: "" for character in keyword}
-    for characterNumber, character in enumerate(keyword):
-        keywordDictionary[character] = "".join([separatedList[i][characterNumber] for i in range(len(separatedList))])
-    sortedKeys = sorted(keywordDictionary.keys())
-    processedText = "".join([keywordDictionary[key] for key in sortedKeys])
-    return processedText
+    separated_list = [text[i:i + len(keyword)] for i in range(0, len(text), len(keyword))]
+    if len(separated_list[-1]) < len(keyword):
+        separated_list[-1] += "".join([ending for i in range(len(keyword) - len(separated_list[-1]))])
+    keyword_dictionary = {character: "" for character in keyword}
+    for character_number, character in enumerate(keyword):
+        keyword_dictionary[character] = "".join([separated_list[i][character_number] for i in range(len(separated_list))])
+    sorted_keys = sorted(keyword_dictionary.keys())
+    processed_text = "".join([keyword_dictionary[key] for key in sorted_keys])
+    return processed_text
 
-def autokeyCipher(text: str, keyword: str, alphabet: str) -> str:
+def autokey_cipher(text: str, keyword: str, alphabet: str) -> str:
     if any(char.isdigit() for char in text):
-        print("Please remove numbers from the input text")
+        print("Please remove numbers from the input text!")
         sys.exit()
     text = text.replace(" ", "")
-    keyPhrase = keyword.upper() + text[:-len(keyword)]
-    processedText = ""
-    for textCharacter, keyPhraseCharacter in zip(text, keyPhrase):
-        processedText += alphabet[(alphabet.index(textCharacter) + alphabet.index(keyPhraseCharacter)) % len(alphabet)]
-    # processedText = "".join([alphabet[(alphabet.index(textCharacter) + alphabet.index(keyPhraseCharacter)) % len(alphabet)] for textCharacter, keyPhraseCharacter in zip(text, keyPhrase)])
-    return processedText
+    key_phrase = keyword.upper() + text[:-len(keyword)]
+    processed_text = ""
+    for text_character, key_phrase_character in zip(text, key_phrase):
+        processed_text += alphabet[(alphabet.index(text_character) + alphabet.index(key_phrase_character)) % len(alphabet)]
+    # processed_text = "".join([alphabet[(alphabet.index(text_character) + alphabet.index(key_phrase_character)) % len(alphabet)] for text_character, key_phrase_character in zip(text, key_phrase)])
+    return processed_text
 
-def railFenceCipherEncoding(text: str, numberOfRails: int, removeSpaces: bool=False) -> str:
-    if numberOfRails < 2:
+def rail_fence_cipher_encoding(text: str, number_of_rails: int, remove_spaces: bool=False) -> str:
+    if number_of_rails < 2:
         print("Number of rails should be at least 2!")
         sys.exit()
-    if removeSpaces:
+    if remove_spaces:
         text = text.replace(" ", "")
-    listsOfText = [["" for j in range(len(text))] for i in range(numberOfRails)]
-    for rail in range(numberOfRails):
-        listsOfText[rail][rail] = text[rail]
-    for letter in range(numberOfRails, len(text)):
-        if ((letter - numberOfRails) // (numberOfRails - 1)) % 2 == 0:
-            listsOfText[numberOfRails - 1 - ((letter - numberOfRails) % (numberOfRails - 1) + 1)][letter] = text[letter]
+    lists_of_text = [["" for j in range(len(text))] for i in range(number_of_rails)]
+    for rail in range(number_of_rails):
+        lists_of_text[rail][rail] = text[rail]
+    for letter in range(number_of_rails, len(text)):
+        if ((letter - number_of_rails) // (number_of_rails - 1)) % 2 == 0:
+            lists_of_text[number_of_rails - 1 - ((letter - number_of_rails) % (number_of_rails - 1) + 1)][letter] = text[letter]
         else:
-            listsOfText[((letter - numberOfRails) % (numberOfRails - 1) + 1)][letter] = text[letter]
-    # for list in listsOfText:
+            lists_of_text[((letter - number_of_rails) % (number_of_rails - 1) + 1)][letter] = text[letter]
+    # for list in lists_of_text:
     #     print(list)
-    processedTextList = []
-    processedTextList += ["".join(processedList) for processedList in listsOfText]
-    processedText = "".join(processedTextList)
-    # processedText = processedText.replace(".", "")
-    return processedText
+    processed_text_list = []
+    processed_text_list += ["".join(processed_list) for processed_list in lists_of_text]
+    processed_text = "".join(processed_text_list)
+    # processed_text = processed_text.replace(".", "")
+    return processed_text
 
-def railFenceCipherDecoding(text: str, numberOfRails: int) -> str:
-    if numberOfRails < 2:
+def rail_fence_cipher_decoding(text: str, number_of_rails: int) -> str:
+    if number_of_rails < 2:
         print("Number of rails should be at least 2!")
         sys.exit()
-    listsOfText = [["" for j in range(len(text))] for i in range(numberOfRails)]
-    textIndex, lastTextIndex = 0, 0
-    indexesList = [[2*(numberOfRails - i - 1), 2*i] for i in range(numberOfRails)]
-    for listIndex in range(numberOfRails):
-        inListIndex = listIndex
-        # if indexesList[listIndex][0] == 0:
-        #     indexesListIndex = 1
-        # elif indexesList[listIndex][1] == 0:
-        #     indexesListIndex = 0              #Line below is not the same, yet more elegant and works as it should
-        indexesListIndex = 1 if indexesList[listIndex][0] == 0 else 0
-        while inListIndex < len(text):
-            listsOfText[listIndex][inListIndex] = text[textIndex]
-            if indexesList[listIndex][0] != 0 and indexesList[listIndex][1]:
-                indexesListIndex = (textIndex - lastTextIndex) % 2
-            inListIndex += indexesList[listIndex][indexesListIndex]
-            textIndex += 1
-        lastTextIndex = textIndex
-    # for list in listsOfText:
+    lists_of_text = [["" for j in range(len(text))] for i in range(number_of_rails)]
+    text_index, last_text_index = 0, 0
+    indexes_list = [[2*(number_of_rails - i - 1), 2*i] for i in range(number_of_rails)]
+    for list_index in range(number_of_rails):
+        inlist_index = list_index
+        # if indexes_list[list_index][0] == 0:
+        #     indexes_list_index = 1
+        # elif indexes_list[list_index][1] == 0:
+        #     indexes_list_index = 0              #Line below is not the same, yet more elegant and works as it should
+        indexes_list_index = 1 if indexes_list[list_index][0] == 0 else 0
+        while inlist_index < len(text):
+            lists_of_text[list_index][inlist_index] = text[text_index]
+            if indexes_list[list_index][0] != 0 and indexes_list[list_index][1]:
+                indexes_list_index = (text_index - last_text_index) % 2
+            inlist_index += indexes_list[list_index][indexes_list_index]
+            text_index += 1
+        last_text_index = text_index
+    # for list in lists_of_text:
     #     print(list)
-    processedText = ""
-    for letterIndex in range(len(text)):
-        for listIndex in range(numberOfRails):
-            processedText += listsOfText[listIndex][letterIndex]
-    return processedText
+    processed_text = ""
+    for letter_index in range(len(text)):
+        for list_index in range(number_of_rails):
+            processed_text += lists_of_text[list_index][letter_index]
+    return processed_text
 
-def bifidCipherEncoding(text: str, period: int) -> str:
+def bifid_cipher_encoding(text: str, period: int) -> str:
     if period < 1:
         print("Period must be positive!")
         sys.exit()
@@ -196,50 +195,50 @@ def bifidCipherEncoding(text: str, period: int) -> str:
     if any(char.isdigit() for char in text):
         print("Please remove numbers from the input text!")
         sys.exit()
-    if any(char not in latinAlphabet for char in text):
+    if any(char not in LATIN_ALPHABET for char in text):
         print("Please insert letters from the latin alphabet only!")
         sys.exit()
     text = text.replace("J", "I")
-    keySquare = {"P": [1, 1], "H": [1, 2], "Q": [1, 3], "G": [1, 4], "M": [1, 5],
+    key_square = {"P": [1, 1], "H": [1, 2], "Q": [1, 3], "G": [1, 4], "M": [1, 5],
                  "E": [2, 1], "A": [2, 2], "Y": [2, 3], "L": [2, 4], "N": [2, 5],
                  "O": [3, 1], "F": [3, 2], "D": [3, 3], "X": [3, 4], "K": [3, 5],
                  "R": [4, 1], "C": [4, 2], "V": [4, 3], "S": [4, 4], "Z": [4, 5],
                  "W": [5, 1], "B": [5, 2], "U": [5, 3], "T": [5, 4], "I": [5, 5],}
-    listOfNumberRepresentation = [[], []]
+    list_of_number_representation = [[], []]
     for character in text:
-        listOfNumberRepresentation[0].append(keySquare[character][0])
-        listOfNumberRepresentation[1].append(keySquare[character][1])
-    print(listOfNumberRepresentation)
+        list_of_number_representation[0].append(key_square[character][0])
+        list_of_number_representation[1].append(key_square[character][1])
+    print(list_of_number_representation)
 
 if __name__ == '__main__':
-    textToCipher = readFile(fileToCipherName)
-    print(caesarCipher(textToCipher, -3, latinAlphabet))
-    print(caesarCipher(textToCipher, 3, latinAlphabet, includeDigits=True))
-    textToDecipher = readFile(fileToDecipherWithCaesarCipherName)
-    print(caesarCipher(textToDecipher, 3, latinAlphabet))
-    print(vigenereCipher(textToCipher, "LION", latinAlphabet, mode=cipherMode))
-    print(vigenereCipher(textToCipher, "LION", latinAlphabet, keywordShift=2))
-    textToDecipher = readFile(fileToDecipherWithVigenereCipherName)
-    print(vigenereCipher(textToDecipher, "LION", latinAlphabet, mode=decipherMode))
-    print(baconCipherEncoding(textToCipher, latinAlphabet, lettersToCodeWith=["c", "d"], uniqueCoding=True))
-    print(baconCipherEncoding(textToCipher, latinAlphabet, uniqueCoding=False))
-    textToDecipher = readFile(fileToDecipherWithBaconCipherName_1)
-    print(baconCipherDecoding(textToDecipher, latinAlphabet, lettersToDecodeWith=["A", "G"], uniqueCoding=True))
-    textToDecipher = readFile(fileToDecipherWithBaconCipherName_2)
-    print(baconCipherDecoding(textToDecipher, latinAlphabet, lettersToDecodeWith=["G", "A"]))
-    print(atbashCipher(textToCipher, latinAlphabet, True))
-    textToDecipher = readFile(fileToDecipherWithAtbashCipherName)
-    print(atbashCipher(textToDecipher, latinAlphabet, True))
-    randomKey = simpleSubstitutionGenerateRandomKey(latinAlphabet)
+    text_to_cipher = read_file(file_to_cipher_name)
+    print(caesar_cipher(text_to_cipher, -3, LATIN_ALPHABET))
+    print(caesar_cipher(text_to_cipher, 3, LATIN_ALPHABET, include_digits=True))
+    text_to_decipher = read_file(file_to_decipher_with_caesar_cipher_name)
+    print(caesar_cipher(text_to_decipher, 3, LATIN_ALPHABET))
+    print(vigenere_cipher(text_to_cipher, "LION", LATIN_ALPHABET, mode=CIPHER_MODE))
+    print(vigenere_cipher(text_to_cipher, "LION", LATIN_ALPHABET, keyword_shift=2))
+    text_to_decipher = read_file(file_to_decipher_with_vigenere_cipher_name)
+    print(vigenere_cipher(text_to_decipher, "LION", LATIN_ALPHABET, mode=DECIPHER_MODE))
+    print(bacon_cipher_encoding(text_to_cipher, LATIN_ALPHABET, letters_to_code_with=["c", "d"], unique_coding=True))
+    print(bacon_cipher_encoding(text_to_cipher, LATIN_ALPHABET, unique_coding=False))
+    text_to_decipher = read_file(file_to_decipher_with_bacon_cipher_name_1)
+    print(bacon_cipher_decoding(text_to_decipher, LATIN_ALPHABET, letters_to_decode_with=["A", "G"], unique_coding=True))
+    text_to_decipher = read_file(file_to_decipher_with_bacon_cipher_name_2)
+    print(bacon_cipher_decoding(text_to_decipher, LATIN_ALPHABET, letters_to_decode_with=["G", "A"]))
+    print(atbash_cipher(text_to_cipher, LATIN_ALPHABET, True))
+    text_to_decipher = read_file(file_to_decipher_with_atbash_cipher_name)
+    print(atbash_cipher(text_to_decipher, LATIN_ALPHABET, True))
+    randomKey = simple_substitution_generate_random_key(LATIN_ALPHABET)
     print(f"Randomly generated key: {randomKey}")
     randomKey = "phqgiumeaylnofdxjkrcvstzwb".upper()
-    print(simpleSubstitutionCipher(textToCipher, randomKey))
-    textToDecipher = readFile(fileToDecipherWithSimpleSubstitutionCipherName)
-    print(simpleSubstitutionCipher(textToDecipher, randomKey, mode=decipherMode))
-    print(columnarTranspositionCipherEncoding(textToCipher, "zebra", "A"))
-    print(autokeyCipher("".join(character for character in textToCipher if not character.isdigit()), "fortification", latinAlphabet))
-    print(railFenceCipherEncoding(textToCipher, 5))
-    print(railFenceCipherEncoding(textToCipher, 5, True))
-    textToDecipher = readFile(fileToDecipherWithRailFeceCipherName)
-    print(railFenceCipherDecoding(textToDecipher, 4))
-    bifidCipherEncoding("defend the east wall of the castle", 1)
+    print(simple_substitution_cipher(text_to_cipher, randomKey))
+    text_to_decipher = read_file(file_to_decipher_with_simple_substitution_cipher_name)
+    print(simple_substitution_cipher(text_to_decipher, randomKey, mode=DECIPHER_MODE))
+    print(columnar_transposition_cipher_encoding(text_to_cipher, "zebra", "A"))
+    print(autokey_cipher("".join(character for character in text_to_cipher if not character.isdigit()), "fortification", LATIN_ALPHABET))
+    print(rail_fence_cipher_encoding(text_to_cipher, 5))
+    print(rail_fence_cipher_encoding(text_to_cipher, 5, True))
+    text_to_decipher = read_file(file_to_decipher_with_rail_fece_cipher_name)
+    print(rail_fence_cipher_decoding(text_to_decipher, 4))
+    bifid_cipher_encoding("defend the east wall of the castle", 1)
