@@ -188,6 +188,29 @@ def railFenceCipherDecoding(text: str, numberOfRails: int) -> str:
             processedText += listsOfText[listIndex][letterIndex]
     return processedText
 
+def bifidCipherEncoding(text: str, period: int) -> str:
+    if period < 1:
+        print("Period must be positive!")
+        sys.exit()
+    text = text.upper().replace(" ", "")
+    if any(char.isdigit() for char in text):
+        print("Please remove numbers from the input text!")
+        sys.exit()
+    if any(char not in latinAlphabet for char in text):
+        print("Please insert letters from the latin alphabet only!")
+        sys.exit()
+    text = text.replace("J", "I")
+    keySquare = {"P": [1, 1], "H": [1, 2], "Q": [1, 3], "G": [1, 4], "M": [1, 5],
+                 "E": [2, 1], "A": [2, 2], "Y": [2, 3], "L": [2, 4], "N": [2, 5],
+                 "O": [3, 1], "F": [3, 2], "D": [3, 3], "X": [3, 4], "K": [3, 5],
+                 "R": [4, 1], "C": [4, 2], "V": [4, 3], "S": [4, 4], "Z": [4, 5],
+                 "W": [5, 1], "B": [5, 2], "U": [5, 3], "T": [5, 4], "I": [5, 5],}
+    listOfNumberRepresentation = [[], []]
+    for character in text:
+        listOfNumberRepresentation[0].append(keySquare[character][0])
+        listOfNumberRepresentation[1].append(keySquare[character][1])
+    print(listOfNumberRepresentation)
+
 if __name__ == '__main__':
     textToCipher = readFile(fileToCipherName)
     print(caesarCipher(textToCipher, -3, latinAlphabet))
@@ -219,3 +242,4 @@ if __name__ == '__main__':
     print(railFenceCipherEncoding(textToCipher, 5, True))
     textToDecipher = readFile(fileToDecipherWithRailFeceCipherName)
     print(railFenceCipherDecoding(textToDecipher, 4))
+    bifidCipherEncoding("defend the east wall of the castle", 1)
