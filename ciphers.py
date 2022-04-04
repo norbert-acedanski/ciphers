@@ -1,5 +1,4 @@
 import random
-import sys
 
 file_to_cipher_name = "text_to_cipher.txt"
 file_to_decipher_with_caesar_cipher_name = "text_to_decipher_with_caesar_cipher.txt"
@@ -109,12 +108,10 @@ def simple_substitution_cipher(text: str, key: str, mode: int=CIPHER_MODE) -> st
 
 def columnar_transposition_cipher_encoding(text: str, keyword: str, ending: str="x") -> str:
     if any(char.isdigit() for char in keyword):
-        print("Keyword must contain only letters!")
-        sys.exit()
+        raise ValueError("Keyword must contain only letters!")
     text = text.replace(" ", "")
     if len(ending) != 1:
-        print("Wrong length of \"ending\" character!")
-        sys.exit()
+        raise Exception('Wrong length of "ending" character (length 1 is the only option)!')
     ending = ending.upper()
     separated_list = [text[i:i + len(keyword)] for i in range(0, len(text), len(keyword))]
     if len(separated_list[-1]) < len(keyword):
@@ -128,8 +125,7 @@ def columnar_transposition_cipher_encoding(text: str, keyword: str, ending: str=
 
 def autokey_cipher(text: str, keyword: str, alphabet: str) -> str:
     if any(char.isdigit() for char in text):
-        print("Please remove numbers from the input text!")
-        sys.exit()
+        raise ValueError("Please remove numbers from the input text!")
     text = text.replace(" ", "")
     key_phrase = keyword.upper() + text[:-len(keyword)]
     processed_text = ""
@@ -140,8 +136,7 @@ def autokey_cipher(text: str, keyword: str, alphabet: str) -> str:
 
 def rail_fence_cipher_encoding(text: str, number_of_rails: int, remove_spaces: bool=False) -> str:
     if number_of_rails < 2:
-        print("Number of rails should be at least 2!")
-        sys.exit()
+        raise ValueError("Number of rails should be at least 2!")
     if remove_spaces:
         text = text.replace(" ", "")
     lists_of_text = [["" for j in range(len(text))] for i in range(number_of_rails)]
@@ -162,8 +157,7 @@ def rail_fence_cipher_encoding(text: str, number_of_rails: int, remove_spaces: b
 
 def rail_fence_cipher_decoding(text: str, number_of_rails: int) -> str:
     if number_of_rails < 2:
-        print("Number of rails should be at least 2!")
-        sys.exit()
+        raise ValueError("Number of rails should be at least 2!")
     lists_of_text = [["" for j in range(len(text))] for i in range(number_of_rails)]
     text_index, last_text_index = 0, 0
     indexes_list = [[2*(number_of_rails - i - 1), 2*i] for i in range(number_of_rails)]
@@ -191,15 +185,12 @@ def rail_fence_cipher_decoding(text: str, number_of_rails: int) -> str:
 
 def bifid_cipher_encoding(text: str, period: int) -> str:
     if period < 1:
-        print("Period must be positive!")
-        sys.exit()
+        raise ValueError("Period must be positive!")
     text = text.upper().replace(" ", "")
     if any(char.isdigit() for char in text):
-        print("Please remove numbers from the input text!")
-        sys.exit()
+        raise ValueError("Please remove numbers from the input text!")
     if any(char not in LATIN_ALPHABET for char in text):
-        print("Please insert letters from the latin alphabet only!")
-        sys.exit()
+        raise Exception("Please insert letters from the latin alphabet only!")
     text = text.replace("J", "I")
     key_square = {"P": [1, 1], "H": [1, 2], "Q": [1, 3], "G": [1, 4], "M": [1, 5],
                  "E": [2, 1], "A": [2, 2], "Y": [2, 3], "L": [2, 4], "N": [2, 5],
