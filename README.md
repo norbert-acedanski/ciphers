@@ -4,7 +4,7 @@
 Script gives an oportunity to encode/cipher some text with Caesar, Vigenère, Bacon Atbash, Simple Substitution, Columnar Transposition, Autokey and Rail-Fence ciphers and also decode messages.
 
 # Built With
-Python 3.8.0
+Python 3.9.10
 
 # Getting started
 
