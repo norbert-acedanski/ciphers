@@ -216,12 +216,6 @@ def bifid_cipher_encoding(text: str, period: int) -> str:
 
 if __name__ == '__main__':
     text_to_cipher = read_file(file_to_cipher_name)
-    print(bacon_cipher_encoding(text_to_cipher, LATIN_ALPHABET, letters_to_code_with=["c", "d"], unique_coding=True))
-    print(bacon_cipher_encoding(text_to_cipher, LATIN_ALPHABET, unique_coding=False))
-    text_to_decipher = read_file(file_to_decipher_with_bacon_cipher_name_1)
-    print(bacon_cipher_decoding(text_to_decipher, LATIN_ALPHABET, letters_to_decode_with=["A", "G"], unique_coding=True))
-    text_to_decipher = read_file(file_to_decipher_with_bacon_cipher_name_2)
-    print(bacon_cipher_decoding(text_to_decipher, LATIN_ALPHABET, letters_to_decode_with=["G", "A"]))
     print(atbash_cipher(text_to_cipher, LATIN_ALPHABET, True))
     text_to_decipher = read_file(file_to_decipher_with_atbash_cipher_name)
     print(atbash_cipher(text_to_decipher, LATIN_ALPHABET, True))
