@@ -58,3 +58,15 @@ def test_bacon_cipher_encoding(text_to_input, alphabet, letters_to_code_with, un
                           ("ABBBBAABBBBBBBABAAAABBABB AAABAAAAABAABABBBBAB, AAABBABABABABABBAABABAAAB BABAABBAABABBBAABBAA BBAAABBABABAABBABABB ABABB BABBABBBAAAABBABABBBAABAA ABAAAABBABAAAAAABAAB 1", POLISH_ALPHABET, ["a", "b"], False, "MĘŻNY BĄDŹ, CHROŃ P(U/V)ŁK TWÓ(I/J) (I/J) SZEŚĆ FLAG 1")])
 def test_bacon_cipher_decoding(text_to_input, alphabet, letters_to_code_with, unique_coding, expected):
     assert bacon_cipher_decoding(text_to_input, alphabet, letters_to_code_with, unique_coding) == expected
+
+@pytest.mark.parametrize("text_to_input, alphabet, include_digits, expected",
+                         [(TEXT_TO_CIPHER_LATIN, LATIN_ALPHABET, True, "GSV JFRXP YILDM ULC QFNKH LEVI GSV OZAB WLT 4"),
+                          (TEXT_TO_CIPHER_LATIN, LATIN_ALPHABET, False, "GSV JFRXP YILDM ULC QFNKH LEVI GSV OZAB WLT 5"),
+                          (TEXT_TO_CIPHER_POLISH, POLISH_ALPHABET, True, "ŁŚALC ZŹUĄ, YPGJK HDMŃ EĆIO Ó FBTĘW SNŻR 8"),
+                          (TEXT_TO_CIPHER_POLISH, POLISH_ALPHABET, False, "ŁŚALC ZŹUĄ, YPGJK HDMŃ EĆIO Ó FBTĘW SNŻR 1"),
+                          ("GSV JFRXP YILDM ULC QFNKH LEVI GSV OZAB WLT 41", LATIN_ALPHABET, True, TEXT_TO_CIPHER_LATIN + "8"),
+                          ("GSV JFRXP YILDM ULC QFNKH LEVI GSV OZAB WLT 41", LATIN_ALPHABET, False, TEXT_TO_CIPHER_LATIN[:-1] + "41"),
+                          ("ŁŚALC ZŹUĄ, YPGJK HDMŃ EĆIO Ó FBTĘW SNŻR 1", POLISH_ALPHABET, True, TEXT_TO_CIPHER_POLISH[:-1] + "8"),
+                          ("ŁŚALC ZŹUĄ, YPGJK HDMŃ EĆIO Ó FBTĘW SNŻR 1", POLISH_ALPHABET, False, TEXT_TO_CIPHER_POLISH)])
+def test_atbash_cipher(text_to_input, alphabet, include_digits, expected):
+    assert atbash_cipher(text_to_input, alphabet, include_digits) == expected
