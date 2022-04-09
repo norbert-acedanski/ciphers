@@ -82,3 +82,11 @@ def test_simple_substitution_random_key():
             random_key = input_file.read()
         assert "".join(sorted(random_key)) == "".join(sorted(alphabet))
         os.remove(file_path)
+
+@pytest.mark.parametrize("text_to_input, random_key, mode, expected",
+                         [(TEXT_TO_CIPHER_LATIN, "phqgiumeaylnofdxjkrcvstzwb".upper(), CIPHER_MODE, "CEI JVAQL HKDTF UDZ YVOXR DSIK CEI NPBW GDM 5"),
+                          (TEXT_TO_CIPHER_POLISH, "phqgiumeaylnofdxjkrcvstzwb".upper(), CIPHER_MODE, "OĘŻFW HĄGŹ, QEKDŃ XVŁL CTÓY A RBIŚĆ UNPM 1"),
+                          ("CEI JVAQL HKDTF UDZ YVOXR DSIK CEI NPBW GDM", "phqgiumeaylnofdxjkrcvstzwb".upper(), DECIPHER_MODE, TEXT_TO_CIPHER_LATIN[:-2]),
+                          ("OĘŻFW HĄGŹ, QEKDŃ XVŁL CTÓY A RBIŚĆ UNPM", "phqgiumeaylnofdxjkrcvstzwb".upper(), DECIPHER_MODE, TEXT_TO_CIPHER_POLISH[:-2])])
+def test_simple_substitution(text_to_input, random_key, mode, expected):
+    assert simple_substitution_cipher(text_to_input, random_key, mode) == expected
