@@ -70,3 +70,15 @@ def test_bacon_cipher_decoding(text_to_input, alphabet, letters_to_code_with, un
                           ("ŁŚALC ZŹUĄ, YPGJK HDMŃ EĆIO Ó FBTĘW SNŻR 1", POLISH_ALPHABET, False, TEXT_TO_CIPHER_POLISH)])
 def test_atbash_cipher(text_to_input, alphabet, include_digits, expected):
     assert atbash_cipher(text_to_input, alphabet, include_digits) == expected
+
+def test_simple_substitution_random_key():
+    for alphabet in [LATIN_ALPHABET, POLISH_ALPHABET]:
+        assert len(simple_substitution_generate_random_key(alphabet, False)) == len(alphabet)
+        assert os.path.isdir("./generated_files/")
+        simple_substitution_generate_random_key(alphabet)
+        file_path = "./generated_files/random_key.txt"
+        assert os.path.isfile(file_path)
+        with open(file_path, "r") as input_file:
+            random_key = input_file.read()
+        assert "".join(sorted(random_key)) == "".join(sorted(alphabet))
+        os.remove(file_path)
