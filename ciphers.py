@@ -1,7 +1,5 @@
 import random
 
-from py import process
-
 file_to_cipher_name = "text_to_cipher.txt"
 file_to_decipher_with_caesar_cipher_name = "text_to_decipher_with_caesar_cipher.txt"
 file_to_decipher_with_vigenere_cipher_name = "text_to_decipher_with_vigenere_cipher.txt"
@@ -105,8 +103,12 @@ def atbash_cipher(text: str, alphabet: str, include_digits: bool=False) -> str:
     processed_text = "".join([alphabet[len(alphabet) - alphabet.index(character) - 1] if character in alphabet else character for character in text])
     return processed_text
 
-def simple_substitution_generate_random_key(alphabet: str) -> str:
-    return "".join(random.sample(alphabet, len(alphabet)))
+def simple_substitution_generate_random_key(alphabet: str, save_to_file=True) -> str:
+    random_key = "".join(random.sample(alphabet, len(alphabet)))
+    if save_to_file:
+        with open("./generated_files/random_key.txt", "w") as output_file:
+            output_file.write(random_key)
+    return random_key
 
 def simple_substitution_cipher(text: str, key: str, mode: int=CIPHER_MODE) -> str:
     alphabet = sorted(key)
