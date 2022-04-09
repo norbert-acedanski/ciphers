@@ -90,3 +90,15 @@ def test_simple_substitution_random_key():
                           ("OĘŻFW HĄGŹ, QEKDŃ XVŁL CTÓY A RBIŚĆ UNPM", "phqgiumeaylnofdxjkrcvstzwb".upper(), DECIPHER_MODE, TEXT_TO_CIPHER_POLISH[:-2])])
 def test_simple_substitution(text_to_input, random_key, mode, expected):
     assert simple_substitution_cipher(text_to_input, random_key, mode) == expected
+
+@pytest.mark.parametrize("text_to_input, keyword, ending, expected",
+                         [(TEXT_TO_CIPHER_LATIN, "zebra", "A", "UROPRAGAEKNUVEDAHCWJOHYAQBFMELOATIOXSTZ5"),
+                          (TEXT_TO_CIPHER_LATIN[:-2], "lioN", "x", "QKWXPEEYXHIRFUOTAOTUBNJSRLDECOOMVHZG"),
+                          (TEXT_TO_CIPHER_POLISH, "żółw", " ", "NDHPTIŚA ĘB,OŁÓZF1ŻĄCŃKJEL MYŹRUWSĆG"),
+                          (TEXT_TO_CIPHER_POLISH[:-2], "srebrny", "T", "NCŁSAŻ,UILBRTETYHKZGMDŃÓĆĄOWŚT")])
+def test_columnar_transposition_cipher_encoding(text_to_input, keyword, ending, expected):
+    assert columnar_transposition_cipher_encoding(text_to_input, keyword, ending) == expected
+
+@pytest.mark.skip(reason="Not implemented yet")
+def test_columnar_transposition_cipher_decoding():
+    assert True
