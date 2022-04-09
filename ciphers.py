@@ -1,5 +1,7 @@
 import random
 
+from py import process
+
 file_to_cipher_name = "text_to_cipher.txt"
 file_to_decipher_with_caesar_cipher_name = "text_to_decipher_with_caesar_cipher.txt"
 file_to_decipher_with_vigenere_cipher_name = "text_to_decipher_with_vigenere_cipher.txt"
@@ -56,8 +58,13 @@ def bacon_cipher_encoding(text: str, alphabet: str, letters_to_code_with: list=[
     if alphabet == LATIN_ALPHABET and unique_coding == False:
         alphabet = alphabet.replace("J", "").replace("V", "")
         text = text.replace("J", "I").replace("V", "U")
-    processed_text = "".join(character if character not in alphabet else str(format(alphabet.index(character), "05b")) for character in text)
-    processed_text = processed_text.replace("0", letters_to_code_with[0]).replace("1", letters_to_code_with[1])
+    processed_text = ""
+    for character in text:
+        if character not in alphabet:
+            processed_text += character
+        else:
+            encoded_character = str(format(alphabet.index(character), "05b"))
+            processed_text += encoded_character.replace("0", letters_to_code_with[0]).replace("1", letters_to_code_with[1])
     return processed_text
 
 def bacon_cipher_decoding(text: str, alphabet: str, letters_to_decode_with: list=["a", "b"], unique_coding: bool=False) -> str:
@@ -207,14 +214,6 @@ def bifid_cipher_encoding(text: str, period: int) -> str:
 
 if __name__ == '__main__':
     text_to_cipher = read_file(file_to_cipher_name)
-    print(caesar_cipher(text_to_cipher, -3, LATIN_ALPHABET))
-    print(caesar_cipher(text_to_cipher, 3, LATIN_ALPHABET, include_digits=True))
-    text_to_decipher = read_file(file_to_decipher_with_caesar_cipher_name)
-    print(caesar_cipher(text_to_decipher, 3, LATIN_ALPHABET))
-    print(vigenere_cipher(text_to_cipher, "LION", LATIN_ALPHABET, mode=CIPHER_MODE))
-    print(vigenere_cipher(text_to_cipher, "LION", LATIN_ALPHABET, keyword_shift=2))
-    text_to_decipher = read_file(file_to_decipher_with_vigenere_cipher_name)
-    print(vigenere_cipher(text_to_decipher, "LION", LATIN_ALPHABET, mode=DECIPHER_MODE))
     print(bacon_cipher_encoding(text_to_cipher, LATIN_ALPHABET, letters_to_code_with=["c", "d"], unique_coding=True))
     print(bacon_cipher_encoding(text_to_cipher, LATIN_ALPHABET, unique_coding=False))
     text_to_decipher = read_file(file_to_decipher_with_bacon_cipher_name_1)
