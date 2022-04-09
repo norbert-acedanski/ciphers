@@ -42,3 +42,13 @@ def test_caesar_cipher(text_to_input, shift, alphabet, include_digits, expected)
                           ("CNTĄH PIŻL, NZAKB CKTĘ GGĘR D ĘITBŹ ŚYOO", "MĘSKI", POLISH_ALPHABET, DECIPHER_MODE, 3, TEXT_TO_CIPHER_POLISH[:-2])])
 def test_vigenere_cipher(text_to_input, keyword, alphabet, mode, keyword_shift, expected):
     assert vigenere_cipher(text_to_input, keyword, alphabet, mode, keyword_shift) == expected
+
+@pytest.mark.parametrize("text_to_input, alphabet, letters_to_code_with, unique_coding, expected",
+                         [(TEXT_TO_CIPHER_LATIN, LATIN_ALPHABET, ["c", "d"], True, "dccddccdddccdcc dccccdcdcccdccccccdccdcdc ccccddcccdcdddcdcddccddcd ccdcdcdddcdcddd cdccddcdcccddcccdddddccdc cdddcdcdcdccdccdcccd dccddccdddccdcc cdcddcccccddccdddccc cccddcdddcccddc 5"),
+                          (TEXT_TO_CIPHER_LATIN, LATIN_ALPHABET, ["a", "b"], False, "baabaaabbbaabaa abbbbbaabbabaaaaaabaabaab aaaabbaaaaabbabbabaaabbaa aabababbabbabab abaaabaabbababbabbbabaaab abbabbaabbaabaabaaaa baabaaabbbaabaa ababaaaaaababbbbabba aaabbabbabaabba 5"),
+                          (TEXT_TO_CIPHER_POLISH, POLISH_ALPHABET, ["ń", "s"], True, "sńńńńńńsssssssssńńńssssńń ńńńsńńńńńsńńsńsssssń, ńńńssńsńsńsńssńsńńsssńńsń sńsńsssńsńńssssńssńs ssńńsssńsssńsńńńssńń ńsńss sńssssssńsńńssńssńńńńńsńń ńsńńńńsssńńńńńńńsńńs 1"),
+                          (TEXT_TO_CIPHER_POLISH, POLISH_ALPHABET, ["a", "b"], False, "baaaaaabbbbbbbbbaaabbbbaa aaabaaaaabaababbbbba, aaabbababababbabaabbbaaba bababbbabaabbbbabbab bbaabbbabbbabaaabbaa ababb babbbbbbabaabbabbaaaaabaa abaaaabbbaaaaaaabaab 1")])
+def test_bacon_cipher_encoding(text_to_input, alphabet, letters_to_code_with, unique_coding, expected):
+    assert bacon_cipher_encoding(text_to_input, alphabet, letters_to_code_with, unique_coding) == expected
+
+# print(bacon_cipher_encoding(TEXT_TO_CIPHER_POLISH, POLISH_ALPHABET, ["ń", "s"], True))
