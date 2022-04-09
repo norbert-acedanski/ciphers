@@ -216,9 +216,6 @@ def bifid_cipher_encoding(text: str, period: int) -> str:
 
 if __name__ == '__main__':
     text_to_cipher = read_file(file_to_cipher_name)
-    print(atbash_cipher(text_to_cipher, LATIN_ALPHABET, True))
-    text_to_decipher = read_file(file_to_decipher_with_atbash_cipher_name)
-    print(atbash_cipher(text_to_decipher, LATIN_ALPHABET, True))
     randomKey = simple_substitution_generate_random_key(LATIN_ALPHABET)
     print(f"Randomly generated key: {randomKey}")
     randomKey = "phqgiumeaylnofdxjkrcvstzwb".upper()
