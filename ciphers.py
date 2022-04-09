@@ -218,8 +218,6 @@ def bifid_cipher_encoding(text: str, period: int) -> str:
 
 if __name__ == '__main__':
     text_to_cipher = read_file(file_to_cipher_name)
-    randomKey = simple_substitution_generate_random_key(LATIN_ALPHABET)
-    print(f"Randomly generated key: {randomKey}")
     randomKey = "phqgiumeaylnofdxjkrcvstzwb".upper()
     print(simple_substitution_cipher(text_to_cipher, randomKey))
     text_to_decipher = read_file(file_to_decipher_with_simple_substitution_cipher_name)
