@@ -221,7 +221,6 @@ def bifid_cipher_encoding(text: str, period: int) -> str:
 
 if __name__ == '__main__':
     text_to_cipher = read_file(file_to_cipher_name)
-    print(columnar_transposition_cipher_encoding(text_to_cipher, "zebra", "A"))
     print(autokey_cipher("".join(character for character in text_to_cipher if not character.isdigit()), "fortification", LATIN_ALPHABET))
     print(rail_fence_cipher_encoding(text_to_cipher, 5))
     print(rail_fence_cipher_encoding(text_to_cipher, 5, True))
