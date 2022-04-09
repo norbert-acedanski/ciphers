@@ -123,7 +123,7 @@ def simple_substitution_cipher(text: str, key: str, mode: int=CIPHER_MODE) -> st
     return processed_text
 
 def columnar_transposition_cipher_encoding(text: str, keyword: str, ending: str="x") -> str:
-    if any(char.isdigit() for char in keyword):
+    if any(not char.isalpha() for char in keyword):
         raise ValueError("Keyword must contain only letters!")
     text = text.replace(" ", "")
     if len(ending) != 1:
