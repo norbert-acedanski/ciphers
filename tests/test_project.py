@@ -99,6 +99,14 @@ def test_simple_substitution(text_to_input, random_key, mode, expected):
 def test_columnar_transposition_cipher_encoding(text_to_input, keyword, ending, expected):
     assert columnar_transposition_cipher_encoding(text_to_input, keyword, ending) == expected
 
+def test_columnar_transposition_cipher_encoding_edge_cases():
+    with pytest.raises(ValueError):
+        columnar_transposition_cipher_encoding(TEXT_TO_CIPHER_LATIN, "test_")
+    with pytest.raises(ValueError):
+        columnar_transposition_cipher_encoding(TEXT_TO_CIPHER_LATIN, "test1")
+    with pytest.raises(Exception):
+        columnar_transposition_cipher_encoding(TEXT_TO_CIPHER_LATIN, "test", "xx")
+
 @pytest.mark.skip(reason="Not implemented yet")
 def test_columnar_transposition_cipher_decoding():
     assert True
