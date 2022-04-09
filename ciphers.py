@@ -55,7 +55,7 @@ def vigenere_cipher(text: str, keyword: str, alphabet, mode: int=CIPHER_MODE, ke
 
 def bacon_cipher_encoding(text: str, alphabet: str, letters_to_code_with: list=["a", "b"], unique_coding: bool=False) -> str:
     processed_text = ""
-    if alphabet == LATIN_ALPHABET and unique_coding == False:
+    if unique_coding == False:
         alphabet = alphabet.replace("J", "").replace("V", "")
         text = text.replace("J", "I").replace("V", "U")
     processed_text = ""
@@ -68,8 +68,10 @@ def bacon_cipher_encoding(text: str, alphabet: str, letters_to_code_with: list=[
     return processed_text
 
 def bacon_cipher_decoding(text: str, alphabet: str, letters_to_decode_with: list=["a", "b"], unique_coding: bool=False) -> str:
-    if alphabet == LATIN_ALPHABET and unique_coding == False:
+    if unique_coding == False:
         alphabet = alphabet.replace("J", "").replace("V", "")
+    for iterable in range(len(letters_to_decode_with)):
+        letters_to_decode_with[iterable] = letters_to_decode_with[iterable].upper()
     match_letters_to_code = {key: format(value, "05b") for (value, key) in enumerate(alphabet)}
     for key in match_letters_to_code:
         match_letters_to_code[key] = match_letters_to_code[key].replace("0", letters_to_decode_with[0]).replace("1", letters_to_decode_with[1])
@@ -85,7 +87,7 @@ def bacon_cipher_decoding(text: str, alphabet: str, letters_to_decode_with: list
         else:
             processed_text += list(match_letters_to_code.keys())[list(match_letters_to_code.values()).index(encrypted_code_part)]
             text_index += 5
-    if alphabet == LATIN_ALPHABET.replace("J", "").replace("V", "") and unique_coding == False:
+    if unique_coding == False:
         return processed_text.replace("I", "(I/J)").replace("U", "(U/V)")
     return processed_text
 
