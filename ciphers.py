@@ -111,6 +111,9 @@ def simple_substitution_generate_random_key(alphabet: str, save_to_file=True) ->
     return random_key
 
 def simple_substitution_cipher(text: str, key: str, mode: int=CIPHER_MODE) -> str:
+    # for alphabet in [LATIN_ALPHABET, POLISH_ALPHABET, RUSSIAN_ALPHABET, GREEK_ALPHABET, HEBREW_ALPHABET]:
+    if not any("".join(sorted(key)) == "".join(sorted(alphabet)) for alphabet in [LATIN_ALPHABET, POLISH_ALPHABET, RUSSIAN_ALPHABET, GREEK_ALPHABET, HEBREW_ALPHABET]):
+        raise ValueError("Random key not generated from available alphabets!")
     alphabet = sorted(key)
     processed_text = ""
     if mode == CIPHER_MODE:
