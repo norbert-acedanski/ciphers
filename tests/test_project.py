@@ -1,6 +1,8 @@
+from unittest.loader import VALID_MODULE_NAME
 import pytest
 import os
 import sys
+import random
 
 sys.path.append("../ciphers")
 from ciphers import *
@@ -124,8 +126,8 @@ def test_columnar_transposition_cipher_decoding(text_to_input, keyword, ending, 
 def test_autokey_cipher_encoding(text_to_input, keyword, alphabet, expected):
     assert autokey_cipher_encoding(text_to_input, keyword, alphabet) == expected
 
-pytest.mark.skip(reason="Autokey decoding not implemented yet")
-pytest.mark.parametrize("text_to_input, keyword, alphabet, expected",
+@pytest.mark.skip(reason="Autokey decoding not implemented yet")
+@pytest.mark.parametrize("text_to_input, keyword, alphabet, expected",
                          [("YVVJCNKMBKWKAYVBZOURCPMSNGMSIJTKSGU", "fortification", LATIN_ALPHABET, TEXT_TO_CIPHER_LATIN[:-2]),
                           ("EPSDNPGAVZQGOWCTWZAMBIHTJHCICTGCOOF", "lioN", LATIN_ALPHABET, TEXT_TO_CIPHER_LATIN[:-2]),
                           ("ALRŹĘŃFĆŁŻJSŚMŚĆDAIMLWŚMŚUĆŁŻIEĄ", "męski", POLISH_ALPHABET, TEXT_TO_CIPHER_POLISH[:-2].replace(",", "")),
@@ -136,6 +138,6 @@ def test_autokey_cipher_decoding(text_to_input, keyword, alphabet, expected):
 
 def test_autokey_cipher_encoding_edge_cases():
     with pytest.raises(ValueError):
-        test_autokey_cipher_encoding(TEXT_TO_CIPHER_LATIN, "fortificaation", LATIN_ALPHABET)
+        autokey_cipher_encoding(TEXT_TO_CIPHER_LATIN, "fortificaation", LATIN_ALPHABET)
     with pytest.raises(ValueError):
-        test_autokey_cipher_encoding(TEXT_TO_CIPHER_POLISH, "męski", POLISH_ALPHABET)
+        autokey_cipher_encoding(TEXT_TO_CIPHER_POLISH, "męski", POLISH_ALPHABET)
