@@ -227,8 +227,4 @@ def bifid_cipher_encoding(text: str, period: int) -> str:
 
 if __name__ == '__main__':
     text_to_cipher = read_file(file_to_cipher_name)
-    print(rail_fence_cipher_encoding(text_to_cipher, 5))
-    print(rail_fence_cipher_encoding(text_to_cipher, 5, True))
-    text_to_decipher = read_file(file_to_decipher_with_rail_fece_cipher_name)
-    print(rail_fence_cipher_decoding(text_to_decipher, 4))
     bifid_cipher_encoding("defend the east wall of the castle", 1)
