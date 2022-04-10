@@ -139,10 +139,10 @@ def columnar_transposition_cipher_encoding(text: str, keyword: str, ending: str=
     processed_text = "".join([keyword_dictionary[key] for key in sorted_keys])
     return processed_text
 
-def autokey_cipher(text: str, keyword: str, alphabet: str) -> str:
-    if any(char.isdigit() for char in text):
-        raise ValueError("Please remove numbers from the input text!")
+def autokey_cipher_encoding(text: str, keyword: str, alphabet: str) -> str:
     text = text.replace(" ", "")
+    if any(not char.isalpha() for char in text):
+        raise ValueError("Please remove any non-letter characters from the input text!")
     key_phrase = keyword.upper() + text[:-len(keyword)]
     processed_text = ""
     for text_character, key_phrase_character in zip(text, key_phrase):
