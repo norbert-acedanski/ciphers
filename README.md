@@ -10,6 +10,22 @@ Python 3.9.10
 
 ### Working with ciphers:
 
+**IMPORTANT**  
+As a first step, it is recommended to run test from tests/test_project.py file. To do this:
+
+1. Install requirements from requirements_dev.txt file in the terminal like so:
+```console
+pip install -r requirements.txt
+```
+2. Run tests using the terminal command:
+```console
+pytest
+```
+3. Currently, there should be 60 tests passed, 10 skipped.
+4. If all tests are passing, you can use the module safely.
+
+
+**USING CIPHERS**
 1. Copy the text you want to cipher/decipher to proper .txt files.
 2. Use ***read_file*** function to load text from the file.
 3. Use ***caesar_cipher***, ***vigenere_cipher***, ***bacon_cipher_encoding***, ***bacon_cipher_decoding***, ***atbash_cipher***, ***simple_substitution_cipher***, ***columnar_transposition_cipher_encoding***, ***autokey_cipher***, ***rail_fence_cipher_encoding*** or ***rail_fence_cipher_decoding*** to cipher or decipher messages.
