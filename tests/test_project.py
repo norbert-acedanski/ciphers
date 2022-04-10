@@ -107,9 +107,14 @@ def test_columnar_transposition_cipher_encoding_edge_cases():
     with pytest.raises(Exception):
         columnar_transposition_cipher_encoding(TEXT_TO_CIPHER_LATIN, "test", "xx")
 
-@pytest.mark.skip(reason="Not implemented yet")
-def test_columnar_transposition_cipher_decoding():
-    assert True
+@pytest.mark.skip(reason="Columnar transposition decoding not implemented yet")
+@pytest.mark.parametrize("text_to_input, keyword, ending, expected",
+                         [("UROPRAGAEKNUVEDAHCWJOHYAQBFMELOATIOXSTZ5", "zebra", "A", TEXT_TO_CIPHER_LATIN),
+                          ("QKWXPEEYXHIRFUOTAOTUBNJSRLDECOOMVHZG", "lioN", "x", TEXT_TO_CIPHER_LATIN[:-2]),
+                          ("NDHPTIŚA ĘB,OŁÓZF1ŻĄCŃKJEL MYŹRUWSĆG", "żółw", " ", TEXT_TO_CIPHER_POLISH),
+                          ("NCŁSAŻ,UILBRTETYHKZGMDŃÓĆĄOWŚT", "srebrny", "T", TEXT_TO_CIPHER_POLISH[:-2])])
+def test_columnar_transposition_cipher_decoding(text_to_input, keyword, ending, expected):
+    assert columnar_transposition_cipher_decoding(text_to_input, keyword, ending) == expected
 
 @pytest.mark.parametrize("text_to_input, keyword, alphabet, expected",
                          [(TEXT_TO_CIPHER_LATIN[:-2], "fortification", LATIN_ALPHABET, "YVVJCNKMBKWKAYVBZOURCPMSNGMSIJTKSGU"),
