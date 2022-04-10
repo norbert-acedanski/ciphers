@@ -141,3 +141,33 @@ def test_autokey_cipher_encoding_edge_cases():
         autokey_cipher_encoding(TEXT_TO_CIPHER_LATIN, "fortificaation", LATIN_ALPHABET)
     with pytest.raises(ValueError):
         autokey_cipher_encoding(TEXT_TO_CIPHER_POLISH, "męski", POLISH_ALPHABET)
+
+@pytest.mark.parametrize("text_to_input, number_of_rails, remove_spaces, expected",
+                         [(TEXT_TO_CIPHER_LATIN, 5, False, "TKFSHDHC  OP TE OEIBNXMO  YG URW UVRLZ QOJEA5"),
+                          (TEXT_TO_CIPHER_LATIN, 5, True, "TBJRDHKRXUETYOECOOMVHZGQIWFPOEA5UNSL"),
+                          (TEXT_TO_CIPHER_POLISH, 3, False, "MYDCŃŁWIEF ĘN ĄŹ HO UKTÓ  ZŚ LG1ŻB,RP JSĆA"),
+                          (TEXT_TO_CIPHER_POLISH, 3, True, "MYŹRUWSĆGĘNBD,HOPŁTÓIZŚFA1ŻĄCŃKJEL")])
+def test_rail_fence_cipher_encoding(text_to_input, number_of_rails, remove_spaces, expected):
+    assert rail_fence_cipher_encoding(text_to_input, number_of_rails, remove_spaces) == expected
+
+@pytest.mark.parametrize("text_to_input, random_number",
+                         [(TEXT_TO_CIPHER_LATIN, random.randrange(-10, 1)),
+                          (TEXT_TO_CIPHER_POLISH, random.randrange(-10, 1))])
+def test_rail_fence_cipher_encoding_edge_cases(text_to_input, random_number):
+    with pytest.raises(ValueError):
+        rail_fence_cipher_encoding(text_to_input, random_number)
+
+@pytest.mark.parametrize("text_to_input, number_of_rails, expected",
+                         [("TKFSHDHC  OP TE OEIBNXMO  YG URW UVRLZ QOJEA5", 5, TEXT_TO_CIPHER_LATIN),
+                          ("TBJRDHKRXUETYOECOOMVHZGQIWFPOEA5UNSL", 5, TEXT_TO_CIPHER_LATIN.replace(" ", "")),
+                          ("MYDCŃŁWIEF ĘN ĄŹ HO UKTÓ  ZŚ LG1ŻB,RP JSĆA", 3, TEXT_TO_CIPHER_POLISH),
+                          ("MYŹRUWSĆGĘNBD,HOPŁTÓIZŚFA1ŻĄCŃKJEL", 3, TEXT_TO_CIPHER_POLISH.replace(" ", ""))])
+def test_rail_fence_cipher_decoding(text_to_input, number_of_rails, expected):
+    assert rail_fence_cipher_decoding(text_to_input, number_of_rails) == expected
+
+@pytest.mark.parametrize("text_to_input, random_number",
+                         [(TEXT_TO_CIPHER_LATIN, random.randrange(-10, 1)),
+                          (TEXT_TO_CIPHER_POLISH, random.randrange(-10, 1))])
+def test_rail_fence_cipher_decoding_edge_cases(text_to_input, random_number):
+    with pytest.raises(ValueError):
+        rail_fence_cipher_decoding(text_to_input, random_number)
