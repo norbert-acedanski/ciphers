@@ -139,6 +139,9 @@ def columnar_transposition_cipher_encoding(text: str, keyword: str, ending: str=
     processed_text = "".join([keyword_dictionary[key] for key in sorted_keys])
     return processed_text
 
+def columnar_transposition_cipher_decoding(text: str, keyword: str, ending: str="x") -> str:
+    pass
+
 def autokey_cipher_encoding(text: str, keyword: str, alphabet: str) -> str:
     text = text.replace(" ", "")
     if any(not char.isalpha() for char in text):
@@ -149,6 +152,9 @@ def autokey_cipher_encoding(text: str, keyword: str, alphabet: str) -> str:
         processed_text += alphabet[(alphabet.index(text_character) + alphabet.index(key_phrase_character)) % len(alphabet)]
     # processed_text = "".join([alphabet[(alphabet.index(text_character) + alphabet.index(key_phrase_character)) % len(alphabet)] for text_character, key_phrase_character in zip(text, key_phrase)])
     return processed_text
+
+def autokey_cipher_decoding(text: str, keyword: str, alphabet: str) -> str:
+    pass
 
 def rail_fence_cipher_encoding(text: str, number_of_rails: int, remove_spaces: bool=False) -> str:
     if number_of_rails < 2:
