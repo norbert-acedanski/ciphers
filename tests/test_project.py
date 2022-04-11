@@ -191,15 +191,30 @@ def test_bifid_cipher_generate_random_key():
     assert "".join(sorted(random_key)) == "".join(sorted(LATIN_ALPHABET.replace("J", "")))
     os.remove(file_path)
 
-@pytest.mark.parametrize("text_to_input, period, expected",
-                         [(TEXT_TO_CIPHER_LATIN[:-2], 3, "WLEMUKVBBVWPYKEKTUPZGXEOZPCAECCKDOG")])
-def test_bifid_cipher_encoding(text_to_input, period, expected):
-    assert bifid_cipher_encoding(text_to_input, period) == expected
+@pytest.mark.parametrize("text_to_input, period, key, expected",
+                         [(TEXT_TO_CIPHER_LATIN[:-2], 3, "PHQGMEAYLNOFDXKRCVSZWBUTI", "WLEMUKVBBVWPYKEKTUPZGXEOZPCAECCKDOG")])
+def test_bifid_cipher_encoding(text_to_input, period, key, expected):
+    assert bifid_cipher_encoding(text_to_input, period, key) == expected
 
 def test_bifid_cipher_encoding_edge_cases():
     with pytest.raises(ValueError):
-        bifid_cipher_encoding(TEXT_TO_CIPHER_LATIN, random.randrange(-10, 0))
+        bifid_cipher_encoding(TEXT_TO_CIPHER_LATIN, random.randrange(-10, 0), LATIN_ALPHABET[:-1])
     with pytest.raises(ValueError):
-        bifid_cipher_encoding(TEXT_TO_CIPHER_LATIN, 1)
+        bifid_cipher_encoding(TEXT_TO_CIPHER_LATIN, 1, LATIN_ALPHABET[:-1])
     with pytest.raises(Exception):
-        bifid_cipher_encoding(TEXT_TO_CIPHER_POLISH, 2)
+        bifid_cipher_encoding(TEXT_TO_CIPHER_POLISH, 2, LATIN_ALPHABET[:-1])
+    with pytest.raises(ValueError):
+        bifid_cipher_encoding(TEXT_TO_CIPHER_LATIN, 3, LATIN_ALPHABET)
+
+@pytest.mark.parametrize("character_to_replace, character_to_replace_with",
+                        [("", ""),
+                         ("", "J"),
+                         ("J", ""),
+                         ("JJ", ""),
+                         ("", "JJ"),
+                         ("Ą", ""),
+                         ("", "Ą"),
+                         ("A", "A")])
+def test_bifid_cipher_encoding_edge_case(character_to_replace, character_to_replace_with):
+    with pytest.raises(ValueError):
+        bifid_cipher_encoding(TEXT_TO_CIPHER_LATIN, 5, LATIN_ALPHABET[:-1], character_to_replace, character_to_replace_with)
