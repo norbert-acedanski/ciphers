@@ -191,10 +191,11 @@ def test_bifid_cipher_generate_random_key():
     assert "".join(sorted(random_key)) == "".join(sorted(LATIN_ALPHABET.replace("J", "")))
     os.remove(file_path)
 
-@pytest.mark.parametrize("text_to_input, period, key, expected",
-                         [(TEXT_TO_CIPHER_LATIN[:-2], 3, "PHQGMEAYLNOFDXKRCVSZWBUTI", "WLEMUKVBBVWPYKEKTUPZGXEOZPCAECCKDOG")])
-def test_bifid_cipher_encoding(text_to_input, period, key, expected):
-    assert bifid_cipher_encoding(text_to_input, period, key) == expected
+@pytest.mark.parametrize("text_to_input, period, key, character_to_replace, character_to_replace_with, expected",
+                         [(TEXT_TO_CIPHER_LATIN[:-2], 3, "PHQGMEAYLNOFDXKRCVSZWBUTI", "J", "I", "WLEMUKVBBVWPYKEKTUPZGXEOZPCAECCKDOG"),
+                          (TEXT_TO_CIPHER_LATIN[:-2], 5, "BORMDTJGEQFAIVXZSHCYULPWN", "K", "Q", "EJUVUVTRYRDPOYOAUNTHZAOEHEQFVJCBTNG")])
+def test_bifid_cipher_encoding(text_to_input, period, key, character_to_replace, character_to_replace_with, expected):
+    assert bifid_cipher_encoding(text_to_input, period, key, character_to_replace, character_to_replace_with) == expected
 
 def test_bifid_cipher_encoding_edge_cases():
     with pytest.raises(ValueError):
