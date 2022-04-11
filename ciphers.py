@@ -217,7 +217,7 @@ def bifid_cipher_generate_random_key(character_to_remove: str = "J", save_to_fil
             output_file.write(random_key)
     return random_key
 
-def bifid_cipher_encoding(text: str, period: int) -> str:
+def bifid_cipher_encoding(text: str, period: int, key: str="PHQGMEAYLNOFDXKRCVSZWBUTI", character_to_replace: str="J", character_to_replace_with: str="I") -> str:
     if period < 1:
         raise ValueError("Period must be positive!")
     text = text.upper().replace(" ", "")
@@ -225,12 +225,15 @@ def bifid_cipher_encoding(text: str, period: int) -> str:
         raise ValueError("Please remove numbers from the input text!")
     if any(char not in LATIN_ALPHABET for char in text):
         raise Exception("Please insert letters from the latin alphabet only!")
-    text = text.replace("J", "I")
-    key_square = {"P": [1, 1], "H": [1, 2], "Q": [1, 3], "G": [1, 4], "M": [1, 5],
-                 "E": [2, 1], "A": [2, 2], "Y": [2, 3], "L": [2, 4], "N": [2, 5],
-                 "O": [3, 1], "F": [3, 2], "D": [3, 3], "X": [3, 4], "K": [3, 5],
-                 "R": [4, 1], "C": [4, 2], "V": [4, 3], "S": [4, 4], "Z": [4, 5],
-                 "W": [5, 1], "B": [5, 2], "U": [5, 3], "T": [5, 4], "I": [5, 5],}
+    if len(key) != len(LATIN_ALPHABET) - 1:
+        raise ValueError("Key length hast to be 1 less than that of the Latin Alphabet!")
+    if len(character_to_replace) != 1 or len(character_to_replace_with) != 1 or character_to_replace not in LATIN_ALPHABET or character_to_replace_with not in LATIN_ALPHABET or character_to_replace == character_to_replace_with:
+        raise ValueError("Invalid input. Characters have to be signle, different letters and have to be in Latin Alphabet!")
+    text = text.replace(character_to_replace, character_to_replace_with)
+    key_square = {}
+    for row in range(1, 6):
+        for column in range(1, 6):
+            key_square[key[(row - 1)*5 + column - 1]] = [row, column]
     first_row = ""
     second_row = ""
     new_number_string = ""
@@ -252,4 +255,3 @@ def bifid_cipher_encoding(text: str, period: int) -> str:
 
 if __name__ == '__main__':
     text_to_cipher = read_file(file_to_cipher_name)
-    print(bifid_cipher_encoding("defend the east wall of the castle", 5))
