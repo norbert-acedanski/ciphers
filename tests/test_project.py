@@ -1,4 +1,3 @@
-from unittest.loader import VALID_MODULE_NAME
 import pytest
 import os
 import sys
@@ -78,7 +77,7 @@ def test_simple_substitution_random_key():
         assert len(simple_substitution_generate_random_key(alphabet, False)) == len(alphabet)
         assert os.path.isdir("./generated_files/")
         simple_substitution_generate_random_key(alphabet)
-        file_path = "./generated_files/random_key.txt"
+        file_path = "./generated_files/random_key_simple_substitution.txt"
         assert os.path.isfile(file_path)
         with open(file_path, "r") as input_file:
             random_key = input_file.read()
@@ -135,7 +134,6 @@ def test_autokey_cipher_encoding(text_to_input, keyword, alphabet, expected):
 def test_autokey_cipher_decoding(text_to_input, keyword, alphabet, expected):
     assert autokey_cipher_decoding(text_to_input, keyword, alphabet) == expected
 
-
 def test_autokey_cipher_encoding_edge_cases():
     with pytest.raises(ValueError):
         autokey_cipher_encoding(TEXT_TO_CIPHER_LATIN, "fortificaation", LATIN_ALPHABET)
@@ -171,3 +169,16 @@ def test_rail_fence_cipher_decoding(text_to_input, number_of_rails, expected):
 def test_rail_fence_cipher_decoding_edge_cases(text_to_input, random_number):
     with pytest.raises(ValueError):
         rail_fence_cipher_decoding(text_to_input, random_number)
+
+@pytest.mark.parametrize("text_to_input, period, expected",
+                         [(TEXT_TO_CIPHER_LATIN[:-2], 3, "WLEMUKVBBVWPYKEKTUPZGXEOZPCAECCKDOG")])
+def test_bifid_cipher_encoding(text_to_input, period, expected):
+    assert bifid_cipher_encoding(text_to_input, period) == expected
+
+def test_bifid_cipher_encoding_edge_cases():
+    with pytest.raises(ValueError):
+        bifid_cipher_encoding(TEXT_TO_CIPHER_LATIN, random.randrange(-10, 0))
+    with pytest.raises(ValueError):
+        bifid_cipher_encoding(TEXT_TO_CIPHER_LATIN, 1)
+    with pytest.raises(Exception):
+        bifid_cipher_encoding(TEXT_TO_CIPHER_POLISH, 2)
