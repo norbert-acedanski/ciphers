@@ -207,6 +207,16 @@ def rail_fence_cipher_decoding(text: str, number_of_rails: int) -> str:
             processed_text += lists_of_text[list_index][letter_index]
     return processed_text
 
+def bifid_cipher_generate_random_key(character_to_replace: str = "J", character_to_replace_with: str = "I", save_to_file: bool=True) -> str:
+    if len(character_to_replace) != 1 or len(character_to_replace_with) != 1 or character_to_replace not in LATIN_ALPHABET or character_to_replace_with not in LATIN_ALPHABET:
+        raise ValueError("Invalid input. Characters have to be signle letters and have to be in Latin Alphabet!")
+    random_key = "".join(random.sample(LATIN_ALPHABET, len(LATIN_ALPHABET)))
+    random_key.replace(character_to_replace, character_to_replace_with)
+    if save_to_file:
+        with open("./generated_files/random_key_bifid.txt", "w") as output_file:
+            output_file.write(random_key)
+    return random_key
+
 def bifid_cipher_encoding(text: str, period: int) -> str:
     if period < 1:
         raise ValueError("Period must be positive!")
