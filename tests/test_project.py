@@ -1,3 +1,5 @@
+from multiprocessing.sharedctypes import Value
+from numpy import save
 import pytest
 import os
 import sys
@@ -169,6 +171,25 @@ def test_rail_fence_cipher_decoding(text_to_input, number_of_rails, expected):
 def test_rail_fence_cipher_decoding_edge_cases(text_to_input, random_number):
     with pytest.raises(ValueError):
         rail_fence_cipher_decoding(text_to_input, random_number)
+
+@pytest.mark.parametrize("character_to_remove, save_to_file",
+                         [("", False),
+                          ("JJ", False),
+                          ("Ą", False)])
+def test_bifid_cipher_generate_random_key_edge_cases(character_to_remove, save_to_file):
+    with pytest.raises(ValueError):
+        bifid_cipher_generate_random_key(character_to_remove, save_to_file)
+
+def test_bifid_cipher_generate_random_key():
+    assert len(bifid_cipher_generate_random_key("J", False)) == len(LATIN_ALPHABET) - 1
+    assert os.path.isdir("./generated_files/")
+    bifid_cipher_generate_random_key("J")
+    file_path = "./generated_files/random_key_bifid.txt"
+    assert os.path.isfile(file_path)
+    with open(file_path, "r") as input_file:
+        random_key = input_file.read()
+    assert "".join(sorted(random_key)) == "".join(sorted(LATIN_ALPHABET.replace("J", "")))
+    os.remove(file_path)
 
 @pytest.mark.parametrize("text_to_input, period, expected",
                          [(TEXT_TO_CIPHER_LATIN[:-2], 3, "WLEMUKVBBVWPYKEKTUPZGXEOZPCAECCKDOG")])
