@@ -1,7 +1,7 @@
 # ciphers
 
 # About The Project
-Script gives an oportunity to encode/cipher some text with Caesar, Vigenère, Bacon Atbash, Simple Substitution, Columnar Transposition, Autokey and Rail-Fence ciphers and also decode messages.
+Script gives an oportunity to encode/cipher some text with Caesar, Vigenère, Bacon Atbash, Simple Substitution, Columnar Transposition, Autokey, Rail-Fence and Bifid ciphers and also decode messages.
 
 # Built With
 Python 3.9.10
@@ -28,7 +28,7 @@ pytest
 **USING CIPHERS**
 1. Copy the text you want to cipher/decipher to proper .txt files.
 2. Use ***read_file*** function to load text from the file.
-3. Use ***caesar_cipher***, ***vigenere_cipher***, ***bacon_cipher_encoding***, ***bacon_cipher_decoding***, ***atbash_cipher***, ***simple_substitution_cipher***, ***columnar_transposition_cipher_encoding***, ***autokey_cipher***, ***rail_fence_cipher_encoding*** or ***rail_fence_cipher_decoding*** to cipher or decipher messages.
+3. Use ***caesar_cipher***, ***vigenere_cipher***, ***bacon_cipher_encoding***, ***bacon_cipher_decoding***, ***atbash_cipher***, ***simple_substitution_cipher***, ***columnar_transposition_cipher_encoding***, ***autokey_cipher***, ***rail_fence_cipher_encoding***, ***rail_fence_cipher_decoding***, ***bifid_cipher_generate_random_key*** or ***bifid_cipher_encoding*** to cipher or decipher messages.
 4. ***caesar_cipher*** accepts 3 arguments and 1 optional argument:
     - Required arguments:
         - __text__ - text to cipher (from ***read_file*** function),
@@ -92,14 +92,23 @@ pytest
     - Required arguments:
         - __text__ - text to cipher (from ***read_file*** function),
         - __numberOfRails__ - number of rails the text should be split to,
-15. Script should print the result to the terminal.
+15. ***bifid_cipher_generate_random_key*** accepts 2 optional arguments - character_to_remove and save_to_file - and returns shuffled alphabet with specified letter removed.
+16. ***bifid_cipher_encoding*** accepts 2 arguments and 3 optional arguments:
+    - Required arguments:
+        - __text__ - text to cipher (from ***read_file*** function),
+        - __period__ - period of shuffling the letters,
+    - Optional arguments:
+        - __key__ - shuffled Latin alphabet with one of the letters removed,
+        - __character_to_replace__ - character to be replaced,
+        - __character_to_replace_with__ - character, that replaces the character from above,
+17. Script should print the result to the terminal.
 
 # Planned Ciphers:
 
 - Beaufort Cipher
-- Bifid Cipher
-- columnarTranspositionCipherDecoding
-- autokeyCipherDecoding
+- Bifid Cipher decoding
+- columnar_transposition_cipher_decoding
+- autokey_cipher_decoding
 - Porta Cipher
 - Running Key Cipher
 - Homophonic Substitution Cipher
@@ -116,15 +125,16 @@ Script can be used to brute force some messages in order to decipher them.
 Project also contains basic examples of ciphering and deciphering.
 
 # References
-[1] Ciphers - http://practicalcryptography.com/ciphers/  
-[2] Caesar cipher - https://en.wikipedia.org/wiki/Caesar_cipher  
-[3] Vigenère cipher - https://en.wikipedia.org/wiki/Vigen%C3%A8re_cipher  
-[4] Bacon cipher - https://en.wikipedia.org/wiki/Bacon%27s_cipher  
-[5] Atbash cipher - https://en.wikipedia.org/wiki/Atbash  
-[6] Simple Substitution cipher - https://en.wikipedia.org/wiki/Substitution_cipher#Simple_substitution  
-[7] Columnar Transposition cipher - https://en.wikipedia.org/wiki/Transposition_cipher#Columnar_transposition  
-[8] Autokey cipher - https://en.wikipedia.org/wiki/Autokey_cipher  
-[9] Rail-fence cipher - https://en.wikipedia.org/wiki/Rail_fence_cipher
+[1]  Ciphers - http://practicalcryptography.com/ciphers/  
+[2]  Caesar cipher - https://en.wikipedia.org/wiki/Caesar_cipher  
+[3]  Vigenère cipher - https://en.wikipedia.org/wiki/Vigen%C3%A8re_cipher  
+[4]  Bacon cipher - https://en.wikipedia.org/wiki/Bacon%27s_cipher  
+[5]  Atbash cipher - https://en.wikipedia.org/wiki/Atbash  
+[6]  Simple Substitution cipher - https://en.wikipedia.org/wiki/Substitution_cipher#Simple_substitution  
+[7]  Columnar Transposition cipher - https://en.wikipedia.org/wiki/Transposition_cipher#Columnar_transposition  
+[8]  Autokey cipher - https://en.wikipedia.org/wiki/Autokey_cipher  
+[9]  Rail-fence cipher - https://en.wikipedia.org/wiki/Rail_fence_cipher  
+[10] Bifid cipher - https://en.wikipedia.org/wiki/Bifid_cipher
 
 # Licence
 Distributed under the MIT License. See LICENSE file for more information.
