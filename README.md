@@ -15,7 +15,7 @@ As a first step, it is recommended to run test from tests/test_project.py file. 
 
 1. Install requirements from requirements_dev.txt file in the terminal like so:
 ```console
-pip install -r requirements.txt
+pip install -r requirements_dev.txt
 ```
 2. Run tests using the terminal command:
 ```console
