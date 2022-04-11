@@ -1,5 +1,7 @@
 import random
 
+from py import process
+
 file_to_cipher_name = "text_to_cipher.txt"
 file_to_decipher_with_caesar_cipher_name = "text_to_decipher_with_caesar_cipher.txt"
 file_to_decipher_with_vigenere_cipher_name = "text_to_decipher_with_vigenere_cipher.txt"
@@ -219,12 +221,25 @@ def bifid_cipher_encoding(text: str, period: int) -> str:
                  "O": [3, 1], "F": [3, 2], "D": [3, 3], "X": [3, 4], "K": [3, 5],
                  "R": [4, 1], "C": [4, 2], "V": [4, 3], "S": [4, 4], "Z": [4, 5],
                  "W": [5, 1], "B": [5, 2], "U": [5, 3], "T": [5, 4], "I": [5, 5],}
-    list_of_number_representation = [[], []]
-    for character in text:
-        list_of_number_representation[0].append(key_square[character][0])
-        list_of_number_representation[1].append(key_square[character][1])
-    print(list_of_number_representation)
+    first_row = ""
+    second_row = ""
+    new_number_string = ""
+    for character_number, character in enumerate(text):
+        first_row += str(key_square[character][0])
+        second_row += str(key_square[character][1])
+        if (character_number + 1) % period == 0:
+            new_number_string += first_row + second_row
+            first_row = ""
+            second_row = ""
+    new_number_string += first_row
+    new_number_string += second_row
+    processed_text = ""
+    keys_list = list(key_square.keys())
+    values_list = list(key_square.values())
+    for number in range(0, int(len(new_number_string)), 2):
+        processed_text += keys_list[values_list.index([int(new_number_string[number]), int(new_number_string[number + 1])])]
+    return processed_text
 
 if __name__ == '__main__':
     text_to_cipher = read_file(file_to_cipher_name)
-    bifid_cipher_encoding("defend the east wall of the castle", 1)
+    print(bifid_cipher_encoding("defend the east wall of the castle", 5))
