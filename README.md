@@ -68,7 +68,7 @@ pytest
 10. ***simple_substitution_cipher*** accepts 2 arguments and 1 optional argument:
     - Required arguments:
         - __text__ - text to cipher (from ***read_file*** function),
-        - __alphabet__ - kind of alphabet you work with (latin, polish, etc.) - all are variables in the script,
+        - __key__ - shuffled alphabet (desired from given alphabets),
     - Optional arguments:
         - __mode__ - optional argument used to determine the operation mode of the function (_cipherMode_ and _decipherMode_ - these are variables in the script) - cipher mode is a default mode. Function can be used either to cipher or decipher messages.
 11. ***columnar_transposition_cipher_encoding*** accepts 2 arguments and 1 optional argument:
