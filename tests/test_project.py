@@ -172,13 +172,13 @@ def test_rail_fence_cipher_decoding_edge_cases(text_to_input, random_number):
     with pytest.raises(ValueError):
         rail_fence_cipher_decoding(text_to_input, random_number)
 
-@pytest.mark.parametrize("character_to_remove, save_to_file",
-                         [("", False),
-                          ("JJ", False),
-                          ("Ą", False)])
-def test_bifid_cipher_generate_random_key_edge_cases(character_to_remove, save_to_file):
+@pytest.mark.parametrize("character_to_remove",
+                         [(""),
+                          ("JJ"),
+                          ("Ą")])
+def test_bifid_cipher_generate_random_key_edge_cases(character_to_remove):
     with pytest.raises(ValueError):
-        bifid_cipher_generate_random_key(character_to_remove, save_to_file)
+        bifid_cipher_generate_random_key(character_to_remove, False)
 
 def test_bifid_cipher_generate_random_key():
     assert len(bifid_cipher_generate_random_key("J", False)) == len(LATIN_ALPHABET) - 1
@@ -199,9 +199,7 @@ def test_bifid_cipher_encoding(text_to_input, period, key, character_to_replace,
 
 def test_bifid_cipher_encoding_edge_cases():
     with pytest.raises(ValueError):
-        bifid_cipher_encoding(TEXT_TO_CIPHER_LATIN, random.randrange(-10, 0), LATIN_ALPHABET[:-1])
-    with pytest.raises(ValueError):
-        bifid_cipher_encoding(TEXT_TO_CIPHER_LATIN, 1, LATIN_ALPHABET[:-1])
+        bifid_cipher_encoding(TEXT_TO_CIPHER_LATIN, random.randrange(-10, 10), LATIN_ALPHABET[:-1])
     with pytest.raises(Exception):
         bifid_cipher_encoding(TEXT_TO_CIPHER_POLISH, 2, LATIN_ALPHABET[:-1])
     with pytest.raises(ValueError):
