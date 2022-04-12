@@ -113,7 +113,6 @@ def simple_substitution_generate_random_key(alphabet: str, save_to_file: bool=Tr
     return random_key
 
 def simple_substitution_cipher(text: str, key: str, mode: int=CIPHER_MODE) -> str:
-    # for alphabet in [LATIN_ALPHABET, POLISH_ALPHABET, RUSSIAN_ALPHABET, GREEK_ALPHABET, HEBREW_ALPHABET]:
     if not any("".join(sorted(key)) == "".join(sorted(alphabet)) for alphabet in [LATIN_ALPHABET, POLISH_ALPHABET, RUSSIAN_ALPHABET, GREEK_ALPHABET, HEBREW_ALPHABET]):
         raise ValueError("Random key not generated from available alphabets!")
     alphabet = sorted(key)
@@ -150,9 +149,10 @@ def autokey_cipher_encoding(text: str, keyword: str, alphabet: str) -> str:
         raise ValueError("Please remove any non-letter characters from the input text!")
     key_phrase = keyword.upper() + text[:-len(keyword)]
     processed_text = ""
+    # processed_text = "".join([alphabet[(alphabet.index(text_character) + alphabet.index(key_phrase_character)) % len(alphabet)] for text_character, key_phrase_character in zip(text, key_phrase)])
+    # Line below is more readable
     for text_character, key_phrase_character in zip(text, key_phrase):
         processed_text += alphabet[(alphabet.index(text_character) + alphabet.index(key_phrase_character)) % len(alphabet)]
-    # processed_text = "".join([alphabet[(alphabet.index(text_character) + alphabet.index(key_phrase_character)) % len(alphabet)] for text_character, key_phrase_character in zip(text, key_phrase)])
     return processed_text
 
 def autokey_cipher_decoding(text: str, keyword: str, alphabet: str) -> str:
@@ -171,12 +171,9 @@ def rail_fence_cipher_encoding(text: str, number_of_rails: int, remove_spaces: b
             lists_of_text[number_of_rails - 1 - ((letter - number_of_rails) % (number_of_rails - 1) + 1)][letter] = text[letter]
         else:
             lists_of_text[((letter - number_of_rails) % (number_of_rails - 1) + 1)][letter] = text[letter]
-    # for list in lists_of_text:
-    #     print(list)
     processed_text_list = []
     processed_text_list += ["".join(processed_list) for processed_list in lists_of_text]
     processed_text = "".join(processed_text_list)
-    # processed_text = processed_text.replace(".", "")
     return processed_text
 
 def rail_fence_cipher_decoding(text: str, number_of_rails: int) -> str:
@@ -199,8 +196,6 @@ def rail_fence_cipher_decoding(text: str, number_of_rails: int) -> str:
             inlist_index += indexes_list[list_index][indexes_list_index]
             text_index += 1
         last_text_index = text_index
-    # for list in lists_of_text:
-    #     print(list)
     processed_text = ""
     for letter_index in range(len(text)):
         for list_index in range(number_of_rails):
