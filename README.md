@@ -28,14 +28,14 @@ pytest
 **USING CIPHERS**
 1. Copy the text you want to cipher/decipher to proper .txt files.
 2. Use ***read_file*** function to load text from the file.
-3. Use ***caesar_cipher***, ***vigenere_cipher***, ***bacon_cipher_encoding***, ***bacon_cipher_decoding***, ***atbash_cipher***, ***simple_substitution_cipher***, ***columnar_transposition_cipher_encoding***, ***autokey_cipher***, ***rail_fence_cipher_encoding***, ***rail_fence_cipher_decoding***, ***bifid_cipher_generate_random_key***, ***bifid_cipher_encoding*** or ***bifid_cipher_decoding*** to cipher or decipher messages.
+3. Use ***caesar_cipher***, ***vigenere_cipher***, ***bacon_cipher_encoding***, ***bacon_cipher_decoding***, ***atbash_cipher***, ***simple_substitution_cipher***, ***columnar_transposition_cipher_encoding***, ***autokey_cipher_encoding***, ***rail_fence_cipher_encoding***, ***rail_fence_cipher_decoding***, ***bifid_cipher_generate_random_key***, ***bifid_cipher_encoding*** or ***bifid_cipher_decoding*** to cipher or decipher messages.
 4. ***caesar_cipher*** accepts 3 arguments and 1 optional argument:
     - Required arguments:
         - __text__ - text to cipher (from ***read_file*** function),
         - __shift__ - shift of the ciphered alphabet,
         - __alphabet__ - kind of alphabet you work with (latin, polish, etc.) - all are variables in the script,
     - Optional argument:
-        - __includeDigits__ - specifies whether numbers contained in the text should be shifted (_True_/_False_ variable with _False_ being default option). 
+        - __includeDigits__ - specifies whether numbers contained in the text should be shifted (_True_/_False_ variable with _False_ being default option).  
     Function can be used either to cipher or decipher messages.
 5. ***vigenere_cipher*** accepts 3 arguments and 2 optional arguments:
     - Required arguments:
@@ -44,7 +44,7 @@ pytest
         - __alphabet__ - kind of alphabet you work with (latin, polish, etc.) - all are variables in the script,
     - Optional arguments:
         - __mode__ - optional argument used to determine the operation mode of the function (_cipherMode_ and _decipherMode_ - these are variables in the script) - cipher mode is a default mode.
-        - __keywordShift__ - int variable, that specifies, what shift should the keyword have. Default value is _0_.
+        - __keywordShift__ - int variable, that specifies, what shift should the keyword have. Default value is _0_.  
     Function can be used either to cipher or decipher messages.
 6. ***bacon_cipher_encoding*** accepts 2 arguments and 2 optional arguments:
     - Required arguments:
@@ -65,7 +65,7 @@ pytest
         - __text__ - text to cipher (from ***read_file*** function),
         - __alphabet__ - kind of alphabet you work with (latin, polish, etc.) - all are variables in the script,
     - Optional argument:
-        - __includeDigits__ - specifies whether numbers contained in the text should be ciphered (_True_/_False_ variable with _False_ being default option). 
+        - __includeDigits__ - specifies whether numbers contained in the text should be ciphered (_True_/_False_ variable with _False_ being default option).  
     Function can be used either to cipher or decipher messages.
 9. ***simple_substitution_generate_random_key*** accepts 1 argument - alphabet - and returns shuffled version (mainly used for simple substitution ciphering).
 10. ***simple_substitution_cipher*** accepts 2 arguments and 1 optional argument:
@@ -73,7 +73,7 @@ pytest
         - __text__ - text to cipher (from ***read_file*** function),
         - __key__ - shuffled alphabet (desired from given alphabets),
     - Optional arguments:
-        - __mode__ - optional argument used to determine the operation mode of the function (_cipherMode_ and _decipherMode_ - these are variables in the script) - cipher mode is a default mode.
+        - __mode__ - optional argument used to determine the operation mode of the function (_cipherMode_ and _decipherMode_ - these are variables in the script) - cipher mode is a default mode.  
     Function can be used either to cipher or decipher messages.
 11. ***columnar_transposition_cipher_encoding*** accepts 2 arguments and 1 optional argument:
     - Required arguments:
@@ -81,7 +81,7 @@ pytest
         - __keyword__ - word used as a key to cipher/decipher a message (not longer than text to cipher),
     - Optional arguments:
         - __ending__ - A character to fill the missing spaces when they appear.
-12. ***autokey_cipher*** accepts 3 arguments and no optional arguments:
+12. ***autokey_cipher_encoding*** accepts 3 arguments and no optional arguments:
     - Required arguments:
         - __text__ - text to cipher (from ***read_file*** function),
         - __keyword__ - word used as a key to cipher a message (not longer than text to cipher),
