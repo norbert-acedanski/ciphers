@@ -1,22 +1,11 @@
 import random
 
-from py import process
-
-file_to_cipher_name = "text_to_cipher.txt"
-file_to_decipher_with_caesar_cipher_name = "text_to_decipher_with_caesar_cipher.txt"
-file_to_decipher_with_vigenere_cipher_name = "text_to_decipher_with_vigenere_cipher.txt"
-file_to_decipher_with_bacon_cipher_name_1 = "text_to_decipher_with_bacon_cipher_1.txt"
-file_to_decipher_with_bacon_cipher_name_2 = "text_to_decipher_with_bacon_cipher_2.txt"
-file_to_decipher_with_atbash_cipher_name = "text_to_decipher_with_atbash_cipher.txt"
-file_to_decipher_with_simple_substitution_cipher_name = "text_to_decipher_with_simple_substitution_cipher.txt"
-file_to_decipher_with_rail_fece_cipher_name = "text_to_decipher_with_rail_fence_cipher.txt"
 LATIN_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 POLISH_ALPHABET = "AĄBCĆDEĘFGHIJKLŁMNŃOÓPRSŚTUWYZŹŻ"
 RUSSIAN_ALPHABET = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
 GREEK_ALPHABET = "ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ"
 HEBREW_ALPHABET = "אבגדהוזחטיכךלמםנןסעפףצץקרשת"
 CIPHER_MODE, DECIPHER_MODE = 1, -1
-
 
 def read_file(filename: str) -> str:
     with open(filename, "r", encoding="utf-8") as in_file:
@@ -276,4 +265,4 @@ def bifid_cipher_decoding(text: str, period: int, key: str="PHQGMEAYLNOFDXKRCVSZ
     return processed_text
 
 if __name__ == '__main__':
-    text_to_cipher = read_file(file_to_cipher_name)
+    pass
