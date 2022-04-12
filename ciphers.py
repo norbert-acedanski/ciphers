@@ -221,8 +221,6 @@ def bifid_cipher_encoding(text: str, period: int, key: str="PHQGMEAYLNOFDXKRCVSZ
     if period < 1:
         raise ValueError("Period must be positive!")
     text = text.upper().replace(" ", "")
-    if any(char.isdigit() for char in text):
-        raise ValueError("Please remove numbers from the input text!")
     if any(char not in LATIN_ALPHABET for char in text):
         raise Exception("Please insert letters from the latin alphabet only!")
     if len(key) != len(LATIN_ALPHABET) - 1:
