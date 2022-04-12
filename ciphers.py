@@ -251,5 +251,34 @@ def bifid_cipher_encoding(text: str, period: int, key: str="PHQGMEAYLNOFDXKRCVSZ
         processed_text += keys_list[values_list.index([int(new_number_string[number]), int(new_number_string[number + 1])])]
     return processed_text
 
+def bifid_cipher_decoding(text: str, period: int, key: str="PHQGMEAYLNOFDXKRCVSZWBUTI", character_that_was_replaced: str="J", character_that_was_replaced_with: str="I") -> str:
+    if period < 1:
+        raise ValueError("Period must be positive!")
+    if any(char not in LATIN_ALPHABET for char in text):
+        raise Exception("Please insert letters from the latin alphabet only!")
+    if len(key) != len(LATIN_ALPHABET) - 1:
+        raise ValueError("Key length hast to be 1 less than that of the Latin Alphabet!")
+    if len(character_that_was_replaced) != 1 or len(character_that_was_replaced_with) != 1 or character_that_was_replaced not in LATIN_ALPHABET or character_that_was_replaced_with not in LATIN_ALPHABET or character_that_was_replaced == character_that_was_replaced_with:
+        raise ValueError("Invalid input. Characters have to be signle, different letters and have to be in Latin Alphabet!")
+    key_square = {}
+    for row in range(1, 6):
+        for column in range(1, 6):
+            key_square[key[(row - 1)*5 + column - 1]] = [row, column]
+    numbers_string = ""
+    for character in text:
+        numbers_string += str(key_square[character][0]) + str(key_square[character][1])
+    split_number_list = [numbers_string[i:i + period*2] for i in range(0, len(numbers_string), period*2)]
+    keys_list = list(key_square.keys())
+    values_list = list(key_square.values())
+    processed_text = ""
+    for section in split_number_list:
+        for iterable in range(period):
+            try:
+                processed_text += keys_list[values_list.index([int(section[iterable]), int(section[iterable + int(len(section)/2)])])]
+            except IndexError:
+                break
+    processed_text = processed_text.replace(character_that_was_replaced_with, "(" + character_that_was_replaced_with + "/" + character_that_was_replaced + ")")
+    return processed_text
+
 if __name__ == '__main__':
     text_to_cipher = read_file(file_to_cipher_name)
