@@ -1,4 +1,5 @@
 from multiprocessing.sharedctypes import Value
+from pickletools import pyset
 from numpy import save
 import pytest
 import os
@@ -9,6 +10,7 @@ sys.path.append("../ciphers")
 from ciphers import *
 
 TEXT_TO_CIPHER_LATIN = "THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG 5"
+TEXT_TO_CIPHER_LATIN_2 = "DEFEND THE EAST WALL OF THE CASTLE"
 TEXT_TO_CIPHER_POLISH = "MĘŻNY BĄDŹ, CHROŃ PUŁK TWÓJ I SZEŚĆ FLAG 1"
 
 def test_read_file():
@@ -193,17 +195,18 @@ def test_bifid_cipher_generate_random_key():
 
 @pytest.mark.parametrize("text_to_input, period, key, character_to_replace, character_to_replace_with, expected",
                          [(TEXT_TO_CIPHER_LATIN[:-2], 3, "PHQGMEAYLNOFDXKRCVSZWBUTI", "J", "I", "WLEMUKVBBVWPYKEKTUPZGXEOZPCAECCKDOG"),
-                          (TEXT_TO_CIPHER_LATIN[:-2], 5, "BORMDTJGEQFAIVXZSHCYULPWN", "K", "Q", "EJUVUVTRYRDPOYOAUNTHZAOEHEQFVJCBTNG")])
+                          (TEXT_TO_CIPHER_LATIN[:-2], 5, "BORMDTJGEQFAIVXZSHCYULPWN", "K", "Q", "EJUVUVTRYRDPOYOAUNTHZAOEHEQFVJCBTNG"),
+                          (TEXT_TO_CIPHER_LATIN_2, 5, "PHQGMEAYLNOFDXKRCVSZWBUTI", "J", "I", "FFYHMKHYCPLIASHADTRLHCCHLBLR")])
 def test_bifid_cipher_encoding(text_to_input, period, key, character_to_replace, character_to_replace_with, expected):
     assert bifid_cipher_encoding(text_to_input, period, key, character_to_replace, character_to_replace_with) == expected
 
 def test_bifid_cipher_encoding_edge_cases():
     with pytest.raises(ValueError):
-        bifid_cipher_encoding(TEXT_TO_CIPHER_LATIN, random.randrange(-10, 10), LATIN_ALPHABET[:-1])
+        bifid_cipher_encoding(TEXT_TO_CIPHER_LATIN, random.randrange(-10, 1), LATIN_ALPHABET[:-1])
     with pytest.raises(Exception):
         bifid_cipher_encoding(TEXT_TO_CIPHER_POLISH, 2, LATIN_ALPHABET[:-1])
     with pytest.raises(ValueError):
-        bifid_cipher_encoding(TEXT_TO_CIPHER_LATIN, 3, LATIN_ALPHABET)
+        bifid_cipher_encoding(TEXT_TO_CIPHER_LATIN[:-2], 3, LATIN_ALPHABET)
 
 @pytest.mark.parametrize("character_to_replace, character_to_replace_with",
                         [("", ""),
@@ -216,4 +219,24 @@ def test_bifid_cipher_encoding_edge_cases():
                          ("A", "A")])
 def test_bifid_cipher_encoding_edge_case(character_to_replace, character_to_replace_with):
     with pytest.raises(ValueError):
-        bifid_cipher_encoding(TEXT_TO_CIPHER_LATIN, 5, LATIN_ALPHABET[:-1], character_to_replace, character_to_replace_with)
+        bifid_cipher_encoding(TEXT_TO_CIPHER_LATIN[:-2], 5, LATIN_ALPHABET[:-1], character_to_replace, character_to_replace_with)
+
+@pytest.mark.parametrize("text_to_input, period, key, character_to_replace, character_to_replace_with, expected",
+                         [("WLEMUKVBBVWPYKEKTUPZGXEOZPCAECCKDOG", 3, "PHQGMEAYLNOFDXKRCVSZWBUTI", "J", "I", TEXT_TO_CIPHER_LATIN[:-2].replace(" ", "").replace("I", "J").replace("J", "(I/J)")),
+                          ("EJUVUVTRYRDPOYOAUNTHZAOEHEQFVJCBTNG", 5, "BORMDTJGEQFAIVXZSHCYULPWN", "K", "Q", TEXT_TO_CIPHER_LATIN[:-2].replace(" ", "").replace("K", "Q").replace("Q", "(Q/K)")),
+                          ("FFYHMKHYCPLIASHADTRLHCCHLBLR", 5, "PHQGMEAYLNOFDXKRCVSZWBUTI", "J", "I", TEXT_TO_CIPHER_LATIN_2.replace(" ", ""))])
+def test_bifid_cipher_decoding(text_to_input, period, key, character_to_replace, character_to_replace_with, expected):
+    assert bifid_cipher_decoding(text_to_input, period, key, character_to_replace, character_to_replace_with) == expected
+
+@pytest.mark.parametrize("character_what_was_replaced, character_what_was_replaced_with",
+                        [("", ""),
+                         ("", "J"),
+                         ("J", ""),
+                         ("JJ", ""),
+                         ("", "JJ"),
+                         ("Ą", ""),
+                         ("", "Ą"),
+                         ("A", "A")])
+def test_bifid_cipher_decoding_edge_case(character_what_was_replaced, character_what_was_replaced_with):
+    with pytest.raises(ValueError):
+        bifid_cipher_decoding("WLEMUKVBBVWPYKEKTUPZGXEOZPCAECCKDOG", 5, LATIN_ALPHABET[:-1], character_what_was_replaced, character_what_was_replaced_with)
