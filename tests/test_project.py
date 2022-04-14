@@ -1,6 +1,3 @@
-from multiprocessing.sharedctypes import Value
-from pickletools import pyset
-from numpy import save
 import pytest
 import os
 import sys
@@ -100,7 +97,7 @@ def test_simple_substitution(text_to_input, random_key, mode, expected):
                          [(TEXT_TO_CIPHER_LATIN, "zebra", "A", "UROPRAGAEKNUVEDAHCWJOHYAQBFMELOATIOXSTZ5"),
                           (TEXT_TO_CIPHER_LATIN[:-2], "lioN", "x", "QKWXPEEYXHIRFUOTAOTUBNJSRLDECOOMVHZG"),
                           (TEXT_TO_CIPHER_POLISH, "żółw", " ", "NDHPTIŚA ĘB,OŁÓZF1ŻĄCŃKJEL MYŹRUWSĆG"),
-                          (TEXT_TO_CIPHER_POLISH[:-2], "srebrny", "T", "NCŁSAŻ,UILBRTETYHKZGMDŃÓĆĄOWŚT")])
+                          (TEXT_TO_CIPHER_POLISH[:-2], "srebrny", "T", "NCŁSAŻ,UILBRTETĘŹPJFYHKZGMDŃÓĆĄOWŚT")])
 def test_columnar_transposition_cipher_encoding(text_to_input, keyword, ending, expected):
     assert columnar_transposition_cipher_encoding(text_to_input, keyword, ending) == expected
 
@@ -112,14 +109,21 @@ def test_columnar_transposition_cipher_encoding_edge_cases():
     with pytest.raises(Exception):
         columnar_transposition_cipher_encoding(TEXT_TO_CIPHER_LATIN, "test", "xx")
 
-@pytest.mark.skip(reason="Columnar transposition decoding not implemented yet")
 @pytest.mark.parametrize("text_to_input, keyword, ending, expected",
-                         [("UROPRAGAEKNUVEDAHCWJOHYAQBFMELOATIOXSTZ5", "zebra", "A", TEXT_TO_CIPHER_LATIN),
-                          ("QKWXPEEYXHIRFUOTAOTUBNJSRLDECOOMVHZG", "lioN", "x", TEXT_TO_CIPHER_LATIN[:-2]),
-                          ("NDHPTIŚA ĘB,OŁÓZF1ŻĄCŃKJEL MYŹRUWSĆG", "żółw", " ", TEXT_TO_CIPHER_POLISH),
-                          ("NCŁSAŻ,UILBRTETYHKZGMDŃÓĆĄOWŚT", "srebrny", "T", TEXT_TO_CIPHER_POLISH[:-2])])
+                         [("UROPRAGAEKNUVEDAHCWJOHYAQBFMELOATIOXSTZ5", "zebra", "A", TEXT_TO_CIPHER_LATIN.replace(" ", "")),
+                          ("QKWXPEEYXHIRFUOTAOTUBNJSRLDECOOMVHZG", "lioN", "x", TEXT_TO_CIPHER_LATIN[:-2].replace(" ", "")),
+                          ("NDHPTIŚA ĘB,OŁÓZF1ŻĄCŃKJEL MYŹRUWSĆG", "żółw", " ", TEXT_TO_CIPHER_POLISH.replace(" ", "")),
+                          ("NCŁSAŻ,UILBRTETĘŹPJFYHKZGMDŃÓĆĄOWŚT", "srebrny", "T", TEXT_TO_CIPHER_POLISH[:-2].replace(" ", ""))])
 def test_columnar_transposition_cipher_decoding(text_to_input, keyword, ending, expected):
     assert columnar_transposition_cipher_decoding(text_to_input, keyword, ending) == expected
+
+def test_columnar_transposition_cipher_encoding_edge_cases():
+    with pytest.raises(ValueError):
+        columnar_transposition_cipher_decoding(TEXT_TO_CIPHER_LATIN.replace(" ", ""), "test_")
+    with pytest.raises(ValueError):
+        columnar_transposition_cipher_decoding(TEXT_TO_CIPHER_LATIN.replace(" ", ""), "test1")
+    with pytest.raises(Exception):
+        columnar_transposition_cipher_encoding(TEXT_TO_CIPHER_LATIN.replace(" ", ""), "test", "xx")
 
 @pytest.mark.parametrize("text_to_input, keyword, alphabet, expected",
                          [(TEXT_TO_CIPHER_LATIN[:-2], "fortification", LATIN_ALPHABET, "YVVJCNKMBKWKAYVBZOURCPMSNGMSIJTKSGU"),
