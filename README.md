@@ -28,7 +28,7 @@ pytest
 **USING CIPHERS**
 1. Copy the text you want to cipher/decipher to proper .txt files.
 2. Use ***read_file*** function to load text from the file.
-3. Use ***caesar_cipher***, ***vigenere_cipher***, ***bacon_cipher_encoding***, ***bacon_cipher_decoding***, ***atbash_cipher***, ***simple_substitution_cipher***, ***columnar_transposition_cipher_encoding***, ***autokey_cipher_encoding***, ***rail_fence_cipher_encoding***, ***rail_fence_cipher_decoding***, ***bifid_cipher_generate_random_key***, ***bifid_cipher_encoding*** or ***bifid_cipher_decoding*** to cipher or decipher messages.
+3. Use ***caesar_cipher***, ***vigenere_cipher***, ***bacon_cipher_encoding***, ***bacon_cipher_decoding***, ***atbash_cipher***, ***simple_substitution_cipher***, ***columnar_transposition_cipher_encoding***, ***columnar_transposition_cipher_decoding***, ***autokey_cipher_encoding***, ***rail_fence_cipher_encoding***, ***rail_fence_cipher_decoding***, ***bifid_cipher_generate_random_key***, ***bifid_cipher_encoding*** or ***bifid_cipher_decoding*** to cipher or decipher messages.
 4. ***caesar_cipher*** accepts 3 arguments and 1 optional argument:
     - Required arguments:
         - __text__ - text to cipher (from ***read_file*** function),
@@ -81,23 +81,29 @@ pytest
         - __keyword__ - word used as a key to cipher/decipher a message (not longer than text to cipher),
     - Optional arguments:
         - __ending__ - A character to fill the missing spaces when they appear.
-12. ***autokey_cipher_encoding*** accepts 3 arguments and no optional arguments:
+12. ***columnar_transposition_cipher_decoding*** accepts 2 arguments and 1 optional argument:
+    - Required arguments:
+        - __text__ - text to cipher (from ***read_file*** function),
+        - __keyword__ - word used as a key to cipher/decipher a message (not longer than text to cipher),
+    - Optional arguments:
+        - __ending__ - A character to fill the missing spaces when they appear.
+13. ***autokey_cipher_encoding*** accepts 3 arguments and no optional arguments:
     - Required arguments:
         - __text__ - text to cipher (from ***read_file*** function),
         - __keyword__ - word used as a key to cipher a message (not longer than text to cipher),
         - __alphabet__ - kind of alphabet you work with (latin, polish, etc.) - all are variables in the script.
-13. ***rail_fence_cipher_encoding*** accepts 2 arguments and 1 optional argument:
+14. ***rail_fence_cipher_encoding*** accepts 2 arguments and 1 optional argument:
     - Required arguments:
         - __text__ - text to cipher (from ***read_file*** function),
         - __numberOfRails__ - number of rails the text should be split to,
     - Optional arguments:
         - __removeSpaces__ - optional argument, that specifies, whether to remove all spaces from the input text.
-14. ***rail_fence_cipher_decoding*** accepts 2 arguments:
+15. ***rail_fence_cipher_decoding*** accepts 2 arguments:
     - Required arguments:
         - __text__ - text to cipher (from ***read_file*** function),
         - __numberOfRails__ - number of rails the text should be split to,
-15. ***bifid_cipher_generate_random_key*** accepts 2 optional arguments - character_to_remove and save_to_file - and returns shuffled alphabet with specified, letter removed.
-16. ***bifid_cipher_encoding*** accepts 2 arguments and 3 optional arguments:
+16. ***bifid_cipher_generate_random_key*** accepts 2 optional arguments - character_to_remove and save_to_file - and returns shuffled alphabet with specified, letter removed.
+17. ***bifid_cipher_encoding*** accepts 2 arguments and 3 optional arguments:
     - Required arguments:
         - __text__ - text to cipher (from ***read_file*** function),
         - __period__ - period of shuffling the letters,
@@ -105,7 +111,7 @@ pytest
         - __key__ - shuffled Latin alphabet with one of the letters removed,
         - __character_to_replace__ - character to be replaced,
         - __character_to_replace_with__ - character, that replaces the character from above.
-17. ***bifid_cipher_decoding*** accepts 2 arguments and 3 optional arguments:
+18. ***bifid_cipher_decoding*** accepts 2 arguments and 3 optional arguments:
     - Required arguments:
         - __text__ - text to cipher (from ***read_file*** function),
         - __period__ - period of shuffling the letters,
@@ -113,12 +119,11 @@ pytest
         - __key__ - shuffled Latin alphabet with one of the letters removed,
         - __character_that_was_replaced__ - self-explanatory,
         - __character_that_was_replaced_with__ - self-explanatory.
-18. Script should print the result to the terminal.
+19. Script should print the result to the terminal.
 
 # Planned Ciphers:
 
 - Beaufort Cipher
-- columnar_transposition_cipher_decoding
 - autokey_cipher_decoding
 - Porta Cipher
 - Running Key Cipher
