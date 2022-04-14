@@ -119,14 +119,21 @@ def columnar_transposition_cipher_encoding(text: str, keyword: str, ending: str=
     if len(ending) != 1:
         raise Exception('Wrong length of "ending" character (length 1 is the only option)!')
     ending = ending.upper()
+    if text[-1] == ending:
+        print("Last letter of the message is the same as the \"ending\", that fills the gaps. Cosider changing the \"ending\" to be different than " + text[-1])
     separated_list = [text[i:i + len(keyword)] for i in range(0, len(text), len(keyword))]
     if len(separated_list[-1]) < len(keyword):
         separated_list[-1] += "".join([ending for i in range(len(keyword) - len(separated_list[-1]))])
-    keyword_dictionary = {character: "" for character in keyword}
-    for character_number, character in enumerate(keyword):
-        keyword_dictionary[character] = "".join([separated_list[i][character_number] for i in range(len(separated_list))])
-    sorted_keys = sorted(keyword_dictionary.keys())
-    processed_text = "".join([keyword_dictionary[key] for key in sorted_keys])
+    sorted_keyword = "".join(sorted(keyword))
+    transposed_list = list(map(list, zip(*separated_list)))
+    transposed_list_joined = ["".join(element) for element in transposed_list]
+    sorted_split_list = [[]]*len(keyword)
+    for letter_number in range(len(sorted_keyword)):
+        sorted_split_list[letter_number] = transposed_list_joined[keyword.index(sorted_keyword[0])]
+        transposed_list_joined.pop(keyword.index(sorted_keyword[0]))
+        keyword = keyword.replace(sorted_keyword[0], "", 1)
+        sorted_keyword = sorted_keyword[1:]
+    processed_text = "".join(sorted_split_list)
     return processed_text
 
 def columnar_transposition_cipher_decoding(text: str, keyword: str, ending: str="x") -> str:
@@ -266,3 +273,5 @@ def bifid_cipher_decoding(text: str, period: int, key: str="PHQGMEAYLNOFDXKRCVSZ
 
 if __name__ == '__main__':
     pass
+    print(columnar_transposition_cipher_encoding("MĘŻNY BĄDŹ, CHROŃ PUŁK TWÓJ I SZEŚĆ FLAG", "srebrny", "T"))
+    print(columnar_transposition_cipher_decoding("nalcxehwttdttfseeleedsoaxfeahl".upper(), "german"))
