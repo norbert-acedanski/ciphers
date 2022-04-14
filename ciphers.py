@@ -206,7 +206,8 @@ def rail_fence_cipher_decoding(text: str, number_of_rails: int) -> str:
         # if indexes_list[list_index][0] == 0:
         #     indexes_list_index = 1
         # elif indexes_list[list_index][1] == 0:
-        #     indexes_list_index = 0              #Line below is not the same, yet more elegant and works as it should
+        #     indexes_list_index = 0
+        # Line below is not the same, yet more elegant and works as it should
         indexes_list_index = 1 if indexes_list[list_index][0] == 0 else 0
         while inlist_index < len(text):
             lists_of_text[list_index][inlist_index] = text[text_index]
@@ -296,4 +297,3 @@ def bifid_cipher_decoding(text: str, period: int, key: str="PHQGMEAYLNOFDXKRCVSZ
 
 if __name__ == '__main__':
     pass
-    print(columnar_transposition_cipher_decoding("NCŁSAŻ,UILBRTETĘŹPJFYHKZGMDŃÓĆĄOWŚT", "srebrny", "T"))
