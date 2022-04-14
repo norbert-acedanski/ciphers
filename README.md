@@ -28,11 +28,12 @@ pip install -r requirements_dev.txt
 pytest
 ```
 ## Instruction 2 (tox, slower, multiple versions of python):
-1. Install tox with following command:
+1. Make sure you have installed versions of python specified in the tox.ini file (or modify the file accordingly).
+2. Install tox with following command:
 ```console
 pip install tox
 ```
-2. Run tox in the project directory using the terminal command:
+3. Run tox in the project directory using the terminal command:
 ```console
 tox
 ```
