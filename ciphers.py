@@ -144,12 +144,18 @@ def columnar_transposition_cipher_decoding(text: str, keyword: str, ending: str=
     ending = ending.upper()
     encoded_split_message = [text[i:i + len(text)//len(keyword)] for i in range(0, len(text), len(text)//len(keyword))]
     sorted_keyword = "".join(sorted(keyword))
-    sorted_split_message = [encoded_split_message[sorted_keyword.index(letter)] for letter in keyword]
+    keyword_length = len(keyword)
+    sorted_split_message = [[]]*len(sorted_keyword)
+    for letter_number in range(len(sorted_keyword)):
+        sorted_split_message[letter_number] = encoded_split_message[sorted_keyword.index(keyword[0])]
+        encoded_split_message.pop(sorted_keyword.index(keyword[0]))
+        sorted_keyword = sorted_keyword.replace(keyword[0], "", 1)
+        keyword = keyword[1:]
     processed_text = ""
-    for row in range(len(text)//len(keyword)):
-        for column in range(len(keyword)):
+    for row in range(len(text)//keyword_length):
+        for column in range(keyword_length):
             processed_text += sorted_split_message[column][row]
-    for _ in range(len(keyword)):
+    for _ in range(keyword_length):
         if processed_text[-1] == ending:
             processed_text = processed_text[:-1]
         else:
@@ -290,3 +296,4 @@ def bifid_cipher_decoding(text: str, period: int, key: str="PHQGMEAYLNOFDXKRCVSZ
 
 if __name__ == '__main__':
     pass
+    print(columnar_transposition_cipher_decoding("NCŁSAŻ,UILBRTETĘŹPJFYHKZGMDŃÓĆĄOWŚT", "srebrny", "T"))
