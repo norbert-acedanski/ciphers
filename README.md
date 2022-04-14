@@ -10,9 +10,15 @@ Python 3.9.10
 
 ### Working with ciphers:
 
-**IMPORTANT**  
-As a first step, it is recommended to run test from tests/test_project.py file. To do this:
+## **IMPORTANT**  
+As a first step, it is recommended to run test from tests/test_project.py file.
+This can be done in two ways:  
+- with your current version of python with pytest  
+- with 3 versions of python from the tox.ini file (currently py38, py39, py310)  
 
+If you choose the first option, you should follow the 1st instruction, is second - 2nd instruction.
+
+## Instruction 1 (pytest, faster, current python version):
 1. Install requirements from requirements_dev.txt file in the terminal like so:
 ```console
 pip install -r requirements_dev.txt
@@ -21,8 +27,18 @@ pip install -r requirements_dev.txt
 ```console
 pytest
 ```
-3. Currently, there should be 60 tests passed, 10 skipped.
-4. If all tests are passing, you can use the module safely.
+## Instruction 2 (tox, slower, multiple versions of python):
+1. Install tox with following command:
+```console
+pip install tox
+```
+2. Run tox in the project directory using the terminal command:
+```console
+tox
+```
+
+Currently, there should be 90 tests passed, 4 skipped.  
+If all tests are passing, you can use the module safely.
 
 
 **USING CIPHERS**
@@ -36,6 +52,7 @@ pytest
         - __alphabet__ - kind of alphabet you work with (latin, polish, etc.) - all are variables in the script,
     - Optional argument:
         - __includeDigits__ - specifies whether numbers contained in the text should be shifted (_True_/_False_ variable with _False_ being default option).  
+
     Function can be used either to cipher or decipher messages.
 5. ***vigenere_cipher*** accepts 3 arguments and 2 optional arguments:
     - Required arguments:
@@ -45,6 +62,7 @@ pytest
     - Optional arguments:
         - __mode__ - optional argument used to determine the operation mode of the function (_cipherMode_ and _decipherMode_ - these are variables in the script) - cipher mode is a default mode.
         - __keywordShift__ - int variable, that specifies, what shift should the keyword have. Default value is _0_.  
+
     Function can be used either to cipher or decipher messages.
 6. ***bacon_cipher_encoding*** accepts 2 arguments and 2 optional arguments:
     - Required arguments:
@@ -66,6 +84,7 @@ pytest
         - __alphabet__ - kind of alphabet you work with (latin, polish, etc.) - all are variables in the script,
     - Optional argument:
         - __includeDigits__ - specifies whether numbers contained in the text should be ciphered (_True_/_False_ variable with _False_ being default option).  
+
     Function can be used either to cipher or decipher messages.
 9. ***simple_substitution_generate_random_key*** accepts 1 argument - alphabet - and returns shuffled version (mainly used for simple substitution ciphering).
 10. ***simple_substitution_cipher*** accepts 2 arguments and 1 optional argument:
@@ -74,6 +93,7 @@ pytest
         - __key__ - shuffled alphabet (desired from given alphabets),
     - Optional arguments:
         - __mode__ - optional argument used to determine the operation mode of the function (_cipherMode_ and _decipherMode_ - these are variables in the script) - cipher mode is a default mode.  
+        
     Function can be used either to cipher or decipher messages.
 11. ***columnar_transposition_cipher_encoding*** accepts 2 arguments and 1 optional argument:
     - Required arguments:
