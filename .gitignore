@@ -1,4 +1,4 @@
 /__pycache__
 /tests/__pycache__
-/UNKNOWN*
+/*.egg-info
 /.tox
