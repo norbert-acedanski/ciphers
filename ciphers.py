@@ -137,7 +137,24 @@ def columnar_transposition_cipher_encoding(text: str, keyword: str, ending: str=
     return processed_text
 
 def columnar_transposition_cipher_decoding(text: str, keyword: str, ending: str="x") -> str:
-    pass
+    if any(not char.isalpha() for char in keyword):
+        raise ValueError("Keyword must contain only letters!")
+    if len(ending) != 1:
+        raise Exception('Wrong length of "ending" character (length 1 is the only option)!')
+    ending = ending.upper()
+    encoded_split_message = [text[i:i + len(text)//len(keyword)] for i in range(0, len(text), len(text)//len(keyword))]
+    sorted_keyword = "".join(sorted(keyword))
+    sorted_split_message = [encoded_split_message[sorted_keyword.index(letter)] for letter in keyword]
+    processed_text = ""
+    for row in range(len(text)//len(keyword)):
+        for column in range(len(keyword)):
+            processed_text += sorted_split_message[column][row]
+    for _ in range(len(keyword)):
+        if processed_text[-1] == ending:
+            processed_text = processed_text[:-1]
+        else:
+            break
+    return processed_text
 
 def autokey_cipher_encoding(text: str, keyword: str, alphabet: str) -> str:
     text = text.replace(" ", "")
@@ -273,5 +290,3 @@ def bifid_cipher_decoding(text: str, period: int, key: str="PHQGMEAYLNOFDXKRCVSZ
 
 if __name__ == '__main__':
     pass
-    print(columnar_transposition_cipher_encoding("MĘŻNY BĄDŹ, CHROŃ PUŁK TWÓJ I SZEŚĆ FLAG", "srebrny", "T"))
-    print(columnar_transposition_cipher_decoding("nalcxehwttdttfseeleedsoaxfeahl".upper(), "german"))
