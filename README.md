@@ -37,7 +37,7 @@ pip install tox
 tox
 ```
 
-Currently, there should be 90 tests passed, 4 skipped.  
+Currently, there should be **90 tests passed, 4 skipped**.  
 If all tests are passing, you can use the module safely.
 
 
@@ -93,7 +93,7 @@ If all tests are passing, you can use the module safely.
         - __key__ - shuffled alphabet (desired from given alphabets),
     - Optional arguments:
         - __mode__ - optional argument used to determine the operation mode of the function (_cipherMode_ and _decipherMode_ - these are variables in the script) - cipher mode is a default mode.  
-        
+
     Function can be used either to cipher or decipher messages.
 11. ***columnar_transposition_cipher_encoding*** accepts 2 arguments and 1 optional argument:
     - Required arguments:
