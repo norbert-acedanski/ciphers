@@ -1,6 +1,6 @@
 # ciphers
 
-[![Tests](https://github.com/norbert-acedanski/ciphers/actions/workflows/tests.yml/badge.svg)](https://github.com/norbert-acedanski/ciphers/actions/workflows/tests.yml)
+[![tests](https://github.com/norbert-acedanski/ciphers/actions/workflows/tests.yml/badge.svg)](https://github.com/norbert-acedanski/ciphers/actions/workflows/tests.yml)
 
 # About The Project
 Script gives an oportunity to encode/cipher some text with Caesar, Vigenère, Bacon Atbash, Simple Substitution, Columnar Transposition, Autokey, Rail-Fence and Bifid ciphers and also decode messages.
