@@ -1,6 +1,7 @@
 # ciphers
 
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/norbert-acedanski/ciphers/tests?label=tests)
+![GitHub](https://img.shields.io/github/license/norbert-acedanski/ciphers)
 
 # About The Project
 Script gives an oportunity to encode/cipher some text with Caesar, Vigenère, Bacon Atbash, Simple Substitution, Columnar Transposition, Autokey, Rail-Fence and Bifid ciphers and also decode messages.
