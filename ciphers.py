@@ -169,13 +169,22 @@ def autokey_cipher_encoding(text: str, keyword: str, alphabet: str) -> str:
     key_phrase = keyword.upper() + text[:-len(keyword)]
     processed_text = ""
     # processed_text = "".join([alphabet[(alphabet.index(text_character) + alphabet.index(key_phrase_character)) % len(alphabet)] for text_character, key_phrase_character in zip(text, key_phrase)])
-    # Line below is more readable
+    # Code below is more readable
     for text_character, key_phrase_character in zip(text, key_phrase):
         processed_text += alphabet[(alphabet.index(text_character) + alphabet.index(key_phrase_character)) % len(alphabet)]
     return processed_text
 
 def autokey_cipher_decoding(text: str, keyword: str, alphabet: str) -> str:
-    pass
+    if any(not char.isalpha() for char in text):
+        raise ValueError("Text after ciphering with Autokey cipher should not have any non-letter characters!")
+    keyword = keyword.upper()
+    processed_text = ""
+    for character_number, character in enumerate(text):
+        if character_number < len(keyword):
+            processed_text += alphabet[(alphabet.index(character) - alphabet.index(keyword[character_number]))]
+        else:
+            processed_text += alphabet[(alphabet.index(character) - alphabet.index(processed_text[character_number - len(keyword)]))]
+    return processed_text
 
 def rail_fence_cipher_encoding(text: str, number_of_rails: int, remove_spaces: bool=False) -> str:
     if number_of_rails < 2:
