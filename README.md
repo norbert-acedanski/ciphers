@@ -4,7 +4,7 @@
 ![GitHub](https://img.shields.io/github/license/norbert-acedanski/ciphers)
 
 # About The Project
-Script gives an oportunity to encode/cipher some text with Caesar, Vigenère, Bacon Atbash, Simple Substitution, Columnar Transposition, Autokey, Rail-Fence and Bifid ciphers and also decode messages.
+Script gives an oportunity to encode/cipher some text with Caesar, Vigenère, Bacon Atbash, Simple Substitution, Columnar Transposition, Autokey, Rail-Fence, Bifid and Beaufort ciphers and also decode messages.
 
 # Built With
 Python 3.9.10
@@ -41,14 +41,14 @@ pip install tox
 tox --skip-missing-interpreters
 ```
 
-Currently, there should be **95 tests passed**.  
+Currently, there should be **105 tests passed**.  
 If all tests are passing, you can use the module safely.
 
 
 **USING CIPHERS**
 1. Copy the text you want to cipher/decipher to proper .txt files.
 2. Use ***read_file*** function to load text from the file.
-3. Use ***caesar_cipher***, ***vigenere_cipher***, ***bacon_cipher_encoding***, ***bacon_cipher_decoding***, ***atbash_cipher***, ***simple_substitution_cipher***, ***columnar_transposition_cipher_encoding***, ***columnar_transposition_cipher_decoding***, ***autokey_cipher_encoding***, ***autokey_cipher_decoding***, ***rail_fence_cipher_encoding***, ***rail_fence_cipher_decoding***, ***bifid_cipher_generate_random_key***, ***bifid_cipher_encoding*** or ***bifid_cipher_decoding*** to cipher or decipher messages.
+3. Use ***caesar_cipher***, ***vigenere_cipher***, ***bacon_cipher_encoding***, ***bacon_cipher_decoding***, ***atbash_cipher***, ***simple_substitution_cipher***, ***columnar_transposition_cipher_encoding***, ***columnar_transposition_cipher_decoding***, ***autokey_cipher_encoding***, ***autokey_cipher_decoding***, ***rail_fence_cipher_encoding***, ***rail_fence_cipher_decoding***, ***bifid_cipher_generate_random_key***, ***bifid_cipher_encoding***, ***bifid_cipher_decoding*** or ***beaufort_cipher*** to cipher or decipher messages.
 4. ***caesar_cipher*** accepts 3 arguments and 1 optional argument:
     - Required arguments:
         - __text__ - text to cipher (from ***read_file*** function),
@@ -148,11 +148,17 @@ If all tests are passing, you can use the module safely.
         - __key__ - shuffled Latin alphabet with one of the letters removed,
         - __character_that_was_replaced__ - self-explanatory,
         - __character_that_was_replaced_with__ - self-explanatory.
-10. Script should print the result to the terminal.
+20. ***beaufort_cipher*** accepts 3 arguments and no optional arguments:
+    - Required arguments:
+        - __text__ - text to cipher (from ***read_file*** function),
+        - __keyword__ - word used as a key to cipher a message (not longer than text to cipher),
+        - __alphabet__ - kind of alphabet you work with (latin, polish, etc.) - all are variables in the script.  
+
+    Function can be used either to cipher or decipher messages.
+21. Script should print the result to the terminal.
 
 # Planned Ciphers:
 
-- Beaufort Cipher
 - Porta Cipher
 - Running Key Cipher
 - Homophonic Substitution Cipher
@@ -178,7 +184,8 @@ Project also contains basic examples of ciphering and deciphering.
 [7]  Columnar Transposition cipher - https://en.wikipedia.org/wiki/Transposition_cipher#Columnar_transposition  
 [8]  Autokey cipher - https://en.wikipedia.org/wiki/Autokey_cipher  
 [9]  Rail-fence cipher - https://en.wikipedia.org/wiki/Rail_fence_cipher  
-[10] Bifid cipher - https://en.wikipedia.org/wiki/Bifid_cipher
+[10] Bifid cipher - https://en.wikipedia.org/wiki/Bifid_cipher  
+[11] Beaufort cipher - https://en.wikipedia.org/wiki/Beaufort_cipher
 
 # Licence
 Distributed under the MIT License. See LICENSE file for more information.
