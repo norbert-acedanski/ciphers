@@ -37,7 +37,7 @@ pip install tox
 ```
 3. Run tox in the project directory using the terminal command:
 ```console
-tox
+tox --skip-missing-interpreters
 ```
 
 Currently, there should be **90 tests passed, 4 skipped**.  
