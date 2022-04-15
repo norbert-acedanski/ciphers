@@ -133,20 +133,25 @@ def test_columnar_transposition_cipher_encoding_edge_cases():
 def test_autokey_cipher_encoding(text_to_input, keyword, alphabet, expected):
     assert autokey_cipher_encoding(text_to_input, keyword, alphabet) == expected
 
-@pytest.mark.skip(reason="Autokey decoding not implemented yet")
+def test_autokey_cipher_encoding_edge_cases():
+    with pytest.raises(ValueError):
+        autokey_cipher_encoding(TEXT_TO_CIPHER_LATIN, "fortification", LATIN_ALPHABET)
+    with pytest.raises(ValueError):
+        autokey_cipher_encoding(TEXT_TO_CIPHER_POLISH, "męski", POLISH_ALPHABET)
+
 @pytest.mark.parametrize("text_to_input, keyword, alphabet, expected",
-                         [("YVVJCNKMBKWKAYVBZOURCPMSNGMSIJTKSGU", "fortification", LATIN_ALPHABET, TEXT_TO_CIPHER_LATIN[:-2]),
-                          ("EPSDNPGAVZQGOWCTWZAMBIHTJHCICTGCOOF", "lioN", LATIN_ALPHABET, TEXT_TO_CIPHER_LATIN[:-2]),
-                          ("ALRŹĘŃFĆŁŻJSŚMŚĆDAIMLWŚMŚUĆŁŻIEĄ", "męski", POLISH_ALPHABET, TEXT_TO_CIPHER_POLISH[:-2].replace(",", "")),
-                          ("ŁĘĄNJGARUDIWNPŻMBŻLPCTĆŃNŃCWDÓŚK", "żabA", POLISH_ALPHABET, TEXT_TO_CIPHER_POLISH[:-2].replace(",", "")),])
+                         [("YVVJCNKMBKWKAYVBZOURCPMSNGMSIJTKSGU", "fortification", LATIN_ALPHABET, TEXT_TO_CIPHER_LATIN[:-2].replace(" ", "")),
+                          ("EPSDNPGAVZQGOWCTWZAMBIHTJHCICTGCOOF", "lioN", LATIN_ALPHABET, TEXT_TO_CIPHER_LATIN[:-2].replace(" ", "")),
+                          ("ALRŹĘŃFĆŁŻJSŚMŚĆDAIMLWŚMŚUĆŁŻIEĄ", "męski", POLISH_ALPHABET, TEXT_TO_CIPHER_POLISH[:-2].replace(",", "").replace(" ", "")),
+                          ("ŁĘĄNJGARUDIWNPŻMBŻLPCTĆŃNŃCWDÓŚK", "żabA", POLISH_ALPHABET, TEXT_TO_CIPHER_POLISH[:-2].replace(",", "").replace(" ", "")),])
 def test_autokey_cipher_decoding(text_to_input, keyword, alphabet, expected):
     assert autokey_cipher_decoding(text_to_input, keyword, alphabet) == expected
 
-def test_autokey_cipher_encoding_edge_cases():
+def test_autokey_cipher_decoding_edge_cases():
     with pytest.raises(ValueError):
-        autokey_cipher_encoding(TEXT_TO_CIPHER_LATIN, "fortificaation", LATIN_ALPHABET)
+        autokey_cipher_decoding(TEXT_TO_CIPHER_LATIN, "fortification", LATIN_ALPHABET)
     with pytest.raises(ValueError):
-        autokey_cipher_encoding(TEXT_TO_CIPHER_POLISH, "męski", POLISH_ALPHABET)
+        autokey_cipher_decoding(TEXT_TO_CIPHER_POLISH, "męski", POLISH_ALPHABET)
 
 @pytest.mark.parametrize("text_to_input, number_of_rails, remove_spaces, expected",
                          [(TEXT_TO_CIPHER_LATIN, 5, False, "TKFSHDHC  OP TE OEIBNXMO  YG URW UVRLZ QOJEA5"),
