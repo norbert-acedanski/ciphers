@@ -129,7 +129,7 @@ def test_columnar_transposition_cipher_encoding_edge_cases():
                          [(TEXT_TO_CIPHER_LATIN[:-2], "fortification", LATIN_ALPHABET, "YVVJCNKMBKWKAYVBZOURCPMSNGMSIJTKSGU"),
                           (TEXT_TO_CIPHER_LATIN[:-2], "lioN", LATIN_ALPHABET, "EPSDNPGAVZQGOWCTWZAMBIHTJHCICTGCOOF"),
                           (TEXT_TO_CIPHER_POLISH[:-2].replace(",", ""), "męski", POLISH_ALPHABET, "ALRŹĘŃFĆŁŻJSŚMŚĆDAIMLWŚMŚUĆŁŻIEĄ"),
-                          (TEXT_TO_CIPHER_POLISH[:-2].replace(",", ""), "żabA", POLISH_ALPHABET, "ŁĘĄNJGARUDIWNPŻMBŻLPCTĆŃNŃCWDÓŚK"),])
+                          (TEXT_TO_CIPHER_POLISH[:-2].replace(",", ""), "żabA", POLISH_ALPHABET, "ŁĘĄNJGARUDIWNPŻMBŻLPCTĆŃNŃCWDÓŚK")])
 def test_autokey_cipher_encoding(text_to_input, keyword, alphabet, expected):
     assert autokey_cipher_encoding(text_to_input, keyword, alphabet) == expected
 
@@ -143,7 +143,7 @@ def test_autokey_cipher_encoding_edge_cases():
                          [("YVVJCNKMBKWKAYVBZOURCPMSNGMSIJTKSGU", "fortification", LATIN_ALPHABET, TEXT_TO_CIPHER_LATIN[:-2].replace(" ", "")),
                           ("EPSDNPGAVZQGOWCTWZAMBIHTJHCICTGCOOF", "lioN", LATIN_ALPHABET, TEXT_TO_CIPHER_LATIN[:-2].replace(" ", "")),
                           ("ALRŹĘŃFĆŁŻJSŚMŚĆDAIMLWŚMŚUĆŁŻIEĄ", "męski", POLISH_ALPHABET, TEXT_TO_CIPHER_POLISH[:-2].replace(",", "").replace(" ", "")),
-                          ("ŁĘĄNJGARUDIWNPŻMBŻLPCTĆŃNŃCWDÓŚK", "żabA", POLISH_ALPHABET, TEXT_TO_CIPHER_POLISH[:-2].replace(",", "").replace(" ", "")),])
+                          ("ŁĘĄNJGARUDIWNPŻMBŻLPCTĆŃNŃCWDÓŚK", "żabA", POLISH_ALPHABET, TEXT_TO_CIPHER_POLISH[:-2].replace(",", "").replace(" ", ""))])
 def test_autokey_cipher_decoding(text_to_input, keyword, alphabet, expected):
     assert autokey_cipher_decoding(text_to_input, keyword, alphabet) == expected
 
@@ -249,3 +249,22 @@ def test_bifid_cipher_decoding(text_to_input, period, key, character_to_replace,
 def test_bifid_cipher_decoding_edge_case(character_what_was_replaced, character_what_was_replaced_with):
     with pytest.raises(ValueError):
         bifid_cipher_decoding("WLEMUKVBBVWPYKEKTUPZGXEOZPCAECCKDOG", 5, LATIN_ALPHABET[:-1], character_what_was_replaced, character_what_was_replaced_with)
+
+@pytest.mark.parametrize("text_to_input, keyword, alphabet, expected",
+                         [(TEXT_TO_CIPHER_LATIN[:-2], "fortification", LATIN_ALPHABET, "MHNDOXGSZCUSAAAUKOTTKMYEXUYKGTJHFOU"),
+                          (TEXT_TO_CIPHER_LATIN[:-2], "lioN", LATIN_ALPHABET, "SBKXRAMDKRARYDAQCOCYTUTJUPHJAIPPIUI"),
+                          (TEXT_TO_CIPHER_POLISH[:-2].replace(",", ""), "męski", POLISH_ALPHABET, "AAŚYŁLEŃŁFENĆWRRŚHÓMYWJRLHŁODZMŹ"),
+                          (TEXT_TO_CIPHER_POLISH[:-2].replace(",", ""), "żabA", POLISH_ALPHABET, "ŁTCŁCŹĄWĄZŚHJLKEMOGDIÓSGBUHYSŃBS"),
+                          ("MHNDOXGSZCUSAAAUKOTTKMYEXUYKGTJHFOU", "fortification", LATIN_ALPHABET, TEXT_TO_CIPHER_LATIN[:-2].replace(" ", "")),
+                          ("SBKXRAMDKRARYDAQCOCYTUTJUPHJAIPPIUI", "lioN", LATIN_ALPHABET, TEXT_TO_CIPHER_LATIN[:-2].replace(" ", "")),
+                          ("AAŚYŁLEŃŁFENĆWRRŚHÓMYWJRLHŁODZMŹ", "męski", POLISH_ALPHABET, TEXT_TO_CIPHER_POLISH[:-2].replace(",", "").replace(" ", "")),
+                          ("ŁTCŁCŹĄWĄZŚHJLKEMOGDIÓSGBUHYSŃBS", "żabA", POLISH_ALPHABET, TEXT_TO_CIPHER_POLISH[:-2].replace(",", "").replace(" ", ""))])
+def test_beaufort_cipher(text_to_input, keyword, alphabet, expected):
+    assert beaufort_cipher(text_to_input, keyword, alphabet) == expected
+
+@pytest.mark.parametrize("text_to_input, alphabet",
+                         [(TEXT_TO_CIPHER_LATIN, LATIN_ALPHABET),
+                          (TEXT_TO_CIPHER_POLISH, LATIN_ALPHABET)])
+def test_beaufort_cipher_edge_case(text_to_input, alphabet):
+    with pytest.raises(ValueError):
+        beaufort_cipher(text_to_input, "foo", alphabet)
