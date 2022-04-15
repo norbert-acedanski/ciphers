@@ -80,7 +80,7 @@ def test_simple_substitution_random_key():
         simple_substitution_generate_random_key(alphabet)
         file_path = "./generated_files/random_key_simple_substitution.txt"
         assert os.path.isfile(file_path)
-        with open(file_path, "r") as input_file:
+        with open(file_path, "r", encoding="utf-8") as input_file:
             random_key = input_file.read()
         assert "".join(sorted(random_key)) == "".join(sorted(alphabet))
         os.remove(file_path)
@@ -192,7 +192,7 @@ def test_bifid_cipher_generate_random_key():
     bifid_cipher_generate_random_key("J")
     file_path = "./generated_files/random_key_bifid.txt"
     assert os.path.isfile(file_path)
-    with open(file_path, "r") as input_file:
+    with open(file_path, "r", encoding="utf-8") as input_file:
         random_key = input_file.read()
     assert "".join(sorted(random_key)) == "".join(sorted(LATIN_ALPHABET.replace("J", "")))
     os.remove(file_path)
