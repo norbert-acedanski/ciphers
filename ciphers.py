@@ -304,5 +304,15 @@ def bifid_cipher_decoding(text: str, period: int, key: str="PHQGMEAYLNOFDXKRCVSZ
     processed_text = processed_text.replace(character_that_was_replaced_with, "(" + character_that_was_replaced_with + "/" + character_that_was_replaced + ")")
     return processed_text
 
+def beaufort_cipher(text: str, keyword: str, alphabet: str) -> str:
+    text = text.replace(" ", "")
+    if any(not char.isalpha() for char in text):
+        raise ValueError("Text after ciphering with Beaufort cipher should not have any non-letter characters!")
+    keyword = keyword.upper()
+    processed_text = ""
+    for character_number, character in enumerate(text):
+        processed_text += alphabet[alphabet.index(keyword[character_number % len(keyword)]) - alphabet.index(character)]
+    return processed_text
+
 if __name__ == '__main__':
     pass
