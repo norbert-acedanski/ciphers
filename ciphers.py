@@ -97,7 +97,7 @@ def atbash_cipher(text: str, alphabet: str, include_digits: bool=False) -> str:
 def simple_substitution_generate_random_key(alphabet: str, save_to_file: bool=True) -> str:
     random_key = "".join(random.sample(alphabet, len(alphabet)))
     if save_to_file:
-        with open("./generated_files/random_key_simple_substitution.txt", "w") as output_file:
+        with open("./generated_files/random_key_simple_substitution.txt", "w", encoding="utf-8") as output_file:
             output_file.write(random_key)
     return random_key
 
@@ -228,7 +228,7 @@ def bifid_cipher_generate_random_key(character_to_remove: str = "J", save_to_fil
     new_alphabet = LATIN_ALPHABET.replace(character_to_remove, "")
     random_key = "".join(random.sample(new_alphabet, len(new_alphabet)))
     if save_to_file:
-        with open("./generated_files/random_key_bifid.txt", "w") as output_file:
+        with open("./generated_files/random_key_bifid.txt", "w", encoding="utf-8") as output_file:
             output_file.write(random_key)
     return random_key
 
