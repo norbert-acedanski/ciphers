@@ -309,9 +309,7 @@ def beaufort_cipher(text: str, keyword: str, alphabet: str) -> str:
     if any(not char.isalpha() for char in text):
         raise ValueError("Text after ciphering with Beaufort cipher should not have any non-letter characters!")
     keyword = keyword.upper()
-    processed_text = ""
-    for character_number, character in enumerate(text):
-        processed_text += alphabet[alphabet.index(keyword[character_number % len(keyword)]) - alphabet.index(character)]
+    processed_text = "".join([alphabet[alphabet.index(keyword[character_number % len(keyword)]) - alphabet.index(character)] for character_number, character in enumerate(text)])
     return processed_text
 
 if __name__ == '__main__':
