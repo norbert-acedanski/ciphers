@@ -268,3 +268,23 @@ def test_beaufort_cipher(text_to_input, keyword, alphabet, expected):
 def test_beaufort_cipher_edge_case(text_to_input, alphabet):
     with pytest.raises(ValueError):
         beaufort_cipher(text_to_input, "foo", alphabet)
+
+@pytest.mark.parametrize("text_to_input, keyword, alphabet, expected",
+                         [(TEXT_TO_CIPHER_LATIN[:-2], "fortification", LATIN_ALPHABET, "EOZHDXTYOIKCHUHCSDOLEBMVKAWYTWIJUAT"),
+                          (TEXT_TO_CIPHER_LATIN[:-2], "lioN", LATIN_ALPHABET, "BYYKCZWQTAHDIWHEODTJAKBXMCOXQRFFVKN"),
+                          (TEXT_TO_CIPHER_POLISH[:-2].replace(",", ""), "męski", POLISH_ALPHABET, "FUĆIĘUÓMFŚŃCFJABŃŚCEJŻRĄFŹDŻŹOŚY"),
+                          (TEXT_TO_CIPHER_POLISH[:-2].replace(",", ""), "żabA", POLISH_ALPHABET, "ĄSLĄKŃŃPŁOWEĆBĆHŹZFIDYYĘLRĘÓSŹNT"),
+                          ("EOZHDXTYOIKCHUHCSDOLEBMVKAWYTWIJUAT", "fortification", LATIN_ALPHABET, TEXT_TO_CIPHER_LATIN[:-2].replace(" ", "")),
+                          ("BYYKCZWQTAHDIWHEODTJAKBXMCOXQRFFVKN", "lioN", LATIN_ALPHABET, TEXT_TO_CIPHER_LATIN[:-2].replace(" ", "")),
+                          ("FUĆIĘUÓMFŚŃCFJABŃŚCEJŻRĄFŹDŻŹOŚY", "męski", POLISH_ALPHABET, TEXT_TO_CIPHER_POLISH[:-2].replace(",", "").replace(" ", "")),
+                          ("ĄSLĄKŃŃPŁOWEĆBĆHŹZFIDYYĘLRĘÓSŹNT", "żabA", POLISH_ALPHABET, TEXT_TO_CIPHER_POLISH[:-2].replace(",", "").replace(" ", ""))])
+def test_porta_cipher(text_to_input, keyword, alphabet, expected):
+    assert porta_cipher(text_to_input, keyword, alphabet) == expected
+
+@pytest.mark.parametrize("text_to_input, alphabet",
+                         [(TEXT_TO_CIPHER_LATIN, LATIN_ALPHABET),
+                          (TEXT_TO_CIPHER_POLISH, LATIN_ALPHABET),
+                          (TEXT_TO_CIPHER_LATIN[:-2], RUSSIAN_ALPHABET)])
+def test_porta_cipher_edge_case(text_to_input, alphabet):
+    with pytest.raises(ValueError):
+        porta_cipher(text_to_input, "foo", alphabet)
