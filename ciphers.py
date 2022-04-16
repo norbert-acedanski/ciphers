@@ -1,3 +1,4 @@
+from ntpath import join
 import random
 
 LATIN_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -99,7 +100,6 @@ def atbash_cipher(text: str, alphabet: str, include_digits: bool=False) -> str:
     return processed_text
 
 def simple_substitution_generate_random_key(alphabet: str, save_to_file: bool=True) -> str:
-    text = text.upper()
     random_key = "".join(random.sample(alphabet, len(alphabet)))
     if save_to_file:
         with open("./generated_files/random_key_simple_substitution.txt", "w", encoding="utf-8") as output_file:
@@ -171,10 +171,9 @@ def columnar_transposition_cipher_decoding(text: str, keyword: str, ending: str=
     return processed_text
 
 def autokey_cipher_encoding(text: str, keyword: str, alphabet: str) -> str:
-    text = text.replace(" ", "")
+    text = text.upper().replace(" ", "")
     if any(not char.isalpha() for char in text):
         raise ValueError("Please remove any non-letter characters from the input text!")
-    text = text.upper()
     key_phrase = keyword.upper() + text[:-len(keyword)]
     processed_text = ""
     # processed_text = "".join([alphabet[(alphabet.index(text_character) + alphabet.index(key_phrase_character)) % len(alphabet)] for text_character, key_phrase_character in zip(text, key_phrase)])
@@ -345,6 +344,18 @@ def porta_cipher(text: str, keyword: str, alphabet: str) -> str:
             modified_alphabet.pop(-1)
         joined_alphabet = "".join(modified_alphabet)
         processed_text += joined_alphabet[(alphabet.index(character)) % len(alphabet)]
+    return processed_text
+
+def running_key_cipher_encoding(text: str, keyphrase: str, alphabet: str) -> str:
+    text = text.upper().replace(" ", "")
+    keyphrase = "".join([character.upper() if character.isalpha() else "" for character in keyphrase])
+    if any(not char.isalpha() for char in text):
+        raise ValueError("Text to work with Porta cipher should not have any non-letter characters!")
+    if len(keyphrase) < len(text):
+        raise ValueError("Length of the keyphrase should be at least that of the ciphered text!")
+    processed_text = ""
+    for text_character, keyphrase_character in zip(text, keyphrase):
+        processed_text += alphabet[(alphabet.index(text_character) + alphabet.index(keyphrase_character)) % len(alphabet)]
     return processed_text
 
 if __name__ == '__main__':
