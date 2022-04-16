@@ -180,6 +180,12 @@ If all tests are passing, you can use the module safely.
 - Fractionated Morse Cipher
 - Playfair Cipher
 
+# To Do:
+
+- Create more user-friendly references
+- Write function to properly prepares text for encoding and decoding functions
+- Add basic description for each cipher
+
 # Usage
 Use it to play with ciphering and deciphering messages as you wish.  
 Script can be used to brute force some messages in order to decipher them.  
