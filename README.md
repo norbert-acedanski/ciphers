@@ -4,7 +4,7 @@
 ![GitHub](https://img.shields.io/github/license/norbert-acedanski/ciphers)
 
 # About The Project
-Script gives an oportunity to encode/cipher some text with Caesar, Vigenère, Bacon Atbash, Simple Substitution, Columnar Transposition, Autokey, Rail-Fence, Bifid and Beaufort ciphers and also decode messages.
+Script gives an oportunity to encode/cipher some text with Caesar, Vigenère, Bacon Atbash, Simple Substitution, Columnar Transposition, Autokey, Rail-Fence, Bifid, Beaufort and Porta ciphers and also decode messages.
 
 # Built With
 Python 3.9.10
@@ -48,7 +48,7 @@ If all tests are passing, you can use the module safely.
 **USING CIPHERS**
 1. Copy the text you want to cipher/decipher to proper .txt files.
 2. Use ***read_file*** function to load text from the file.
-3. Use ***caesar_cipher***, ***vigenere_cipher***, ***bacon_cipher_encoding***, ***bacon_cipher_decoding***, ***atbash_cipher***, ***simple_substitution_cipher***, ***columnar_transposition_cipher_encoding***, ***columnar_transposition_cipher_decoding***, ***autokey_cipher_encoding***, ***autokey_cipher_decoding***, ***rail_fence_cipher_encoding***, ***rail_fence_cipher_decoding***, ***bifid_cipher_generate_random_key***, ***bifid_cipher_encoding***, ***bifid_cipher_decoding*** or ***beaufort_cipher*** to cipher or decipher messages.
+3. Use ***caesar_cipher***, ***vigenere_cipher***, ***bacon_cipher_encoding***, ***bacon_cipher_decoding***, ***atbash_cipher***, ***simple_substitution_cipher***, ***columnar_transposition_cipher_encoding***, ***columnar_transposition_cipher_decoding***, ***autokey_cipher_encoding***, ***autokey_cipher_decoding***, ***rail_fence_cipher_encoding***, ***rail_fence_cipher_decoding***, ***bifid_cipher_generate_random_key***, ***bifid_cipher_encoding***, ***bifid_cipher_decoding***, ***beaufort_cipher*** or ***porta_cipher*** to cipher or decipher messages.
 4. ***caesar_cipher*** accepts 3 arguments and 1 optional argument:
     - Required arguments:
         - __text__ - text to cipher (from ***read_file*** function),
@@ -154,12 +154,18 @@ If all tests are passing, you can use the module safely.
         - __keyword__ - word used as a key to cipher a message (not longer than text to cipher),
         - __alphabet__ - kind of alphabet you work with (latin, polish, etc.) - all are variables in the script.  
 
+    Function can be used either to cipher or decipher messages.  
+21. ***porta_cipher*** accepts 3 arguments and no optional arguments:
+    - Required arguments:
+        - __text__ - text to cipher (from ***read_file*** function),
+        - __keyword__ - word used as a key to cipher a message (not longer than text to cipher),
+        - __alphabet__ - kind of alphabet you work with (latin, polish, etc.) - all are variables in the script.  
+
     Function can be used either to cipher or decipher messages.
-21. Script should print the result to the terminal.
+22. Script should print the result to the terminal.
 
 # Planned Ciphers:
 
-- Porta Cipher
 - Running Key Cipher
 - Homophonic Substitution Cipher
 - Hill Cipher
@@ -185,7 +191,8 @@ Project also contains basic examples of ciphering and deciphering.
 [8]  Autokey cipher - https://en.wikipedia.org/wiki/Autokey_cipher  
 [9]  Rail-fence cipher - https://en.wikipedia.org/wiki/Rail_fence_cipher  
 [10] Bifid cipher - https://en.wikipedia.org/wiki/Bifid_cipher  
-[11] Beaufort cipher - https://en.wikipedia.org/wiki/Beaufort_cipher
+[11] Beaufort cipher - https://en.wikipedia.org/wiki/Beaufort_cipher  
+[12] Porta cipher - http://practicalcryptography.com/ciphers/porta-cipher/
 
 # Licence
 Distributed under the MIT License. See LICENSE file for more information.
