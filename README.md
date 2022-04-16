@@ -4,7 +4,7 @@
 ![GitHub](https://img.shields.io/github/license/norbert-acedanski/ciphers)
 
 # About The Project
-Script gives an oportunity to encode/cipher some text with Caesar, Vigenère, Bacon Atbash, Simple Substitution, Columnar Transposition, Autokey, Rail-Fence, Bifid, Beaufort and Porta ciphers and also decode messages.
+Script gives an oportunity to encode/cipher some text with Caesar, Vigenère, Bacon Atbash, Simple Substitution, Columnar Transposition, Autokey, Rail-Fence, Bifid, Beaufort, Porta and Running key ciphers and also decode messages.
 
 # Built With
 Python 3.9.10
@@ -41,14 +41,14 @@ pip install tox
 tox --skip-missing-interpreters
 ```
 
-Currently, there should be **105 tests passed**.  
+Currently, there should be **124 tests passed**.  
 If all tests are passing, you can use the module safely.
 
 
 **USING CIPHERS**
 1. Copy the text you want to cipher/decipher to proper .txt files.
 2. Use ***read_file*** function to load text from the file.
-3. Use ***caesar_cipher***, ***vigenere_cipher***, ***bacon_cipher_encoding***, ***bacon_cipher_decoding***, ***atbash_cipher***, ***simple_substitution_cipher***, ***columnar_transposition_cipher_encoding***, ***columnar_transposition_cipher_decoding***, ***autokey_cipher_encoding***, ***autokey_cipher_decoding***, ***rail_fence_cipher_encoding***, ***rail_fence_cipher_decoding***, ***bifid_cipher_generate_random_key***, ***bifid_cipher_encoding***, ***bifid_cipher_decoding***, ***beaufort_cipher*** or ***porta_cipher*** to cipher or decipher messages.
+3. Use ***caesar_cipher***, ***vigenere_cipher***, ***bacon_cipher_encoding***, ***bacon_cipher_decoding***, ***atbash_cipher***, ***simple_substitution_cipher***, ***columnar_transposition_cipher_encoding***, ***columnar_transposition_cipher_decoding***, ***autokey_cipher_encoding***, ***autokey_cipher_decoding***, ***rail_fence_cipher_encoding***, ***rail_fence_cipher_decoding***, ***bifid_cipher_generate_random_key***, ***bifid_cipher_encoding***, ***bifid_cipher_decoding***, ***beaufort_cipher***, ***porta_cipher*** or ***running_key_cipher_encoding*** to cipher or decipher messages.
 4. ***caesar_cipher*** accepts 3 arguments and 1 optional argument:
     - Required arguments:
         - __text__ - text to cipher (from ***read_file*** function),
@@ -161,12 +161,17 @@ If all tests are passing, you can use the module safely.
         - __keyword__ - word used as a key to cipher a message (not longer than text to cipher),
         - __alphabet__ - kind of alphabet you work with (latin, polish, etc.) - all are variables in the script.  
 
-    Function can be used either to cipher or decipher messages.
-22. Script should print the result to the terminal.
+    Function can be used either to cipher or decipher messages.  
+22. ***running_key_cipher_encoding*** accepts 3 arguments and no optional arguments:
+    - Required arguments:
+        - __text__ - text to cipher (from ***read_file*** function),
+        - __keyphrase__ - phras used as a key to cipher a message (equal in length or longer than text to cipher),
+        - __alphabet__ - kind of alphabet you work with (latin, polish, etc.) - all are variables in the script. 
+23. Script should print the result to the terminal.
 
 # Planned Ciphers:
 
-- Running Key Cipher
+- running_key_cipher_decoding
 - Homophonic Substitution Cipher
 - Hill Cipher
 - Straddle Checkerboard Cipher
@@ -178,7 +183,7 @@ If all tests are passing, you can use the module safely.
 # Usage
 Use it to play with ciphering and deciphering messages as you wish.  
 Script can be used to brute force some messages in order to decipher them.  
-Project also contains basic examples of ciphering and deciphering.
+Project also contains basic examples of ciphering and deciphering as test cases.
 
 # References
 [1]  Ciphers - http://practicalcryptography.com/ciphers/  
@@ -192,7 +197,10 @@ Project also contains basic examples of ciphering and deciphering.
 [9]  Rail-fence cipher - http://practicalcryptography.com/ciphers/classical-era/rail-fence/, https://en.wikipedia.org/wiki/Rail_fence_cipher  
 [10] Bifid cipher - http://practicalcryptography.com/ciphers/classical-era/bifid/, https://en.wikipedia.org/wiki/Bifid_cipher  
 [11] Beaufort cipher - http://practicalcryptography.com/ciphers/classical-era/beaufort/, https://en.wikipedia.org/wiki/Beaufort_cipher  
-[12] Porta cipher - http://practicalcryptography.com/ciphers/porta-cipher/
+[12] Porta cipher - http://practicalcryptography.com/ciphers/porta-cipher/  
+[13] Running key cipher - http://practicalcryptography.com/ciphers/classical-era/running-key/, https://en.wikipedia.org/wiki/Running_key_cipher  
+[14] Quotes from "Moving Pictures" by Terry Pratchet - http://www.chrisjoneswriting.com/moving-pictures.html  
+[15] Quotes from Stanisław Lem's books - https://lubimyczytac.pl/cytaty/54/autor/stanislaw-lem
 
 # Licence
 Distributed under the MIT License. See LICENSE file for more information.
