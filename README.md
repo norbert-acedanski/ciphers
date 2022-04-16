@@ -182,16 +182,16 @@ Project also contains basic examples of ciphering and deciphering.
 
 # References
 [1]  Ciphers - http://practicalcryptography.com/ciphers/  
-[2]  Caesar cipher - https://en.wikipedia.org/wiki/Caesar_cipher  
-[3]  Vigenère cipher - https://en.wikipedia.org/wiki/Vigen%C3%A8re_cipher  
-[4]  Bacon cipher - https://en.wikipedia.org/wiki/Bacon%27s_cipher  
-[5]  Atbash cipher - https://en.wikipedia.org/wiki/Atbash  
-[6]  Simple Substitution cipher - https://en.wikipedia.org/wiki/Substitution_cipher#Simple_substitution  
-[7]  Columnar Transposition cipher - https://en.wikipedia.org/wiki/Transposition_cipher#Columnar_transposition  
-[8]  Autokey cipher - https://en.wikipedia.org/wiki/Autokey_cipher  
-[9]  Rail-fence cipher - https://en.wikipedia.org/wiki/Rail_fence_cipher  
-[10] Bifid cipher - https://en.wikipedia.org/wiki/Bifid_cipher  
-[11] Beaufort cipher - https://en.wikipedia.org/wiki/Beaufort_cipher  
+[2]  Caesar cipher - http://practicalcryptography.com/ciphers/classical-era/caesar/, https://en.wikipedia.org/wiki/Caesar_cipher  
+[3]  Vigenère cipher - http://practicalcryptography.com/ciphers/classical-era/vigenere-gronsfeld-and-autokey/, https://en.wikipedia.org/wiki/Vigen%C3%A8re_cipher  
+[4]  Bacon cipher - http://practicalcryptography.com/ciphers/classical-era/baconian/, https://en.wikipedia.org/wiki/Bacon%27s_cipher  
+[5]  Atbash cipher - http://practicalcryptography.com/ciphers/classical-era/atbash-cipher/, https://en.wikipedia.org/wiki/Atbash  
+[6]  Simple Substitution cipher - http://practicalcryptography.com/ciphers/classical-era/simple-substitution/, https://en.wikipedia.org/wiki/Substitution_cipher#Simple_substitution  
+[7]  Columnar Transposition cipher - http://practicalcryptography.com/ciphers/classical-era/columnar-transposition/, https://en.wikipedia.org/wiki/Transposition_cipher#Columnar_transposition  
+[8]  Autokey cipher - http://practicalcryptography.com/ciphers/classical-era/autokey/, https://en.wikipedia.org/wiki/Autokey_cipher  
+[9]  Rail-fence cipher - http://practicalcryptography.com/ciphers/classical-era/rail-fence/, https://en.wikipedia.org/wiki/Rail_fence_cipher  
+[10] Bifid cipher - http://practicalcryptography.com/ciphers/classical-era/bifid/, https://en.wikipedia.org/wiki/Bifid_cipher  
+[11] Beaufort cipher - http://practicalcryptography.com/ciphers/classical-era/beaufort/, https://en.wikipedia.org/wiki/Beaufort_cipher  
 [12] Porta cipher - http://practicalcryptography.com/ciphers/porta-cipher/
 
 # Licence
