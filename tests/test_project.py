@@ -288,3 +288,20 @@ def test_porta_cipher(text_to_input, keyword, alphabet, expected):
 def test_porta_cipher_edge_case(text_to_input, alphabet):
     with pytest.raises(ValueError):
         porta_cipher(text_to_input, "foo", alphabet)
+
+@pytest.mark.parametrize("text_to_input, keyword, alphabet, expected",
+                         [(TEXT_TO_CIPHER_LATIN[:-2], "'You know what the greatest tragedy in the whole world is?' said Ginger, not paying him the least attention. It's all the people who never find out what they really want to do or what it is they're really good at", LATIN_ALPHABET, "RVYAHWYGIRHPUJUONUFTKHOVRZLHJIMRKSC"),
+                          (TEXT_TO_CIPHER_LATIN[:-2], "The Discworld is as unreal as it is possible to be while still being just real enough to exist.", LATIN_ALPHABET, "MOITCAEGPIZZVXOPDHDTSZVWZMPWAORQLPR"),
+                          (TEXT_TO_CIPHER_POLISH[:-2].replace(",", ""), "Ludzie nie pragną nieśmiertelności - podjąłem po chwili. - Nie chcą tylko, po prostu, umierać. Chcą żyć, profesorze Decantor. Chcą czuć ziemię pod nogami, widzieć chmury nad głową, kochać innych ludzi, być z nimi i myśleć o tym. Nic więcej.", POLISH_ALPHABET, "ŹĄĆLĘFŃMĆŚARYCRIUONIŻŃĄMCÓGSANIŹ"),
+                          (TEXT_TO_CIPHER_POLISH[:-2].replace(",", ""), "Człowiek wyruszył na spotkanie innych światów, innych cywilizacji, nie poznawszy do końca własnych zakamarków, ślepych dróg, studni, zabarykadowanych, ciemnych drzwi.", POLISH_ALPHABET, "OĆLĆSKĘŃTŻAMHŁNGAKMMĘDŚSLNŹŁTŻYJ")])
+def test_running_key_cipher_encoding(text_to_input, keyword, alphabet, expected):
+    assert running_key_cipher_encoding(text_to_input, keyword, alphabet) == expected
+
+@pytest.mark.parametrize("text_to_input, keyphrase, alphabet",
+                         [(TEXT_TO_CIPHER_LATIN, "foo", LATIN_ALPHABET),
+                          (TEXT_TO_CIPHER_LATIN[:-2], "foo", LATIN_ALPHABET),
+                          (TEXT_TO_CIPHER_POLISH, "foo", POLISH_ALPHABET),
+                          (TEXT_TO_CIPHER_POLISH[:-2], "foo", POLISH_ALPHABET)])
+def test_running_key_cipher_encoding_edge_case(text_to_input, keyphrase, alphabet):
+    with pytest.raises(ValueError):
+        running_key_cipher_encoding(text_to_input, keyphrase, alphabet)
