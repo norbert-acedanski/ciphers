@@ -307,9 +307,30 @@ def bifid_cipher_decoding(text: str, period: int, key: str="PHQGMEAYLNOFDXKRCVSZ
 def beaufort_cipher(text: str, keyword: str, alphabet: str) -> str:
     text = text.replace(" ", "")
     if any(not char.isalpha() for char in text):
-        raise ValueError("Text after ciphering with Beaufort cipher should not have any non-letter characters!")
+        raise ValueError("Text to work with Beaufort cipher should not have any non-letter characters!")
     keyword = keyword.upper()
     processed_text = "".join([alphabet[alphabet.index(keyword[character_number % len(keyword)]) - alphabet.index(character)] for character_number, character in enumerate(text)])
+    return processed_text
+
+def porta_cipher(text: str, keyword: str, alphabet: str) -> str:
+    text = text.replace(" ", "")
+    if any(not char.isalpha() for char in text):
+        raise ValueError("Text to work with Porta cipher should not have any non-letter characters!")
+    if len(alphabet) % 2 != 0:
+        raise ValueError("Unfortunately Porta cipher doesn't work with alphabets, that are odd long...")
+    shift = len(alphabet)//2
+    shifted_alphabet = alphabet[shift:] + alphabet[:shift]
+    keyword = keyword.upper()
+    processed_text = ""
+    for character_number, character in enumerate(text):
+        modified_alphabet = list(shifted_alphabet)
+        for _ in range(alphabet.index(keyword[character_number % len(keyword)])//2):
+            modified_alphabet.insert(len(alphabet) - shift, modified_alphabet[0])
+            modified_alphabet.pop(0)
+            modified_alphabet.insert(len(alphabet) - shift, modified_alphabet[-1])
+            modified_alphabet.pop(-1)
+        joined_alphabet = "".join(modified_alphabet)
+        processed_text += joined_alphabet[(alphabet.index(character)) % len(alphabet)]
     return processed_text
 
 if __name__ == '__main__':
