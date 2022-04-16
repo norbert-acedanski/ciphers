@@ -16,6 +16,7 @@ def read_file(filename: str) -> str:
 
 def caesar_cipher(text: str, shift: int, alphabet: str, include_digits: bool=False) -> str:
     processed_text = ""
+    text = text.upper()
     if include_digits:
         for character in text:
             if character in alphabet:
@@ -32,6 +33,7 @@ def caesar_cipher(text: str, shift: int, alphabet: str, include_digits: bool=Fal
 def vigenere_cipher(text: str, keyword: str, alphabet, mode: int=CIPHER_MODE, keyword_shift: int=0) -> str:
     if keyword_shift != 0:
         keyword = caesar_cipher(keyword, keyword_shift, alphabet)
+    text = text.upper()
     processed_text = ""
     number_of_other_characters = 0
     for (character_number, character) in enumerate(text):
@@ -44,6 +46,7 @@ def vigenere_cipher(text: str, keyword: str, alphabet, mode: int=CIPHER_MODE, ke
 
 def bacon_cipher_encoding(text: str, alphabet: str, letters_to_code_with: list=["a", "b"], unique_coding: bool=False) -> str:
     processed_text = ""
+    text = text.upper()
     if unique_coding == False:
         alphabet = alphabet.replace("J", "").replace("V", "")
         text = text.replace("J", "I").replace("V", "U")
@@ -81,6 +84,7 @@ def bacon_cipher_decoding(text: str, alphabet: str, letters_to_decode_with: list
     return processed_text
 
 def atbash_cipher(text: str, alphabet: str, include_digits: bool=False) -> str:
+    text = text.upper()
     if include_digits == True:
         processed_text = ""
         for character in text:
@@ -95,6 +99,7 @@ def atbash_cipher(text: str, alphabet: str, include_digits: bool=False) -> str:
     return processed_text
 
 def simple_substitution_generate_random_key(alphabet: str, save_to_file: bool=True) -> str:
+    text = text.upper()
     random_key = "".join(random.sample(alphabet, len(alphabet)))
     if save_to_file:
         with open("./generated_files/random_key_simple_substitution.txt", "w", encoding="utf-8") as output_file:
@@ -104,6 +109,7 @@ def simple_substitution_generate_random_key(alphabet: str, save_to_file: bool=Tr
 def simple_substitution_cipher(text: str, key: str, mode: int=CIPHER_MODE) -> str:
     if not any("".join(sorted(key)) == "".join(sorted(alphabet)) for alphabet in [LATIN_ALPHABET, POLISH_ALPHABET, RUSSIAN_ALPHABET, GREEK_ALPHABET, HEBREW_ALPHABET]):
         raise ValueError("Random key not generated from available alphabets!")
+    text = text.upper()
     alphabet = sorted(key)
     processed_text = ""
     if mode == CIPHER_MODE:
@@ -118,6 +124,7 @@ def columnar_transposition_cipher_encoding(text: str, keyword: str, ending: str=
     text = text.replace(" ", "")
     if len(ending) != 1:
         raise Exception('Wrong length of "ending" character (length 1 is the only option)!')
+    text = text.upper()
     ending = ending.upper()
     if text[-1] == ending:
         print("Last letter of the message is the same as the \"ending\", that fills the gaps. Cosider changing the \"ending\" to be different than " + text[-1])
@@ -141,6 +148,7 @@ def columnar_transposition_cipher_decoding(text: str, keyword: str, ending: str=
         raise ValueError("Keyword must contain only letters!")
     if len(ending) != 1:
         raise Exception('Wrong length of "ending" character (length 1 is the only option)!')
+    text = text.upper()
     ending = ending.upper()
     encoded_split_message = [text[i:i + len(text)//len(keyword)] for i in range(0, len(text), len(text)//len(keyword))]
     sorted_keyword = "".join(sorted(keyword))
@@ -166,6 +174,7 @@ def autokey_cipher_encoding(text: str, keyword: str, alphabet: str) -> str:
     text = text.replace(" ", "")
     if any(not char.isalpha() for char in text):
         raise ValueError("Please remove any non-letter characters from the input text!")
+    text = text.upper()
     key_phrase = keyword.upper() + text[:-len(keyword)]
     processed_text = ""
     # processed_text = "".join([alphabet[(alphabet.index(text_character) + alphabet.index(key_phrase_character)) % len(alphabet)] for text_character, key_phrase_character in zip(text, key_phrase)])
@@ -177,6 +186,7 @@ def autokey_cipher_encoding(text: str, keyword: str, alphabet: str) -> str:
 def autokey_cipher_decoding(text: str, keyword: str, alphabet: str) -> str:
     if any(not char.isalpha() for char in text):
         raise ValueError("Text after ciphering with Autokey cipher should not have any non-letter characters!")
+    text = text.upper()
     keyword = keyword.upper()
     processed_text = ""
     for character_number, character in enumerate(text):
@@ -191,6 +201,7 @@ def rail_fence_cipher_encoding(text: str, number_of_rails: int, remove_spaces: b
         raise ValueError("Number of rails should be at least 2!")
     if remove_spaces:
         text = text.replace(" ", "")
+    text = text.upper()
     lists_of_text = [["" for j in range(len(text))] for i in range(number_of_rails)]
     for rail in range(number_of_rails):
         lists_of_text[rail][rail] = text[rail]
@@ -207,6 +218,7 @@ def rail_fence_cipher_encoding(text: str, number_of_rails: int, remove_spaces: b
 def rail_fence_cipher_decoding(text: str, number_of_rails: int) -> str:
     if number_of_rails < 2:
         raise ValueError("Number of rails should be at least 2!")
+    text = text.upper()
     lists_of_text = [["" for j in range(len(text))] for i in range(number_of_rails)]
     text_index, last_text_index = 0, 0
     indexes_list = [[2*(number_of_rails - i - 1), 2*i] for i in range(number_of_rails)]
@@ -232,6 +244,7 @@ def rail_fence_cipher_decoding(text: str, number_of_rails: int) -> str:
     return processed_text
 
 def bifid_cipher_generate_random_key(character_to_remove: str = "J", save_to_file: bool=True) -> str:
+    character_to_remove = character_to_remove.upper()
     if len(character_to_remove) != 1 or character_to_remove not in LATIN_ALPHABET:
         raise ValueError("Invalid input. Character has to be signle letter and has to be in Latin Alphabet!")
     new_alphabet = LATIN_ALPHABET.replace(character_to_remove, "")
@@ -284,6 +297,7 @@ def bifid_cipher_decoding(text: str, period: int, key: str="PHQGMEAYLNOFDXKRCVSZ
         raise ValueError("Key length hast to be 1 less than that of the Latin Alphabet!")
     if len(character_that_was_replaced) != 1 or len(character_that_was_replaced_with) != 1 or character_that_was_replaced not in LATIN_ALPHABET or character_that_was_replaced_with not in LATIN_ALPHABET or character_that_was_replaced == character_that_was_replaced_with:
         raise ValueError("Invalid input. Characters have to be signle, different letters and have to be in Latin Alphabet!")
+    text = text.upper()
     key_square = {}
     for row in range(1, 6):
         for column in range(1, 6):
@@ -305,7 +319,7 @@ def bifid_cipher_decoding(text: str, period: int, key: str="PHQGMEAYLNOFDXKRCVSZ
     return processed_text
 
 def beaufort_cipher(text: str, keyword: str, alphabet: str) -> str:
-    text = text.replace(" ", "")
+    text = text.upper().replace(" ", "")
     if any(not char.isalpha() for char in text):
         raise ValueError("Text to work with Beaufort cipher should not have any non-letter characters!")
     keyword = keyword.upper()
@@ -313,7 +327,7 @@ def beaufort_cipher(text: str, keyword: str, alphabet: str) -> str:
     return processed_text
 
 def porta_cipher(text: str, keyword: str, alphabet: str) -> str:
-    text = text.replace(" ", "")
+    text = text.upper().replace(" ", "")
     if any(not char.isalpha() for char in text):
         raise ValueError("Text to work with Porta cipher should not have any non-letter characters!")
     if len(alphabet) % 2 != 0:
