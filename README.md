@@ -185,6 +185,7 @@ If all tests are passing, you can use the module safely.
 - Create more user-friendly references
 - Write function to properly prepares text for encoding and decoding functions
 - Add basic description for each cipher
+- Make a package out of this project
 
 # Usage
 Use it to play with ciphering and deciphering messages as you wish.  
