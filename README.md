@@ -184,8 +184,7 @@ If all tests are passing, you can use the module safely.
 
 # To Do:
 
-- Create more user-friendly references
-- Write function to properly prepares text for encoding and decoding functions
+- Write function, that properly prepares text for encoding and decoding functions
 - Add basic description for each cipher
 - Make a package out of this project
 
@@ -195,21 +194,48 @@ Script can be used to brute force some messages in order to decipher them.
 Project also contains basic examples of ciphering and deciphering as test cases.
 
 # References
-[1]  Ciphers - http://practicalcryptography.com/ciphers/  
-[2]  Caesar cipher - http://practicalcryptography.com/ciphers/classical-era/caesar/, https://en.wikipedia.org/wiki/Caesar_cipher  
-[3]  Vigenère cipher - http://practicalcryptography.com/ciphers/classical-era/vigenere-gronsfeld-and-autokey/, https://en.wikipedia.org/wiki/Vigen%C3%A8re_cipher  
-[4]  Bacon cipher - http://practicalcryptography.com/ciphers/classical-era/baconian/, https://en.wikipedia.org/wiki/Bacon%27s_cipher  
-[5]  Atbash cipher - http://practicalcryptography.com/ciphers/classical-era/atbash-cipher/, https://en.wikipedia.org/wiki/Atbash  
-[6]  Simple Substitution cipher - http://practicalcryptography.com/ciphers/classical-era/simple-substitution/, https://en.wikipedia.org/wiki/Substitution_cipher#Simple_substitution  
-[7]  Columnar Transposition cipher - http://practicalcryptography.com/ciphers/classical-era/columnar-transposition/, https://en.wikipedia.org/wiki/Transposition_cipher#Columnar_transposition  
-[8]  Autokey cipher - http://practicalcryptography.com/ciphers/classical-era/autokey/, https://en.wikipedia.org/wiki/Autokey_cipher  
-[9]  Rail-fence cipher - http://practicalcryptography.com/ciphers/classical-era/rail-fence/, https://en.wikipedia.org/wiki/Rail_fence_cipher  
-[10] Bifid cipher - http://practicalcryptography.com/ciphers/classical-era/bifid/, https://en.wikipedia.org/wiki/Bifid_cipher  
-[11] Beaufort cipher - http://practicalcryptography.com/ciphers/classical-era/beaufort/, https://en.wikipedia.org/wiki/Beaufort_cipher  
-[12] Porta cipher - http://practicalcryptography.com/ciphers/porta-cipher/  
-[13] Running key cipher - http://practicalcryptography.com/ciphers/classical-era/running-key/, https://en.wikipedia.org/wiki/Running_key_cipher  
-[14] Quotes from "Moving Pictures" by Terry Pratchet - http://www.chrisjoneswriting.com/moving-pictures.html  
-[15] Quotes from Stanisław Lem's books - https://lubimyczytac.pl/cytaty/54/autor/stanislaw-lem
+[1]  Ciphers - [Practical Cryptography][practialcryptography_ciphers]  
+[2]  Caesar Cipher - [Practical Cryptography][practialcryptography_caesar], [Wikipedia][wikipedia_caesar]  
+[3]  Vigenère Cipher - [Practical Cryptography][practialcryptography_vigenere], [Wikipedia][wikipedia_vigenere]  
+[4]  Bacon Cipher - [Practical Cryptography][practialcryptography_baconian], [Wikipedia][wikipedia_baconian]  
+[5]  Atbash Cipher - [Practical Cryptography][practialcryptography_atbash], [Wikipedia][wikipedia_atbash]  
+[6]  Simple Substitution Cipher - [Practical Cryptography][practialcryptography_simple_substitution], [Wikipedia][wikipedia_simple_substitution]  
+[7]  Columnar Transposition Cipher - [Practical Cryptography][practialcryptography_columnar_transposition], [Wikipedia][wikipedia_columnar_transposition]  
+[8]  Autokey Cipher - [Practical Cryptography][practialcryptography_autokey], [Wikipedia][wikipedia_autokey]  
+[9]  Rail-fence Cipher - [Practical Cryptography][practialcryptography_rail_fence], [Wikipedia][wikipedia_rail_fence]  
+[10] Bifid Cipher - [Practical Cryptography][practialcryptography_bifid], [Wikipedia][wikipedia_bifid]  
+[11] Beaufort Cipher - [Practical Cryptography][practialcryptography_beaufort], [Wikipedia][wikipedia_beaufort]  
+[12] Porta Cipher - [Practical Cryptography][practialcryptography_porta]  
+[13] Running key cipher - [Practical Cryptography][practialcryptography_running_key], [Wikipedia][wikipedia_running_key]  
+[14] Quotes from "Moving Pictures" by Terry Pratchet - [Chris Jones Writing][moving_pictures_quotes]  
+[15] Quotes from Stanisław Lem's books - [Lubimy czytać][lem_books_quotes]
 
 # Licence
 Distributed under the MIT License. See LICENSE file for more information.
+
+[practialcryptography_ciphers]: http://practicalcryptography.com/ciphers/
+[practialcryptography_caesar]: http://practicalcryptography.com/ciphers/classical-era/caesar/
+[wikipedia_caesar]: https://en.wikipedia.org/wiki/Caesar_cipher
+[practialcryptography_vigenere]: http://practicalcryptography.com/ciphers/classical-era/vigenere-gronsfeld-and-autokey/
+[wikipedia_vigenere]: https://en.wikipedia.org/wiki/Vigen%C3%A8re_cipher
+[practialcryptography_baconian]: http://practicalcryptography.com/ciphers/classical-era/baconian/
+[wikipedia_baconian]: https://en.wikipedia.org/wiki/Bacon%27s_cipher
+[practialcryptography_atbash]: http://practicalcryptography.com/ciphers/classical-era/atbash-cipher/
+[wikipedia_atbash]: https://en.wikipedia.org/wiki/Atbash
+[practialcryptography_simple_substitution]: http://practicalcryptography.com/ciphers/classical-era/simple-substitution/
+[wikipedia_simple_substitution]: https://en.wikipedia.org/wiki/Substitution_cipher#Simple_substitution
+[practialcryptography_columnar_transposition]: http://practicalcryptography.com/ciphers/classical-era/columnar-transposition/
+[wikipedia_columnar_transposition]: https://en.wikipedia.org/wiki/Transposition_cipher#Columnar_transposition
+[practialcryptography_autokey]: http://practicalcryptography.com/ciphers/classical-era/autokey/
+[wikipedia_autokey]: https://en.wikipedia.org/wiki/Autokey_cipher
+[practialcryptography_rail_fence]: http://practicalcryptography.com/ciphers/classical-era/rail-fence/
+[wikipedia_rail_fence]: https://en.wikipedia.org/wiki/Rail_fence_cipher
+[practialcryptography_bifid]: http://practicalcryptography.com/ciphers/classical-era/bifid/
+[wikipedia_bifid]: https://en.wikipedia.org/wiki/Bifid_cipher
+[practialcryptography_beaufort]: http://practicalcryptography.com/ciphers/classical-era/beaufort/
+[wikipedia_beaufort]: https://en.wikipedia.org/wiki/Beaufort_cipher
+[practialcryptography_porta]: http://practicalcryptography.com/ciphers/porta-cipher/
+[practialcryptography_running_key]: http://practicalcryptography.com/ciphers/classical-era/running-key/
+[wikipedia_running_key]: https://en.wikipedia.org/wiki/Running_key_cipher
+[moving_pictures_quotes]: http://www.chrisjoneswriting.com/moving-pictures.html
+[lem_books_quotes]: https://lubimyczytac.pl/cytaty/54/autor/stanislaw-lem
