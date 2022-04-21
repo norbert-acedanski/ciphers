@@ -297,11 +297,11 @@ def test_porta_cipher_edge_case(text_to_input, alphabet):
 def test_running_key_cipher_encoding(text_to_input, keyword, alphabet, expected):
     assert running_key_cipher_encoding(text_to_input, keyword, alphabet) == expected
 
-@pytest.mark.parametrize("text_to_input, keyphrase, alphabet",
-                         [(TEXT_TO_CIPHER_LATIN, "foo", LATIN_ALPHABET),
-                          (TEXT_TO_CIPHER_LATIN[:-2], "foo", LATIN_ALPHABET),
-                          (TEXT_TO_CIPHER_POLISH, "foo", POLISH_ALPHABET),
-                          (TEXT_TO_CIPHER_POLISH[:-2], "foo", POLISH_ALPHABET)])
-def test_running_key_cipher_encoding_edge_case(text_to_input, keyphrase, alphabet):
+@pytest.mark.parametrize("text_to_input, alphabet",
+                         [(TEXT_TO_CIPHER_LATIN, LATIN_ALPHABET),
+                          (TEXT_TO_CIPHER_LATIN[:-2], LATIN_ALPHABET),
+                          (TEXT_TO_CIPHER_POLISH, POLISH_ALPHABET),
+                          (TEXT_TO_CIPHER_POLISH[:-2], POLISH_ALPHABET)])
+def test_running_key_cipher_encoding_edge_case(text_to_input, alphabet):
     with pytest.raises(ValueError):
-        running_key_cipher_encoding(text_to_input, keyphrase, alphabet)
+        running_key_cipher_encoding(text_to_input, "foo", alphabet)
