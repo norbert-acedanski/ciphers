@@ -50,7 +50,7 @@ If all tests are passing, you can use the module safely.
 **USING CIPHERS**
 1. Copy the text you want to cipher/decipher to proper .txt files.
 2. Use ***read_file*** function to load text from the file.
-3. Use ***caesar_cipher***, ***vigenere_cipher***, ***bacon_cipher_encoding***, ***bacon_cipher_decoding***, ***atbash_cipher***, ***simple_substitution_cipher***, ***columnar_transposition_cipher_encoding***, ***columnar_transposition_cipher_decoding***, ***autokey_cipher_encoding***, ***autokey_cipher_decoding***, ***rail_fence_cipher_encoding***, ***rail_fence_cipher_decoding***, ***bifid_cipher_generate_random_key***, ***bifid_cipher_encoding***, ***bifid_cipher_decoding***, ***beaufort_cipher***, ***porta_cipher*** or ***running_key_cipher_encoding*** to cipher or decipher messages.
+3. Use one of the ciphers below to cipher or decipher messages. Reference to every cipher can be found below under **References** tab.
 4. ***caesar_cipher*** accepts 3 arguments and 1 optional argument:
     - Required arguments:
         - __text__ - text to cipher (from ***read_file*** function),
@@ -185,7 +185,6 @@ If all tests are passing, you can use the module safely.
 # To Do:
 
 - Write function, that properly prepares text for encoding and decoding functions
-- Add basic description for each cipher
 - Make a package out of this project
 
 # Usage
