@@ -346,7 +346,7 @@ def porta_cipher(text: str, keyword: str, alphabet: str) -> str:
         processed_text += joined_alphabet[(alphabet.index(character)) % len(alphabet)]
     return processed_text
 
-def running_key_cipher_encoding(text: str, keyphrase: str, alphabet: str) -> str:
+def running_key_cipher(text: str, keyphrase: str, alphabet: str, mode: int=CIPHER_MODE) -> str:
     text = text.upper().replace(" ", "")
     keyphrase = "".join([character.upper() if character.isalpha() else "" for character in keyphrase])
     if any(not char.isalpha() for char in text):
@@ -355,7 +355,7 @@ def running_key_cipher_encoding(text: str, keyphrase: str, alphabet: str) -> str
         raise ValueError("Length of the keyphrase should be at least that of the ciphered text!")
     processed_text = ""
     for text_character, keyphrase_character in zip(text, keyphrase):
-        processed_text += alphabet[(alphabet.index(text_character) + alphabet.index(keyphrase_character)) % len(alphabet)]
+        processed_text += alphabet[(alphabet.index(text_character) + mode*alphabet.index(keyphrase_character)) % len(alphabet)]
     return processed_text
 
 if __name__ == '__main__':
