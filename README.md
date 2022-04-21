@@ -66,7 +66,7 @@ If all tests are passing, you can use the module safely.
         - __keyword__ - word used as a key to cipher/decipher a message,
         - __alphabet__ - kind of alphabet you work with (latin, polish, etc.) - all are variables in the script,
     - Optional arguments:
-        - __mode__ - optional argument used to determine the operation mode of the function (_cipherMode_ and _decipherMode_ - these are variables in the script) - cipher mode is a default mode.
+        - __mode__ - optional argument used to determine the operation mode of the function (*CIPHER_MODE* and *DECIPHER_MODE* - these are variables in the script) - cipher mode is a default mode.
         - __keywordShift__ - int variable, that specifies, what shift should the keyword have. Default value is _0_.  
 
     Function can be used either to cipher or decipher messages.
@@ -98,7 +98,7 @@ If all tests are passing, you can use the module safely.
         - __text__ - text to cipher (from ***read_file*** function),
         - __key__ - shuffled alphabet (desired from given alphabets),
     - Optional arguments:
-        - __mode__ - optional argument used to determine the operation mode of the function (_cipherMode_ and _decipherMode_ - these are variables in the script) - cipher mode is a default mode.  
+        - __mode__ - optional argument used to determine the operation mode of the function (*CIPHER_MODE* and *DECIPHER_MODE* - these are variables in the script) - cipher mode is a default mode.  
 
     Function can be used either to cipher or decipher messages.
 11. ***columnar_transposition_cipher_encoding*** accepts 2 arguments and 1 optional argument:
@@ -164,16 +164,19 @@ If all tests are passing, you can use the module safely.
         - __alphabet__ - kind of alphabet you work with (latin, polish, etc.) - all are variables in the script.  
 
     Function can be used either to cipher or decipher messages.  
-22. ***running_key_cipher_encoding*** accepts 3 arguments and no optional arguments:
+22. ***running_key_cipher*** accepts 3 arguments and 1 optional argument:
     - Required arguments:
         - __text__ - text to cipher (from ***read_file*** function),
         - __keyphrase__ - phras used as a key to cipher a message (equal in length or longer than text to cipher),
-        - __alphabet__ - kind of alphabet you work with (latin, polish, etc.) - all are variables in the script. 
+        - __alphabet__ - kind of alphabet you work with (latin, polish, etc.) - all are variables in the script.
+    - Optional arguments:
+        - __mode__ - optional argument used to determine the operation mode of the function (*CIPHER_MODE* and *DECIPHER_MODE* - these are variables in the script) - cipher mode is a default mode.  
+
+    Function can be used either to cipher or decipher messages.  
 23. Script should print the result to the terminal.
 
 # Planned Ciphers:
 
-- running_key_cipher_decoding
 - Homophonic Substitution Cipher
 - Hill Cipher
 - Straddle Checkerboard Cipher
