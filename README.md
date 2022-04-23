@@ -6,7 +6,7 @@
 ![GitHub](https://img.shields.io/github/license/norbert-acedanski/ciphers)
 
 # About The Project
-Script gives an oportunity to encode/cipher some text with Caesar, Vigenère, Bacon Atbash, Simple Substitution, Columnar Transposition, Autokey, Rail-Fence, Bifid, Beaufort, Porta and Running key ciphers and also decode messages.
+Script gives an oportunity to encode/cipher some text with Caesar, Vigenère, Bacon Atbash, Simple Substitution, Columnar Transposition, Autokey, Rail-Fence, Bifid, Beaufort, Porta, Running key and Homophonic substitution ciphers and also decode messages.
 
 # Built With
 Python 3.9.10
@@ -43,7 +43,7 @@ pip install tox
 tox --skip-missing-interpreters
 ```
 
-Currently, there should be **124 tests passed**.  
+Currently, there should be **147 tests passed**.  
 If all tests are passing, you can use the module safely.
 
 
@@ -172,12 +172,16 @@ If all tests are passing, you can use the module safely.
     - Optional arguments:
         - __mode__ - optional argument used to determine the operation mode of the function (*CIPHER_MODE* and *DECIPHER_MODE* - these are variables in the script) - cipher mode is a default mode.  
 
-    Function can be used either to cipher or decipher messages.  
-23. Script should print the result to the terminal.
+    Function can be used either to cipher or decipher messages. 
+23. ***homophonic_substitution_cipher*** accepts 1 argument and 1 optional argument:
+    - Required arguments:
+        - __text__ - text to cipher (from ***read_file*** function),
+    - Optional arguments:
+        - __mode__ - optional argument used to determine the operation mode of the function (*CIPHER_MODE* and *DECIPHER_MODE* - these are variables in the script) - cipher mode is a default mode.  
+24. The result is returned after the execution is complete.
 
 # Planned Ciphers:
 
-- Homophonic Substitution Cipher
 - Hill Cipher
 - Straddle Checkerboard Cipher
 - Trifid Cipher
@@ -189,6 +193,8 @@ If all tests are passing, you can use the module safely.
 
 - Write function, that properly prepares text for encoding and decoding functions
 - Make a package out of this project
+- Allow **homophonic_substitution_cipher** to accept different alphabets and the distribution of letters
+- Write a function, that, based on the alphabet, returns a distributed list of characters for letters in accepted alphabet
 
 # Usage
 Use it to play with ciphering and deciphering messages as you wish.  
@@ -209,8 +215,9 @@ Project also contains basic examples of ciphering and deciphering as test cases.
 [11] Beaufort Cipher - [Practical Cryptography][practialcryptography_beaufort], [Wikipedia][wikipedia_beaufort]  
 [12] Porta Cipher - [Practical Cryptography][practialcryptography_porta]  
 [13] Running key cipher - [Practical Cryptography][practialcryptography_running_key], [Wikipedia][wikipedia_running_key]  
-[14] Quotes from "Moving Pictures" by Terry Pratchet - [Chris Jones Writing][moving_pictures_quotes]  
-[15] Quotes from Stanisław Lem's books - [Lubimy czytać][lem_books_quotes]
+[14] Homophonic substitution cipher - [Practical Cryptography][practialcryptography_homophonic_substitution], [Wikipedia][wikipedia_homophonic_substitution]  
+[15] Quotes from "Moving Pictures" by Terry Pratchet - [Chris Jones Writing][moving_pictures_quotes]  
+[16] Quotes from Stanisław Lem's books - [Lubimy czytać][lem_books_quotes]
 
 # Licence
 Distributed under the MIT License. See LICENSE file for more information.
@@ -239,5 +246,7 @@ Distributed under the MIT License. See LICENSE file for more information.
 [practialcryptography_porta]: http://practicalcryptography.com/ciphers/porta-cipher/
 [practialcryptography_running_key]: http://practicalcryptography.com/ciphers/classical-era/running-key/
 [wikipedia_running_key]: https://en.wikipedia.org/wiki/Running_key_cipher
+[practialcryptography_homophonic_substitution]: http://practicalcryptography.com/ciphers/classical-era/homophonic-substitution/
+[wikipedia_homophonic_substitution]: https://en.wikipedia.org/wiki/Substitution_cipher#Homophonic_substitution
 [moving_pictures_quotes]: http://www.chrisjoneswriting.com/moving-pictures.html
 [lem_books_quotes]: https://lubimyczytac.pl/cytaty/54/autor/stanislaw-lem
