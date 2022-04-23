@@ -358,5 +358,35 @@ def running_key_cipher(text: str, keyphrase: str, alphabet: str, mode: int=CIPHE
         processed_text += alphabet[(alphabet.index(text_character) + mode*alphabet.index(keyphrase_character)) % len(alphabet)]
     return processed_text
 
+def homophonic_substitution_cipher(text: str, mode: int = CIPHER_MODE) -> str:
+    text = text.upper()
+    additional_characters = " "
+    if mode == DECIPHER_MODE:
+        additional_characters += "0123456789"
+    if any((char not in (LATIN_ALPHABET + additional_characters)) for char in text):
+        raise ValueError("Homophonic substitution supports only latin letters for now!")
+    letter_connection_dictionary = {"A": ["D", "9"], "B": ["X"], "C": ["S"], "D": ["F"], "E": ["Z", "7", "2", "1"], "F": ["E"],
+                                    "G": ["H"], "H": ["C"], "I": ["V", "3"], "J": ["I"], "K": ["T"], "L": ["P"], "M": ["G"], 
+                                    "N": ["A", "5"], "O": ["Q", "0"], "P": ["L"], "Q": ["K"], "R": ["J"], "S": ["R", "4"], 
+                                    "T": ["U", "6"], "U": ["O"], "V": ["W"], "W": ["M"], "X": ["Y"], "Y": ["B"], "Z": ["N"]}
+    processed_text = ""
+    if mode == CIPHER_MODE:
+        for character in text:
+            if character in letter_connection_dictionary.keys():
+                processed_text += random.choice(letter_connection_dictionary[character])
+            else:
+                processed_text += character
+    else:
+        dictionary_values_list = list(letter_connection_dictionary.values())
+        for character in text:
+            if character not in (LATIN_ALPHABET + "0123456789"):
+                processed_text += character
+                continue
+            for value_number, value in enumerate(dictionary_values_list):
+                if character in value:
+                    processed_text += list(letter_connection_dictionary.keys())[value_number]
+                    break
+    return processed_text
+
 if __name__ == '__main__':
     pass
