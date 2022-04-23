@@ -309,3 +309,36 @@ def test_running_key_cipher(text_to_input, keyword, alphabet, mode, expected):
 def test_running_key_cipher_edge_case(text_to_input, alphabet):
     with pytest.raises(ValueError):
         running_key_cipher(text_to_input, "foo", alphabet)
+
+@pytest.mark.parametrize("text_to_input, mode, expected",
+                         [("BCDFGhjklmPQRuvwXyZ", CIPHER_MODE, "XSFEHCITPGLKJOWMYBN"),
+                          ("B"*10, CIPHER_MODE, "X"*10),
+                          ("q"*10, CIPHER_MODE, "K"*10),])
+def test_homophonic_substitution_cipher_encoding(text_to_input, mode, expected):
+    assert homophonic_substitution_cipher(text_to_input, mode=mode) == expected
+
+@pytest.mark.parametrize("text_to_input",
+                         ["BCDFGhjklmPQRuvwXyZ",
+                          "B"*10,
+                          "q"*10,
+                          TEXT_TO_CIPHER_LATIN[:-2],
+                          TEXT_TO_CIPHER_LATIN_2])
+def test_homophonic_substitution_cipher_decoding(text_to_input):
+    ciphered_test = homophonic_substitution_cipher(text_to_input, mode=CIPHER_MODE)
+    assert homophonic_substitution_cipher(ciphered_test, mode=DECIPHER_MODE) == text_to_input.upper()
+
+@pytest.mark.parametrize("text_to_input, mode",
+                         [(TEXT_TO_CIPHER_LATIN, CIPHER_MODE),
+                          (TEXT_TO_CIPHER_LATIN[:-2] + "Б", CIPHER_MODE),
+                          (TEXT_TO_CIPHER_LATIN_2[:-2] + "Д", CIPHER_MODE),
+                          (TEXT_TO_CIPHER_LATIN_2[:-2] + "Ω", CIPHER_MODE),
+                          (TEXT_TO_CIPHER_LATIN[:-2] + "ס", CIPHER_MODE),
+                          (TEXT_TO_CIPHER_POLISH, CIPHER_MODE),
+                          (TEXT_TO_CIPHER_LATIN + "Б", DECIPHER_MODE),
+                          (TEXT_TO_CIPHER_LATIN_2 + "Д", DECIPHER_MODE),
+                          (TEXT_TO_CIPHER_LATIN_2 + "Ω", DECIPHER_MODE),
+                          (TEXT_TO_CIPHER_LATIN + "ס", DECIPHER_MODE),
+                          (TEXT_TO_CIPHER_POLISH, DECIPHER_MODE)])
+def test_homophonic_substitution_cipher_edge_case(text_to_input, mode):
+    with pytest.raises(ValueError):
+        homophonic_substitution_cipher(text_to_input, mode)
