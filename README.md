@@ -222,7 +222,7 @@ Project also contains basic examples of ciphering and deciphering as test cases.
 [12] Porta Cipher - [Practical Cryptography][practialcryptography_porta]  
 [13] Running key cipher - [Practical Cryptography][practialcryptography_running_key], [Wikipedia][wikipedia_running_key]  
 [14] Homophonic substitution cipher - [Practical Cryptography][practialcryptography_homophonic_substitution], [Wikipedia][wikipedia_homophonic_substitution]  
-[15] Trifid cipher - [Practical Cryptography][practialcryptography_trifid], [Wikipedia][wikipedia_homophonic_trifid]
+[15] Trifid cipher - [Practical Cryptography][practialcryptography_trifid], [Wikipedia][wikipedia_homophonic_trifid]  
 [16] Quotes from "Moving Pictures" by Terry Pratchet - [Chris Jones Writing][moving_pictures_quotes]  
 [17] Quotes from Stanisław Lem's books - [Lubimy czytać][lem_books_quotes]
 
