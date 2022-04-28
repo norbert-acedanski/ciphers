@@ -342,3 +342,31 @@ def test_homophonic_substitution_cipher_decoding(text_to_input):
 def test_homophonic_substitution_cipher_edge_case(text_to_input, mode):
     with pytest.raises(ValueError):
         homophonic_substitution_cipher(text_to_input, mode)
+
+def test_trifid_cipher_generate_random_key():
+    random_key = trifid_cipher_generate_random_key(save_to_file=False)
+    assert "".join(sorted(random_key)) == "." + LATIN_ALPHABET
+
+def test_trifid_cipher_generate_random_key_edge_case():
+    with pytest.raises(ValueError):
+        trifid_cipher_generate_random_key(random.choice(LATIN_ALPHABET), False)
+
+@pytest.mark.parametrize("text_to_input, key, period, expected",
+                         [(TEXT_TO_CIPHER_LATIN, "EPSDUCVWYM5ZLKXNBTFGORIJHAQ", 3, "NHF OII UXI HZW TFS NKA MEC FVF JTV CCP MWH AEI"),
+                          (TEXT_TO_CIPHER_LATIN_2 + ".", "EPSDUCVWYM.ZLKXNBTFGORIJHAQ", 5, "SUEFE CPHSE GYYJI XIMFO FOCEJ LBSP"),
+                          (TEXT_TO_CIPHER_LATIN[:-1], "QDZKBSFGCEXRHUMWLPT'JONIAYV", 5, "NKEED TBNCS IGIEE LHBIP CUWFJ NWRTK FT'YX"),
+                          (TEXT_TO_CIPHER_LATIN_2, "HCMZGYVIERAJNULOXQFPDTKSBWĄ", 3, "DVB YTD FJM YPS WOG ULB BZH CFK WUD E")])
+def test_trifid_cipher(text_to_input, key, period, expected):
+    assert trifid_cipher_encoding(text_to_input, key, period) == expected
+
+def test_trifid_cipher_edge_case():
+    with pytest.raises(ValueError):
+        assert trifid_cipher_encoding(TEXT_TO_CIPHER_LATIN[:-2], "EPSDUCVWYMaZLKXNBTFGORIJHAQ", 5)
+    with pytest.raises(ValueError):
+        assert trifid_cipher_encoding(TEXT_TO_CIPHER_LATIN[:-2], "EPSDUCVWYM12ZLKXNBTFGORIJHAQ", 5)
+    with pytest.raises(ValueError):
+        assert trifid_cipher_encoding(TEXT_TO_CIPHER_LATIN[:-2], "EPSDUCVWYMZLKXNBTFGORIJHAQ", 5)
+    with pytest.raises(Exception):
+        assert trifid_cipher_encoding(TEXT_TO_CIPHER_POLISH, "EPSDUCVWYM.ZLKXNBTFGORIJHAQ", 5)
+    with pytest.raises(ValueError):
+        assert trifid_cipher_encoding(TEXT_TO_CIPHER_LATIN[:-2], "EPSDUCVWYM.ZLKXNBTFGORIJHAQ", 1)
