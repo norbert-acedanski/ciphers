@@ -369,4 +369,24 @@ def test_trifid_cipher_encoding_edge_case():
     with pytest.raises(Exception):
         assert trifid_cipher_encoding(TEXT_TO_CIPHER_POLISH, "EPSDUCVWYM.ZLKXNBTFGORIJHAQ", 5)
     with pytest.raises(ValueError):
-        assert trifid_cipher_encoding(TEXT_TO_CIPHER_LATIN[:-2], "EPSDUCVWYM.ZLKXNBTFGORIJHAQ", 1)
+        assert trifid_cipher_encoding(TEXT_TO_CIPHER_LATIN[:-2], "EPSDUCVWYM.ZLKXNBTFGORIJHAQ", random.randrange(-10, 1))
+
+@pytest.mark.parametrize("text_to_input, key, period, expected",
+                         [("NHF OII UXI HZW TFS NKA MEC FVF JTV CCP MWH AEI", "EPSDUCVWYM5ZLKXNBTFGORIJHAQ", 3, TEXT_TO_CIPHER_LATIN.replace(" ", "")),
+                          ("SUEFE CPHSE GYYJI XIMFO FOCEJ LBSP", "EPSDUCVWYM.ZLKXNBTFGORIJHAQ", 5, TEXT_TO_CIPHER_LATIN_2.replace(" ", "") + "."),
+                          ("NKEED TBNCS IGIEE LHBIP CUWFJ NWRTK FT'YX", "QDZKBSFGCEXRHUMWLPT'JONIAYV", 5, TEXT_TO_CIPHER_LATIN[:-1].replace(" ", "")),
+                          ("DVB YTD FJM YPS WOG ULB BZH CFK WUD E", "HCMZGYVIERAJNULOXQFPDTKSBWĄ", 3, TEXT_TO_CIPHER_LATIN_2.replace(" ", ""))])
+def test_trifid_cipher_decoding(text_to_input, key, period, expected):
+    assert trifid_cipher_decoding(text_to_input, key, period) == expected
+
+def test_trifid_cipher_decoding_edge_case():
+    with pytest.raises(ValueError):
+        assert trifid_cipher_decoding(TEXT_TO_CIPHER_LATIN[:-2], "EPSDUCVWYMaZLKXNBTFGORIJHAQ", 5)
+    with pytest.raises(ValueError):
+        assert trifid_cipher_decoding(TEXT_TO_CIPHER_LATIN[:-2], "EPSDUCVWYM12ZLKXNBTFGORIJHAQ", 5)
+    with pytest.raises(ValueError):
+        assert trifid_cipher_decoding(TEXT_TO_CIPHER_LATIN[:-2], "EPSDUCVWYMZLKXNBTFGORIJHAQ", 5)
+    with pytest.raises(Exception):
+        assert trifid_cipher_decoding(TEXT_TO_CIPHER_POLISH, "EPSDUCVWYM.ZLKXNBTFGORIJHAQ", 5)
+    with pytest.raises(ValueError):
+        assert trifid_cipher_decoding(TEXT_TO_CIPHER_LATIN[:-2], "EPSDUCVWYM.ZLKXNBTFGORIJHAQ", random.randrange(-10, 1))
