@@ -356,10 +356,10 @@ def test_trifid_cipher_generate_random_key_edge_case():
                           (TEXT_TO_CIPHER_LATIN_2 + ".", "EPSDUCVWYM.ZLKXNBTFGORIJHAQ", 5, "SUEFE CPHSE GYYJI XIMFO FOCEJ LBSP"),
                           (TEXT_TO_CIPHER_LATIN[:-1], "QDZKBSFGCEXRHUMWLPT'JONIAYV", 5, "NKEED TBNCS IGIEE LHBIP CUWFJ NWRTK FT'YX"),
                           (TEXT_TO_CIPHER_LATIN_2, "HCMZGYVIERAJNULOXQFPDTKSBWĄ", 3, "DVB YTD FJM YPS WOG ULB BZH CFK WUD E")])
-def test_trifid_cipher(text_to_input, key, period, expected):
+def test_trifid_cipher_encoding(text_to_input, key, period, expected):
     assert trifid_cipher_encoding(text_to_input, key, period) == expected
 
-def test_trifid_cipher_edge_case():
+def test_trifid_cipher_encoding_edge_case():
     with pytest.raises(ValueError):
         assert trifid_cipher_encoding(TEXT_TO_CIPHER_LATIN[:-2], "EPSDUCVWYMaZLKXNBTFGORIJHAQ", 5)
     with pytest.raises(ValueError):
