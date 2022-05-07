@@ -265,7 +265,7 @@ def test_beaufort_cipher(text_to_input, keyword, alphabet, expected):
 @pytest.mark.parametrize("text_to_input, alphabet",
                          [(TEXT_TO_CIPHER_LATIN, LATIN_ALPHABET),
                           (TEXT_TO_CIPHER_POLISH, LATIN_ALPHABET)])
-def test_beaufort_cipher_edge_case(text_to_input, alphabet):
+def test_beaufort_cipher_edge_cases(text_to_input, alphabet):
     with pytest.raises(ValueError):
         beaufort_cipher(text_to_input, "foo", alphabet)
 
@@ -285,7 +285,7 @@ def test_porta_cipher(text_to_input, keyword, alphabet, expected):
                          [(TEXT_TO_CIPHER_LATIN, LATIN_ALPHABET),
                           (TEXT_TO_CIPHER_POLISH, LATIN_ALPHABET),
                           (TEXT_TO_CIPHER_LATIN[:-2], RUSSIAN_ALPHABET)])
-def test_porta_cipher_edge_case(text_to_input, alphabet):
+def test_porta_cipher_edge_cases(text_to_input, alphabet):
     with pytest.raises(ValueError):
         porta_cipher(text_to_input, "foo", alphabet)
 
@@ -306,7 +306,7 @@ def test_running_key_cipher(text_to_input, keyword, alphabet, mode, expected):
                           (TEXT_TO_CIPHER_LATIN[:-2], LATIN_ALPHABET),
                           (TEXT_TO_CIPHER_POLISH, POLISH_ALPHABET),
                           (TEXT_TO_CIPHER_POLISH[:-2], POLISH_ALPHABET)])
-def test_running_key_cipher_edge_case(text_to_input, alphabet):
+def test_running_key_cipher_edge_cases(text_to_input, alphabet):
     with pytest.raises(ValueError):
         running_key_cipher(text_to_input, "foo", alphabet)
 
@@ -339,7 +339,7 @@ def test_homophonic_substitution_cipher_decoding(text_to_input):
                           (TEXT_TO_CIPHER_LATIN_2 + "Ω", DECIPHER_MODE),
                           (TEXT_TO_CIPHER_LATIN + "ס", DECIPHER_MODE),
                           (TEXT_TO_CIPHER_POLISH, DECIPHER_MODE)])
-def test_homophonic_substitution_cipher_edge_case(text_to_input, mode):
+def test_homophonic_substitution_cipher_edge_cases(text_to_input, mode):
     with pytest.raises(ValueError):
         homophonic_substitution_cipher(text_to_input, mode)
 
@@ -359,7 +359,7 @@ def test_trifid_cipher_generate_random_key_edge_case():
 def test_trifid_cipher_encoding(text_to_input, key, period, expected):
     assert trifid_cipher_encoding(text_to_input, key, period) == expected
 
-def test_trifid_cipher_encoding_edge_case():
+def test_trifid_cipher_encoding_edge_cases():
     with pytest.raises(ValueError):
         assert trifid_cipher_encoding(TEXT_TO_CIPHER_LATIN[:-2], "EPSDUCVWYMaZLKXNBTFGORIJHAQ", 5)
     with pytest.raises(ValueError):
@@ -379,7 +379,7 @@ def test_trifid_cipher_encoding_edge_case():
 def test_trifid_cipher_decoding(text_to_input, key, period, expected):
     assert trifid_cipher_decoding(text_to_input, key, period) == expected
 
-def test_trifid_cipher_decoding_edge_case():
+def test_trifid_cipher_decoding_edge_cases():
     with pytest.raises(ValueError):
         assert trifid_cipher_decoding(TEXT_TO_CIPHER_LATIN[:-2], "EPSDUCVWYMaZLKXNBTFGORIJHAQ", 5)
     with pytest.raises(ValueError):
@@ -390,3 +390,28 @@ def test_trifid_cipher_decoding_edge_case():
         assert trifid_cipher_decoding(TEXT_TO_CIPHER_POLISH, "EPSDUCVWYM.ZLKXNBTFGORIJHAQ", 5)
     with pytest.raises(ValueError):
         assert trifid_cipher_decoding(TEXT_TO_CIPHER_LATIN[:-2], "EPSDUCVWYM.ZLKXNBTFGORIJHAQ", random.randrange(-10, 1))
+
+@pytest.mark.parametrize("text_to_input, alphabet, key_matrix, character_to_fill",
+                         [("foo", LATIN_ALPHABET, [[1], [2]], "x"),
+                          ("foo", LATIN_ALPHABET, [[1, 2, 3], [2, 4, 6]], "x"),
+                          ("foo", LATIN_ALPHABET, [[0, 2], [30, 1]], "x"),
+                          ("foo", LATIN_ALPHABET, [[-1, 2], [5, 3]], "x"),
+                          ("foo", LATIN_ALPHABET, [[1, 3], [3, 4]], ""),
+                          ("foo", LATIN_ALPHABET, [[1, 3], [3, 4]], "xx"),
+                          ("foo", LATIN_ALPHABET, [[1, 3], [3, 4]], " "),
+                          ("foo", LATIN_ALPHABET, [[1, 4, 7], [2, 5, 8], [3, 6, 9]], "x"),
+                          ("foo", LATIN_ALPHABET, [[1, 2], [5, 3]], "x"),
+                          (TEXT_TO_CIPHER_POLISH, LATIN_ALPHABET, [[1, 3], [3, 4]], "x")])
+def test_hill_cipher_edge_case(text_to_input, alphabet, key_matrix, character_to_fill):
+    with pytest.raises(ValueError):
+        hill_cipher(text_to_input, alphabet, key_matrix, character_to_fill=character_to_fill)
+
+@pytest.mark.parametrize("text_to_input, alphabet, key_matrix, mode, character_to_fill, expected",
+                         [(TEXT_TO_CIPHER_LATIN[:-2], LATIN_ALPHABET, [[1, 3], [3, 4]], CIPHER_MODE, "x", "OHAYSOGUATCACHFERDFSIGHBWXTLLHTPTNXG"),
+                          (TEXT_TO_CIPHER_LATIN_2, LATIN_ALPHABET, [[6, 24, 1], [13, 16, 10], [20, 17, 15]], CIPHER_MODE, "L", "PXVBEIAJNQYMSBAGRTZXIUGKDYQNAQ"),
+                          (TEXT_TO_CIPHER_POLISH.replace(",", "")[:-2], POLISH_ALPHABET, [[8, 1], [3, 17]], CIPHER_MODE, "ą", "ĘĘGŹBRKŚOKEÓHIBTDHCRJFŁFLZĆJLEGT"),
+                          ("OHAYSOGUATCACHFERDFSIGHBWXTLLHTPTNXG", LATIN_ALPHABET, [[1, 3], [3, 4]], DECIPHER_MODE, "x", TEXT_TO_CIPHER_LATIN.replace(" ", "")[:-1]),
+                          ("PXVBEIAJNQYMSBAGRTZXIUGKDYQNAQ", LATIN_ALPHABET, [[6, 24, 1], [13, 16, 10], [20, 17, 15]], DECIPHER_MODE, "L", TEXT_TO_CIPHER_LATIN_2.replace(" ", "")),
+                          ("ĘĘGŹBRKŚOKEÓHIBTDHCRJFŁFLZĆJLEGT", POLISH_ALPHABET, [[8, 1], [3, 17]], DECIPHER_MODE, "ą", TEXT_TO_CIPHER_POLISH.replace(" ", "").replace(",", "")[:-1])])
+def test_hill_cipher(text_to_input, alphabet, key_matrix, mode, character_to_fill, expected):
+    assert hill_cipher(text_to_input, alphabet, key_matrix, mode, character_to_fill) == expected
