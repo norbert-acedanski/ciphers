@@ -1,4 +1,8 @@
+import math
 import random
+import numpy
+
+from typing import List
 
 
 LATIN_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -458,6 +462,55 @@ def trifid_cipher_decoding(text: str, key: str, period: int) -> str:
     for number_string in number_list:
         for letter_number in range(string_length := len(number_string)//3):
             processed_text += key[int(number_string[letter_number])*9 + int(number_string[letter_number + string_length])*3 + int(number_string[letter_number + 2*string_length])]
+    return processed_text
+
+def hill_cipher(text: str, alphabet: str, key_matrix: List[list], mode: int=CIPHER_MODE, character_to_fill: str= "x"):
+    text = text.replace(" ", "").upper()
+    number_of_columns = len(key_matrix)
+    for row in key_matrix:
+        if len(row) != number_of_columns:
+            raise ValueError("Key matrix must be a square matrix!")
+    for row in key_matrix:
+        for element in row:
+            if element > len(alphabet) - 1 or element < 0:
+                raise ValueError(f"Numbers in the matrix should be in range 0 - {len(alphabet) - 1} for this alphabet")
+    if len(character_to_fill.replace(" ", "")) != 1:
+        raise ValueError("Character to fill should be one character and not blank space!")
+    if any(char not in alphabet for char in text):
+        raise ValueError("Hill cipher supports only letters from the given alphabet!")
+    character_to_fill = character_to_fill.upper()
+    if text[-1] == character_to_fill:
+        print("Last letter of the message is the same as the \"character_to_fill\", that fills the gap. Cosider changing the \"character_to_fill\" to be different than " + text[-1])
+    key_array = numpy.array(key_matrix)
+    alphabet_length = len(alphabet)
+    key_determinant = (int(numpy.linalg.det(key_array)) % alphabet_length + alphabet_length) % alphabet_length
+    if key_determinant == 0:
+        raise ValueError("Determinant of the matrix is 0 (matrix is not inversable, thus, no decoding will be possible). Change the key matrix!")
+    if (common_devisor := math.gcd(key_determinant, alphabet_length)) != 1:
+        raise ValueError(f"Key matrix determinant has common devisor ({common_devisor}) with the length of the alphabet ({alphabet_length}). Change the key matrix!")
+    number_of_characters_to_fill = (len(key_matrix) - len(text)) % len(key_matrix)
+    text += character_to_fill*number_of_characters_to_fill
+    if mode == DECIPHER_MODE:
+        key_inverse = numpy.linalg.inv(key_array)
+        multiplicative_inverse = pow(key_determinant, -1, alphabet_length)
+        key_array = numpy.rint(numpy.fmod(multiplicative_inverse*numpy.fmod(numpy.fmod(key_inverse*numpy.linalg.det(key_array), alphabet_length) + alphabet_length, alphabet_length) + alphabet_length, alphabet_length))
+    key_matrix_size = len(key_matrix)
+    message_vector = [[0]]*key_matrix_size
+    sliced_text = [text[i:i+key_matrix_size] for i in range(0, len(text), key_matrix_size)]
+    processed_text = ""
+    for text_group in sliced_text:
+        for character_number, character in enumerate(text_group):
+            message_vector[character_number] = [alphabet.index(character)]
+        message_vector_array = numpy.array(message_vector)
+        enciphered_vector = numpy.fmod(numpy.matmul(key_array, message_vector_array), alphabet_length).tolist()
+        for character_number in enciphered_vector:
+            processed_text += alphabet[int(character_number[0])]
+    if mode == DECIPHER_MODE:
+        for _ in range(key_matrix_size):
+            if processed_text[-1] == character_to_fill:
+                processed_text = processed_text[:-1]
+            else:
+                break
     return processed_text
 
 if __name__ == '__main__':
