@@ -486,8 +486,8 @@ def hill_cipher(text: str, alphabet: str, key_matrix: List[list], mode: int=CIPH
     key_determinant = (int(numpy.linalg.det(key_array)) % alphabet_length + alphabet_length) % alphabet_length
     if key_determinant == 0:
         raise ValueError("Determinant of the matrix is 0 (matrix is not inversable, thus, no decoding will be possible). Change the key matrix!")
-    if (common_devisor := math.gcd(key_determinant, alphabet_length)) != 1:
-        raise ValueError(f"Key matrix determinant has common devisor ({common_devisor}) with the length of the alphabet ({alphabet_length}). Change the key matrix!")
+    if (common_divisor := math.gcd(key_determinant, alphabet_length)) != 1:
+        raise ValueError(f"Key matrix determinant has common devisor ({common_divisor}) with the length of the alphabet ({alphabet_length}). Change the key matrix!")
     number_of_characters_to_fill = (len(key_matrix) - len(text)) % len(key_matrix)
     text += character_to_fill*number_of_characters_to_fill
     if mode == DECIPHER_MODE:
