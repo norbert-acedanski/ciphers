@@ -507,7 +507,35 @@ def test_playfair_cipher_encoding(text_to_input, key_square, charater_to_replace
                           ("alphabet", "monarchybdefgiklpqstuvwxz", "j", "j", "x", "Characters, that are replaced and replaced with should be single, not equal letters and be in Latin alphabet!"),
                           ("alphabet", "monarchybdefgiklpqstuvwxz", "i", "j", "x", "Key square should not contain character, that was supposed to be replaced!"),
                           ("abxxab", "monarchybdefgiklpqstuvwxz", "j", "i", "x", "Text appears to have a double letter pair, that equals to the swap_letter: X. Please change the swap_letter!")])
-def test_playfair_cipher_encoding_edge_case(text_to_input, key_square, charater_to_replace, character_to_replace_with, swap_letter, error_message):
+def test_playfair_cipher_encoding_edge_cases(text_to_input, key_square, charater_to_replace, character_to_replace_with, swap_letter, error_message):
     with pytest.raises(ValueError) as exception_info:
         playfair_cipher_encoding(text_to_input, key_square, charater_to_replace, character_to_replace_with, swap_letter)
+    assert str(exception_info.value) == error_message
+
+@pytest.mark.parametrize("text_to_input, key_square, charater_to_replace, character_to_replace_with, swap_letter, expected",
+                         [("DBDPGVKWUOMTYSNBVGREDNCPOLCDZRFIOHUG", "MONARCHYIVKBXGUWTFZLEDSQP", "J", "I", "x", TEXT_TO_CIPHER_LATIN.replace("J", "I").replace("I", "(I/J)").replace("X", "(X/O)").replace(" ", "")[:-1] + "(X/G/_)"),
+                          ("OYXBULQACOFHLIFTOGALXCYHAGOB", "CYBERPUNKVJIWZMHAFXSQTLOG", "d", "t", "q", TEXT_TO_CIPHER_LATIN_2.replace("D", "T").replace("T", "(T/D)").replace(" ", "").replace("EE", "E(Q/E)"))])
+def test_playfair_cipher_decoding(text_to_input, key_square, charater_to_replace, character_to_replace_with, swap_letter, expected):
+    assert playfair_cipher_decoding(text_to_input, key_square, charater_to_replace, character_to_replace_with, swap_letter) == expected
+
+@pytest.mark.parametrize("text_to_input, key_square, charater_to_replace, character_to_replace_with, swap_letter, error_message",
+                         [("ąż", "monarchybdefgiklpqstuvwxz", "j", "i", "x", "Text should only have letters from the key_square!"),
+                          ("foo", "ążnarchybdefgiklpqstuvwxz", "j", "i", "x", "key_square should only have letters from Latin alphabet!"),
+                          ("foo", "abbarchybdefgiklpqstuvwxz", "j", "i", "x", "Key square appears to have a few same letters in it. \"playfair_cipher_generate_key_square\" function should be used to define it!"),
+                          ("alphabet", "monarchy", "j", "i", "x", "Key square appears to be wrong length - 8, should be 25!"),
+                          ("alphabet", "monarchybdefgiklpqstuvwxz", "j", "i", "", "Swap letter should be a single character!"),
+                          ("alphabet", "monarchybdefgiklpqstuvwxz", "j", "i", " ", "Swap letter should be a single character!"),
+                          ("alphabet", "monarchybdefgiklpqstuvwxz", "j", "i", "bb", "Swap letter should be a single character!"),
+                          ("alphabet", "monarchybdefgiklpqstuvwxz", "jj", "i", "x", "Characters, that are replaced and replaced with should be single, not equal letters and be in Latin alphabet!"),
+                          ("alphabet", "monarchybdefgiklpqstuvwxz", "j", "ii", "x", "Characters, that are replaced and replaced with should be single, not equal letters and be in Latin alphabet!"),
+                          ("alphabet", "monarchybdefgiklpqstuvwxz", " ", "i", "x", "Characters, that are replaced and replaced with should be single, not equal letters and be in Latin alphabet!"),
+                          ("alphabet", "monarchybdefgiklpqstuvwxz", "j", " ", "x", "Characters, that are replaced and replaced with should be single, not equal letters and be in Latin alphabet!"),
+                          ("alphabet", "monarchybdefgiklpqstuvwxz", "ą", "i", "x", "Characters, that are replaced and replaced with should be single, not equal letters and be in Latin alphabet!"),
+                          ("alphabet", "monarchybdefgiklpqstuvwxz", "j", "ć", "x", "Characters, that are replaced and replaced with should be single, not equal letters and be in Latin alphabet!"),
+                          ("alphabet", "monarchybdefgiklpqstuvwxz", "j", "j", "x", "Characters, that are replaced and replaced with should be single, not equal letters and be in Latin alphabet!"),
+                          ("alphabet", "monarchybdefgiklpqstuvwxz", "i", "j", "x", "Key square should not contain character, that was supposed to be replaced!"),
+                          ("alphabeto", "monarchybdefgiklpqstuvwxz", "j", "i", "x", "Length of the encoded text should be even!")])
+def test_playfair_cipher_decoding_edge_cases(text_to_input, key_square, charater_to_replace, character_to_replace_with, swap_letter, error_message):
+    with pytest.raises(ValueError) as exception_info:
+        playfair_cipher_decoding(text_to_input, key_square, charater_to_replace, character_to_replace_with, swap_letter)
     assert str(exception_info.value) == error_message
