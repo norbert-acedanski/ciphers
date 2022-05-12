@@ -391,6 +391,16 @@ def test_trifid_cipher_decoding_edge_cases():
     with pytest.raises(ValueError):
         assert trifid_cipher_decoding(TEXT_TO_CIPHER_LATIN[:-2], "EPSDUCVWYM.ZLKXNBTFGORIJHAQ", random.randrange(-10, 1))
 
+@pytest.mark.parametrize("text_to_input, alphabet, key_matrix, mode, character_to_fill, expected",
+                         [(TEXT_TO_CIPHER_LATIN[:-2], LATIN_ALPHABET, [[1, 3], [3, 4]], CIPHER_MODE, "x", "OHAYSOGUATCACHFERDFSIGHBWXTLLHTPTNXG"),
+                          (TEXT_TO_CIPHER_LATIN_2, LATIN_ALPHABET, [[6, 24, 1], [13, 16, 10], [20, 17, 15]], CIPHER_MODE, "L", "PXVBEIAJNQYMSBAGRTZXIUGKDYQNAQ"),
+                          (TEXT_TO_CIPHER_POLISH.replace(",", "")[:-2], POLISH_ALPHABET, [[8, 1], [3, 17]], CIPHER_MODE, "ą", "ĘĘGŹBRKŚOKEÓHIBTDHCRJFŁFLZĆJLEGT"),
+                          ("OHAYSOGUATCACHFERDFSIGHBWXTLLHTPTNXG", LATIN_ALPHABET, [[1, 3], [3, 4]], DECIPHER_MODE, "x", TEXT_TO_CIPHER_LATIN.replace(" ", "")[:-1]),
+                          ("PXVBEIAJNQYMSBAGRTZXIUGKDYQNAQ", LATIN_ALPHABET, [[6, 24, 1], [13, 16, 10], [20, 17, 15]], DECIPHER_MODE, "L", TEXT_TO_CIPHER_LATIN_2.replace(" ", "")),
+                          ("ĘĘGŹBRKŚOKEÓHIBTDHCRJFŁFLZĆJLEGT", POLISH_ALPHABET, [[8, 1], [3, 17]], DECIPHER_MODE, "ą", TEXT_TO_CIPHER_POLISH.replace(" ", "").replace(",", "")[:-1])])
+def test_hill_cipher(text_to_input, alphabet, key_matrix, mode, character_to_fill, expected):
+    assert hill_cipher(text_to_input, alphabet, key_matrix, mode, character_to_fill) == expected
+
 @pytest.mark.parametrize("text_to_input, alphabet, key_matrix, character_to_fill",
                          [("foo", LATIN_ALPHABET, [[1], [2]], "x"),
                           ("foo", LATIN_ALPHABET, [[1, 2, 3], [2, 4, 6]], "x"),
@@ -406,12 +416,39 @@ def test_hill_cipher_edge_case(text_to_input, alphabet, key_matrix, character_to
     with pytest.raises(ValueError):
         hill_cipher(text_to_input, alphabet, key_matrix, character_to_fill=character_to_fill)
 
-@pytest.mark.parametrize("text_to_input, alphabet, key_matrix, mode, character_to_fill, expected",
-                         [(TEXT_TO_CIPHER_LATIN[:-2], LATIN_ALPHABET, [[1, 3], [3, 4]], CIPHER_MODE, "x", "OHAYSOGUATCACHFERDFSIGHBWXTLLHTPTNXG"),
-                          (TEXT_TO_CIPHER_LATIN_2, LATIN_ALPHABET, [[6, 24, 1], [13, 16, 10], [20, 17, 15]], CIPHER_MODE, "L", "PXVBEIAJNQYMSBAGRTZXIUGKDYQNAQ"),
-                          (TEXT_TO_CIPHER_POLISH.replace(",", "")[:-2], POLISH_ALPHABET, [[8, 1], [3, 17]], CIPHER_MODE, "ą", "ĘĘGŹBRKŚOKEÓHIBTDHCRJFŁFLZĆJLEGT"),
-                          ("OHAYSOGUATCACHFERDFSIGHBWXTLLHTPTNXG", LATIN_ALPHABET, [[1, 3], [3, 4]], DECIPHER_MODE, "x", TEXT_TO_CIPHER_LATIN.replace(" ", "")[:-1]),
-                          ("PXVBEIAJNQYMSBAGRTZXIUGKDYQNAQ", LATIN_ALPHABET, [[6, 24, 1], [13, 16, 10], [20, 17, 15]], DECIPHER_MODE, "L", TEXT_TO_CIPHER_LATIN_2.replace(" ", "")),
-                          ("ĘĘGŹBRKŚOKEÓHIBTDHCRJFŁFLZĆJLEGT", POLISH_ALPHABET, [[8, 1], [3, 17]], DECIPHER_MODE, "ą", TEXT_TO_CIPHER_POLISH.replace(" ", "").replace(",", "")[:-1])])
-def test_hill_cipher(text_to_input, alphabet, key_matrix, mode, character_to_fill, expected):
-    assert hill_cipher(text_to_input, alphabet, key_matrix, mode, character_to_fill) == expected
+@pytest.mark.parametrize("keyword_to_input, alphabet",
+                         [(POLISH_ALPHABET, LATIN_ALPHABET),
+                          ("ŻÓŁW", LATIN_ALPHABET),
+                          ("ABBA", LATIN_ALPHABET)])
+def test_playfair_cipher_generate_key_square_edge_cases(keyword_to_input, alphabet):
+    with pytest.raises(ValueError):
+        playfair_cipher_generate_key_square(keyword_to_input, alphabet, False)
+
+@pytest.mark.parametrize("keyword_to_input, charater_to_remove",
+                         [("Monarchy", "J"),
+                          ("BLOWZY", "a"),
+                          ("cyberpunk", "Z")])
+def test_playfair_cipher_generate_key_square(keyword_to_input, charater_to_remove):
+    random_key_square = playfair_cipher_generate_key_square(keyword_to_input, charater_to_remove, False)
+    assert random_key_square.find(keyword_to_input.upper()) == 0
+    assert len(set(random_key_square)) == 25
+    assert charater_to_remove.upper() not in random_key_square
+
+@pytest.mark.parametrize("text_to_input, key_square, charater_to_replace, character_to_replace_with, swap_letter, expected",
+                         [(TEXT_TO_CIPHER_LATIN[:-2], "MONARCHYIVKBXGUWTFZLEDSQP", "J", "I", "x", "DBDPGVKWUOMTYSNBVGREDNCPOLCDZRFIOHUG"),
+                         (TEXT_TO_CIPHER_LATIN_2, "CYBERPUNKVJIWZMHAFXSQTLOG", "d", "t", "q", "OYXBULQACOFHLIFTOGALXCYHAGOB")])
+def test_playfair_cipher_encoding(text_to_input, key_square, charater_to_replace, character_to_replace_with, swap_letter, expected):
+    assert playfair_cipher_encoding(text_to_input, key_square, charater_to_replace, character_to_replace_with, swap_letter) == expected
+
+@pytest.mark.parametrize("text_to_input, alphabet, key_square, swap_letter",
+                         [("ąż", LATIN_ALPHABET, "monarchybdefgiklpqstuvwxz", "x"),
+                          ("foo", LATIN_ALPHABET, "ążnarchybdefgiklpqstuvwxz", "x"),
+                          ("foo", LATIN_ALPHABET, "abbarchybdefgiklpqstuvwxz", "x"),
+                          ("alphabet", LATIN_ALPHABET, "monarchy", "x"),
+                          ("abxxab", LATIN_ALPHABET, "monarchybdefgiklpqstuvwxz", "x"),
+                          ("alphabet", LATIN_ALPHABET, "monarchybdefgiklpqstuvwxz", ""),
+                          ("alphabet", LATIN_ALPHABET, "monarchybdefgiklpqstuvwxz", " "),
+                          ("alphabet", LATIN_ALPHABET, "monarchybdefgiklpqstuvwxz", "bb")])
+def test_playfair_cipher_encoding_edge_case(text_to_input, alphabet, key_square, swap_letter):
+    with pytest.raises(ValueError):
+        playfair_cipher_encoding(text_to_input, alphabet, key_square, swap_letter)
