@@ -264,9 +264,9 @@ def bifid_cipher_encoding(text: str, period: int, key: str="PHQGMEAYLNOFDXKRCVSZ
     if any(char not in LATIN_ALPHABET for char in text):
         raise Exception("Please insert letters from the latin alphabet only!")
     if len(key) != len(LATIN_ALPHABET) - 1:
-        raise ValueError("Key length hast to be 1 less than that of the Latin Alphabet!")
+        raise ValueError("Key length has to be 1 less than that of the Latin Alphabet!")
     if len(character_to_replace) != 1 or len(character_to_replace_with) != 1 or character_to_replace not in LATIN_ALPHABET or character_to_replace_with not in LATIN_ALPHABET or character_to_replace == character_to_replace_with:
-        raise ValueError("Invalid input. Characters have to be signle, different letters and have to be in Latin Alphabet!")
+        raise ValueError("Invalid character_that_was_replaced or character_that_was_replaced_with. Characters have to be single, different letters and have to be in Latin Alphabet!")
     text = text.replace(character_to_replace, character_to_replace_with)
     key_square = {}
     for row in range(1, 6):
@@ -294,7 +294,7 @@ def bifid_cipher_decoding(text: str, period: int, key: str="PHQGMEAYLNOFDXKRCVSZ
     if any(char not in LATIN_ALPHABET for char in text):
         raise Exception("Please insert letters from the latin alphabet only!")
     if len(key) != len(LATIN_ALPHABET) - 1:
-        raise ValueError("Key length hast to be 1 less than that of the Latin Alphabet!")
+        raise ValueError("Key length has to be 1 less than that of the Latin Alphabet!")
     if len(character_that_was_replaced) != 1 or len(character_that_was_replaced_with) != 1 \
            or character_that_was_replaced not in LATIN_ALPHABET or character_that_was_replaced_with not in LATIN_ALPHABET \
            or character_that_was_replaced == character_that_was_replaced_with:
@@ -517,14 +517,14 @@ def hill_cipher(text: str, alphabet: str, key_matrix: List[list], mode: int=CIPH
 
 def playfair_cipher_generate_key_square(keyword: str, character_to_remove: str="J", save_to_file: bool=True) -> str:
     keyword = keyword.upper()
-    character_to_remove = character_to_remove.upper()
+    character_to_remove = character_to_remove.replace(" ", "").upper()
     if (keyword_length := len(keyword)) > 25:
         raise ValueError("Keyword must be at most 25 characters long!")
     if any(character not in LATIN_ALPHABET for character in keyword):
         raise ValueError("Characters in the keyword should be Latin letters!")
     keyword_set = set(keyword)
     if len(keyword_set) != keyword_length:
-        raise ValueError("Word should contain only non-repeating letters!")
+        raise ValueError("Keyword should contain only non-repeating letters!")
     if len(character_to_remove) != 1 or character_to_remove not in LATIN_ALPHABET:
         raise ValueError("Invalid character_to_remove. It has to be a single letter and has to be in Latin Alphabet!")
     if character_to_remove in keyword:
@@ -547,7 +547,7 @@ def playfair_cipher_encoding(text: str, key_square: str, charater_to_replace: st
     charater_to_replace = charater_to_replace.replace(" ", "").upper()
     character_to_replace_with = character_to_replace_with.replace(" ", "").upper()
     if any(char not in LATIN_ALPHABET for char in key_square):
-        raise ValueError("Playfair cipher key_square supports only letters from the given alphabet!")
+        raise ValueError("key_square supports only letters from Latin alphabet!")
     if len(set(key_square)) != len(key_square):
         raise ValueError("Key square appears to have a few same letters in it. Use \"playfair_cipher_generate_key_square\" function")
     if len(key_square) != 25:
@@ -575,7 +575,7 @@ def playfair_cipher_encoding(text: str, key_square: str, charater_to_replace: st
     for pair in sliced_text:
         if pair[0] == pair[1]:
             if pair[0] == swap_letter:
-                raise ValueError(f"Text appears to have a double letter pair, that equals to the swapp_letter: {swap_letter}. Please change the swapp_letter!")
+                raise ValueError(f"Text appears to have a double letter pair, that equals to the swap_letter: {swap_letter}. Please change the swap_letter!")
             pair = pair[0] + swap_letter
         first_letter = get_row_and_column(pair[0])
         second_letter = get_row_and_column(pair[1])
