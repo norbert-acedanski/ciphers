@@ -295,8 +295,10 @@ def bifid_cipher_decoding(text: str, period: int, key: str="PHQGMEAYLNOFDXKRCVSZ
         raise Exception("Please insert letters from the latin alphabet only!")
     if len(key) != len(LATIN_ALPHABET) - 1:
         raise ValueError("Key length hast to be 1 less than that of the Latin Alphabet!")
-    if len(character_that_was_replaced) != 1 or len(character_that_was_replaced_with) != 1 or character_that_was_replaced not in LATIN_ALPHABET or character_that_was_replaced_with not in LATIN_ALPHABET or character_that_was_replaced == character_that_was_replaced_with:
-        raise ValueError("Invalid input. Characters have to be signle, different letters and have to be in Latin Alphabet!")
+    if len(character_that_was_replaced) != 1 or len(character_that_was_replaced_with) != 1 \
+           or character_that_was_replaced not in LATIN_ALPHABET or character_that_was_replaced_with not in LATIN_ALPHABET \
+           or character_that_was_replaced == character_that_was_replaced_with:
+        raise ValueError("Invalid character_that_was_replaced or character_that_was_replaced_with. Characters have to be single, different letters and have to be in Latin Alphabet!")
     text = text.upper()
     key_square = {}
     for row in range(1, 6):
@@ -396,7 +398,7 @@ def trifid_cipher_generate_random_key(additional_character: str=".", save_to_fil
     extended_alphabet = LATIN_ALPHABET + additional_character
     random_key = "".join(random.sample(extended_alphabet, len(extended_alphabet)))
     if save_to_file:
-        with open("./generated_files/random_key_bifid.txt", "w", encoding="utf-8") as output_file:
+        with open("./generated_files/random_key_trifid.txt", "w", encoding="utf-8") as output_file:
             output_file.write(random_key)
     return random_key
 
@@ -496,7 +498,7 @@ def hill_cipher(text: str, alphabet: str, key_matrix: List[list], mode: int=CIPH
         key_array = numpy.rint(numpy.fmod(multiplicative_inverse*numpy.fmod(numpy.fmod(key_inverse*numpy.linalg.det(key_array), alphabet_length) + alphabet_length, alphabet_length) + alphabet_length, alphabet_length))
     key_matrix_size = len(key_matrix)
     message_vector = [[0]]*key_matrix_size
-    sliced_text = [text[i:i+key_matrix_size] for i in range(0, len(text), key_matrix_size)]
+    sliced_text = [text[i:i + key_matrix_size] for i in range(0, len(text), key_matrix_size)]
     processed_text = ""
     for text_group in sliced_text:
         for character_number, character in enumerate(text_group):
@@ -512,6 +514,78 @@ def hill_cipher(text: str, alphabet: str, key_matrix: List[list], mode: int=CIPH
             else:
                 break
     return processed_text
+
+def playfair_cipher_generate_key_square(keyword: str, character_to_remove: str="J", save_to_file: bool=True) -> str:
+    keyword = keyword.upper()
+    character_to_remove = character_to_remove.upper()
+    if (keyword_length := len(keyword)) > 25:
+        raise ValueError("Keyword must be at most 25 characters long!")
+    if any(character not in LATIN_ALPHABET for character in keyword):
+        raise ValueError("Characters in the keyword should be Latin letters!")
+    keyword_set = set(keyword)
+    if len(keyword_set) != keyword_length:
+        raise ValueError("Word should contain only non-repeating letters!")
+    if len(character_to_remove) != 1 or character_to_remove not in LATIN_ALPHABET:
+        raise ValueError("Invalid character_to_remove. It has to be a single letter and has to be in Latin Alphabet!")
+    if character_to_remove in keyword:
+        print("Character to be removed found in provided keyword. Check this action before continuing!")
+    keyword.replace(character_to_remove, "")
+    key_square = keyword
+    alphabet = LATIN_ALPHABET.replace(character_to_remove, "")
+    for character in keyword:
+        alphabet = alphabet.replace(character, "")
+    key_square += "".join(random.sample(alphabet, 25 - keyword_length))
+    if save_to_file:
+        with open("./generated_files/random_key_playfair.txt", "w", encoding="utf-8") as output_file:
+            output_file.write(key_square)
+    return key_square
+
+def playfair_cipher_encoding(text: str, key_square: str, charater_to_replace: str="J", character_to_replace_with: str="I", swap_letter: str="X") -> str:
+    text = text.replace(" ", "").upper()
+    key_square = key_square.replace(" ", "").upper()
+    swap_letter = swap_letter.replace(" ", "").upper()
+    charater_to_replace = charater_to_replace.replace(" ", "").upper()
+    character_to_replace_with = character_to_replace_with.replace(" ", "").upper()
+    if any(char not in LATIN_ALPHABET for char in key_square):
+        raise ValueError("Playfair cipher key_square supports only letters from the given alphabet!")
+    if len(set(key_square)) != len(key_square):
+        raise ValueError("Key square appears to have a few same letters in it. Use \"playfair_cipher_generate_key_square\" function")
+    if len(key_square) != 25:
+        raise ValueError(f"Key square appears to be wrong length - {len(key_square)}, should be 25!")
+    if len(swap_letter) != 1:
+        raise ValueError("Swap letter should be a single character!")
+    if len(charater_to_replace) != 1 or len(character_to_replace_with) != 1 or \
+           charater_to_replace not in LATIN_ALPHABET or character_to_replace_with not in LATIN_ALPHABET or \
+           charater_to_replace == character_to_replace_with:
+        raise ValueError("Characters, that are replaced and replaced with should be single, not equal letters and be in Latin alphabet!")
+    if charater_to_replace in key_square:
+        raise ValueError("Key square should not contain character, that was supposed to be replaced!")
+    if len(text) % 2 != 0:
+        text += swap_letter
+    text = text.replace(charater_to_replace, character_to_replace_with)
+    if any(char not in key_square for char in text):
+        raise ValueError("Playfair cipher supports only letters from the key_square!")
+    sliced_text = [text[i:i + 2] for i in range(0, len(text), 2)]
+    sliced_key_square = [key_square[i:i + 5] for i in range(0, len(key_square), 5)]
+    def get_row_and_column(letter):
+        for slice_number, slice in enumerate(sliced_key_square):
+            if letter in slice:
+                return {"row": slice_number, "column": slice.index(letter)}
+    processed_text = ""
+    for pair in sliced_text:
+        if pair[0] == pair[1]:
+            if pair[0] == swap_letter:
+                raise ValueError(f"Text appears to have a double letter pair, that equals to the swapp_letter: {swap_letter}. Please change the swapp_letter!")
+            pair = pair[0] + swap_letter
+        first_letter = get_row_and_column(pair[0])
+        second_letter = get_row_and_column(pair[1])
+        if first_letter["row"] == second_letter["row"]:
+            processed_text += sliced_key_square[first_letter["row"]][(first_letter["column"] + 1) % 5] + sliced_key_square[second_letter["row"]][(second_letter["column"] + 1) % 5]
+        elif first_letter["column"] == second_letter["column"]:
+            processed_text += sliced_key_square[(first_letter["row"] + 1) % 5][first_letter["column"]] + sliced_key_square[(second_letter["row"] + 1) % 5][second_letter["column"]]
+        else:
+            processed_text += sliced_key_square[first_letter["row"]][second_letter["column"]] + sliced_key_square[second_letter["row"]][first_letter["column"]]
+    return processed_text    
 
 if __name__ == '__main__':
     pass
