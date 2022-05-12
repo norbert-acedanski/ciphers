@@ -585,7 +585,58 @@ def playfair_cipher_encoding(text: str, key_square: str, charater_to_replace: st
             processed_text += sliced_key_square[(first_letter["row"] + 1) % 5][first_letter["column"]] + sliced_key_square[(second_letter["row"] + 1) % 5][second_letter["column"]]
         else:
             processed_text += sliced_key_square[first_letter["row"]][second_letter["column"]] + sliced_key_square[second_letter["row"]][first_letter["column"]]
-    return processed_text    
+    return processed_text
 
+def playfair_cipher_decoding(text: str, key_square: str, charater_that_was_replaced: str="J", charater_that_was_replaced_with: str="I", swap_letter: str="X") -> str:
+    text = text.replace(" ", "").upper()
+    key_square = key_square.replace(" ", "").upper()
+    swap_letter = swap_letter.replace(" ", "").upper()
+    charater_that_was_replaced = charater_that_was_replaced.replace(" ", "").upper()
+    charater_that_was_replaced_with = charater_that_was_replaced_with.replace(" ", "").upper()
+    if any(char not in LATIN_ALPHABET for char in key_square):
+        raise ValueError("key_square should only have letters from Latin alphabet!")
+    if len(set(key_square)) != len(key_square):
+        raise ValueError("Key square appears to have a few same letters in it. \"playfair_cipher_generate_key_square\" function should be used to define it!")
+    if len(key_square) != 25:
+        raise ValueError(f"Key square appears to be wrong length - {len(key_square)}, should be 25!")
+    if len(swap_letter) != 1:
+        raise ValueError("Swap letter should be a single character!")
+    if len(charater_that_was_replaced) != 1 or len(charater_that_was_replaced_with) != 1 or \
+           charater_that_was_replaced not in LATIN_ALPHABET or charater_that_was_replaced_with not in LATIN_ALPHABET or \
+           charater_that_was_replaced == charater_that_was_replaced_with:
+        raise ValueError("Characters, that are replaced and replaced with should be single, not equal letters and be in Latin alphabet!")
+    if charater_that_was_replaced in key_square:
+        raise ValueError("Key square should not contain character, that was supposed to be replaced!")
+    if len(text) % 2 != 0:
+        raise ValueError("Length of the encoded text should be even!")
+    if any(char not in key_square for char in text):
+        raise ValueError("Text should only have letters from the key_square!")
+    sliced_text = [text[i:i + 2] for i in range(0, len(text), 2)]
+    sliced_key_square = [key_square[i:i + 5] for i in range(0, len(key_square), 5)]
+    def get_row_and_column(letter):
+        for slice_number, slice in enumerate(sliced_key_square):
+            if letter in slice:
+                return {"row": slice_number, "column": slice.index(letter)}
+    processed_text = ""
+    for pair in sliced_text:
+        first_letter = get_row_and_column(pair[0])
+        second_letter = get_row_and_column(pair[1])
+        if first_letter["row"] == second_letter["row"]:
+            processed_text += sliced_key_square[first_letter["row"]][(first_letter["column"] - 1) % 5] + sliced_key_square[second_letter["row"]][(second_letter["column"] - 1) % 5]
+        elif first_letter["column"] == second_letter["column"]:
+            processed_text += sliced_key_square[(first_letter["row"] - 1) % 5][first_letter["column"]] + sliced_key_square[(second_letter["row"] - 1) % 5][second_letter["column"]]
+        else:
+            processed_text += sliced_key_square[first_letter["row"]][second_letter["column"]] + sliced_key_square[second_letter["row"]][first_letter["column"]]
+    sliced_processed_text = [processed_text[i:i + 2] for i in range(0, len(processed_text), 2)]
+    processed_text = ""
+    for pair in sliced_processed_text[:-1]:
+        if pair[1] == swap_letter:
+            pair = pair[0] + f"({swap_letter}/{pair[0]})"
+        processed_text += pair
+    processed_text += sliced_processed_text[-1]
+    if processed_text[-1] == swap_letter:
+        processed_text = processed_text[:-1] + f"({swap_letter}/{processed_text[-2]}/_)"
+    return processed_text.replace(charater_that_was_replaced_with, f"({charater_that_was_replaced_with}/{charater_that_was_replaced})")
+    
 if __name__ == '__main__':
     pass
