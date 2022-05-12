@@ -260,10 +260,10 @@ Project also contains basic examples of ciphering and deciphering as test cases.
 [13] Running key cipher - [Practical Cryptography][practialcryptography_running_key], [Wikipedia][wikipedia_running_key]  
 [14] Homophonic substitution cipher - [Practical Cryptography][practialcryptography_homophonic_substitution], [Wikipedia][wikipedia_homophonic_substitution]  
 [15] Trifid cipher - [Practical Cryptography][practialcryptography_trifid], [Wikipedia][wikipedia_trifid]  
-[15] Hill cipher - [Practical Cryptography][practialcryptography_hill], [Wikipedia][wikipedia_hill]  
-[16] Playfair cipher - [Practical Cryptography][practicalcryptography_playfair], [Wikipedia][wikipedia_playfair]  
-[16] Quotes from "Moving Pictures" by Terry Pratchet - [Chris Jones Writing][moving_pictures_quotes]  
-[17] Quotes from Stanisław Lem's books - [Lubimy czytać][lem_books_quotes]
+[16] Hill cipher - [Practical Cryptography][practialcryptography_hill], [Wikipedia][wikipedia_hill]  
+[17] Playfair cipher - [Practical Cryptography][practicalcryptography_playfair], [Wikipedia][wikipedia_playfair]  
+[18] Quotes from "Moving Pictures" by Terry Pratchet - [Chris Jones Writing][moving_pictures_quotes]  
+[19] Quotes from Stanisław Lem's books - [Lubimy czytać][lem_books_quotes]
 
 # Licence
 Distributed under the MIT License. See LICENSE file for more information.
