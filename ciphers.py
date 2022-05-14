@@ -637,6 +637,39 @@ def playfair_cipher_decoding(text: str, key_square: str, charater_that_was_repla
     if processed_text[-1] == swap_letter:
         processed_text = processed_text[:-1] + f"({swap_letter}/{processed_text[-2]}/_)"
     return processed_text.replace(charater_that_was_replaced_with, f"({charater_that_was_replaced_with}/{charater_that_was_replaced})")
+
+def morse_code(text: str, gap_fill: str=" ", mode: int=CIPHER_MODE) -> str:
+    international_characters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", 
+                                 "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", ".", ",", ":", '"', "'", "!", 
+                                 "?", "@", "-", ";", "(", ")", "=", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
+    international_morse_equivalent = [".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---", "-.-", ".-..", "--", 
+                                     "-.", "---", ".--.", "--.-", ".-.", "...", "-", "..-", "...-", ".--", "-..-", "-.--", "--..", 
+                                     ".-.-.-", "--..--", "---...", ".-..-.", ".----.", "-.-.--", "..--..", ".--.-.", "-....-", "-.-.-.", "-.--.", "-.--.-", "-...-",
+                                     ".----", "..---", "...--", "....-", ".....", "-....", "--...", "---..", "----.", "-----"]
+    if mode == CIPHER_MODE and any(character not in [*international_characters, " "] for character in text.upper()):
+        raise ValueError("Characters in provided text are not in the internatilnal character set!")
+    elif mode == DECIPHER_MODE and any(character not in ".-" + gap_fill for character in text):
+        raise ValueError("Enciphered text appears to have characters, that should not be there after encoding!")
+    if gap_fill in international_characters:
+        raise ValueError("Gap fill character should not be a character present in international_characters!")
+    if gap_fill == "":
+        raise ValueError("Gap fill should be at least one character long (ideally a space or a character not used in the text)!")
+    processed_text = ""
+    if mode == CIPHER_MODE:
+        text = text.upper()
+        for character in text:
+            processed_text += international_morse_equivalent[international_characters.index(character)] + gap_fill if character != " " else gap_fill
+    elif mode == DECIPHER_MODE:
+        splited_words = text.split(gap_fill*2)
+        splited_characters = [[]]*len(splited_words)
+        for word_number, word in enumerate(splited_words):
+            splited_characters[word_number] = word.split(gap_fill)
+        for word in splited_characters:
+            for character in word:
+                processed_text += international_characters[international_morse_equivalent.index(character)]
+            processed_text += " "
+    processed_text = processed_text[:-1]
+    return processed_text
     
 if __name__ == '__main__':
     pass
