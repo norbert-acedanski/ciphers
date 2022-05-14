@@ -539,3 +539,21 @@ def test_playfair_cipher_decoding_edge_cases(text_to_input, key_square, charater
     with pytest.raises(ValueError) as exception_info:
         playfair_cipher_decoding(text_to_input, key_square, charater_to_replace, character_to_replace_with, swap_letter)
     assert str(exception_info.value) == error_message
+
+@pytest.mark.parametrize("text_to_input, gap_fill, mode, expected",
+                         [(TEXT_TO_CIPHER_LATIN, " ", CIPHER_MODE, "- .... .  --.- ..- .. -.-. -.-  -... .-. --- .-- -.  ..-. --- -..-  .--- ..- -- .--. ...  --- ...- . .-.  - .... .  .-.. .- --.. -.--  -.. --- --.  ....."),
+                         (TEXT_TO_CIPHER_LATIN_2, "x", CIPHER_MODE, "-..x.x..-.x.x-.x-..xx-x....x.xx.x.-x...x-xx.--x.-x.-..x.-..xx---x..-.xx-x....x.xx-.-.x.-x...x-x.-..x."),
+                         ("- .... .  --.- ..- .. -.-. -.-  -... .-. --- .-- -.  ..-. --- -..-  .--- ..- -- .--. ...  --- ...- . .-.  - .... .  .-.. .- --.. -.--  -.. --- --.  .....", " ", DECIPHER_MODE, TEXT_TO_CIPHER_LATIN),
+                         ("-..x.x..-.x.x-.x-..xx-x....x.xx.x.-x...x-xx.--x.-x.-..x.-..xx---x..-.xx-x....x.xx-.-.x.-x...x-x.-..x.", "x", DECIPHER_MODE, TEXT_TO_CIPHER_LATIN_2)])
+def test_morse_code(text_to_input, gap_fill, mode, expected):
+    assert morse_code(text_to_input, gap_fill, mode) == expected
+
+@pytest.mark.parametrize("text_to_input, gap_fill, mode, error_message",
+                         [(TEXT_TO_CIPHER_POLISH, " ", CIPHER_MODE, "Characters in provided text are not in the internatilnal character set!"),
+                         (TEXT_TO_CIPHER_LATIN, " ", DECIPHER_MODE, "Enciphered text appears to have characters, that should not be there after encoding!"),
+                         (TEXT_TO_CIPHER_LATIN, "A", CIPHER_MODE, "Gap fill character should not be a character present in international_characters!"),
+                         (TEXT_TO_CIPHER_LATIN, "", CIPHER_MODE, "Gap fill should be at least one character long (ideally a space or a character not used in the text)!")])
+def test_morse_code_edge_cases(text_to_input, gap_fill, mode, error_message):
+    with pytest.raises(ValueError) as exception_info:
+        morse_code(text_to_input, gap_fill, mode)
+    assert str(exception_info.value) == error_message
