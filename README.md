@@ -6,7 +6,7 @@
 ![GitHub](https://img.shields.io/github/license/norbert-acedanski/ciphers)
 
 # About The Project
-Script gives an oportunity to encode text with Caesar, Vigenère, Bacon Atbash, Simple Substitution, Columnar Transposition, Autokey, Rail-Fence, Bifid, Beaufort, Porta, Running key, Homophonic substitution, Hill and Playfair ciphers and also decode messages.
+Script gives an oportunity, with Caesar, Vigenère, Bacon Atbash, Simple Substitution, Columnar Transposition, Autokey, Rail-Fence, Bifid, Beaufort, Porta, Running key, Homophonic substitution, Hill, Playfair ciphers and Morse code, to encode and decode messages.
 
 # Built With
 Python 3.9.10
@@ -51,7 +51,7 @@ pip install tox
 tox --skip-missing-interpreters
 ```
 
-Currently, there should be **224 tests passed**.  
+Currently, there should be **232 tests passed**.  
 If all tests are passing, you can use the module safely.
 
 
@@ -203,7 +203,7 @@ If all tests are passing, you can use the module safely.
         - __alphabet__ - kind of alphabet you work with (latin, polish, etc.) - all are variables in the script,
         - __key_matrix__ - matrix used as a key to cipher/decipher a message, such that the determinant is not zero and is relatively prime with the length of the alphabet,
     - Optional arguments:
-        - __mode__ - optional argument used to determine the operation mode of the function (*CIPHER_MODE* and *DECIPHER_MODE* - these are variables in the script) - cipher mode is a default mode.
+        - __mode__ - optional argument used to determine the operation mode of the function (*CIPHER_MODE* and *DECIPHER_MODE* - these are variables in the script) - cipher mode is a default mode,
         - __character_to_fill__ - A character to fill the missing spaces when they appear.  
 
     Function can be used either to cipher or decipher messages.
@@ -224,12 +224,19 @@ If all tests are passing, you can use the module safely.
         - __character_that_was_replace__ - character that was replaced in encoding. Default character is "J",
         - __character_that_was_replace_with__ - character, that replaces the character from above. Default character is "I"
         - __swap_letter__ - character, that replaced a character, if a pair of the same letters is found in the text. Default is "X".
-31. The result is returned after the execution is complete.
+31. ***morse_code*** accepts 1 argument and 2 optional arguments:
+    - Required arguments:
+        - __text__ - text to cipher (from ***read_file*** function or from itself after encoding),
+    - Optional arguments:
+        - __gap_fill__ - A character to fill the missing spaces between words and/or characters,
+        - __mode__ - optional argument used to determine the operation mode of the function (*CIPHER_MODE* and *DECIPHER_MODE* - these are variables in the script) - cipher mode is a default mode.  
+
+    Function can be used either to cipher or decipher messages.
+32. The result is returned after the execution is complete.
 
 # Planned Ciphers:
 
 - Straddle Checkerboard Cipher
-- Morse Cipher
 - Fractionated Morse Cipher
 
 # To Do:
@@ -238,6 +245,8 @@ If all tests are passing, you can use the module safely.
 - Make a package out of this project
 - Allow **homophonic_substitution_cipher** to accept different alphabets and the distribution of letters
 - Write a function, that, based on the alphabet, returns a distributed list of characters for letters in accepted alphabet
+- Add default values to the descriptions
+- Refactor functions
 
 # Usage
 Use it to play with ciphering and deciphering messages as you wish.  
@@ -262,8 +271,9 @@ Project also contains basic examples of ciphering and deciphering as test cases.
 [15] Trifid cipher - [Practical Cryptography][practialcryptography_trifid], [Wikipedia][wikipedia_trifid]  
 [16] Hill cipher - [Practical Cryptography][practialcryptography_hill], [Wikipedia][wikipedia_hill]  
 [17] Playfair cipher - [Practical Cryptography][practicalcryptography_playfair], [Wikipedia][wikipedia_playfair]  
-[18] Quotes from "Moving Pictures" by Terry Pratchet - [Chris Jones Writing][moving_pictures_quotes]  
-[19] Quotes from Stanisław Lem's books - [Lubimy czytać][lem_books_quotes]
+[18] Morse code - [Wikipedia][wikipedia_morse]  
+[19] Quotes from "Moving Pictures" by Terry Pratchet - [Chris Jones Writing][moving_pictures_quotes]  
+[20] Quotes from Stanisław Lem's books - [Lubimy czytać][lem_books_quotes]
 
 # Licence
 Distributed under the MIT License. See LICENSE file for more information.
@@ -300,5 +310,6 @@ Distributed under the MIT License. See LICENSE file for more information.
 [wikipedia_hill]: https://en.wikipedia.org/wiki/Hill_cipher
 [practicalcryptography_playfair]: http://practicalcryptography.com/ciphers/classical-era/playfair/
 [wikipedia_playfair]: https://en.wikipedia.org/wiki/Playfair_cipher
+[wikipedia_morse]: https://en.wikipedia.org/wiki/Morse_code
 [moving_pictures_quotes]: http://www.chrisjoneswriting.com/moving-pictures.html
 [lem_books_quotes]: https://lubimyczytac.pl/cytaty/54/autor/stanislaw-lem
