@@ -285,9 +285,9 @@ Project also contains basic examples of ciphering and deciphering as test cases.
 [17] Playfair cipher - [Practical Cryptography][practicalcryptography_playfair], [Wikipedia][wikipedia_playfair]  
 [18] Morse code - [Wikipedia][wikipedia_morse]  
 [19] Fractionated morse code - [Practical Cryptography][practicalcryptography_fractionated_morse]  
-[19] Ternary system = [Wikipedia][wikipedia_ternary]  
-[20] Quotes from "Moving Pictures" by Terry Pratchet - [Chris Jones Writing][moving_pictures_quotes]  
-[21] Quotes from Stanisław Lem's books - [Lubimy czytać][lem_books_quotes]
+[20] Ternary system - [Wikipedia][wikipedia_ternary]  
+[21] Quotes from "Moving Pictures" by Terry Pratchet - [Chris Jones Writing][moving_pictures_quotes]  
+[22] Quotes from Stanisław Lem's books - [Lubimy czytać][lem_books_quotes]
 
 # Licence
 Distributed under the MIT License. See LICENSE file for more information.
