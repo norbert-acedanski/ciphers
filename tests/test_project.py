@@ -142,7 +142,7 @@ def test_autokey_cipher_encoding(text_to_input, keyword, alphabet, expected):
 
 @pytest.mark.parametrize("text_to_input, keyword, alphabet",
                          [(TEXT_TO_CIPHER_LATIN, "fortifiation", LATIN_ALPHABET),
-                         (TEXT_TO_CIPHER_POLISH, "męski", POLISH_ALPHABET)])
+                          (TEXT_TO_CIPHER_POLISH, "męski", POLISH_ALPHABET)])
 def test_autokey_cipher_encoding_edge_cases(text_to_input, keyword, alphabet):
     with pytest.raises(ValueError) as exception_info:
         autokey_cipher_encoding(text_to_input, keyword, alphabet)
@@ -158,7 +158,7 @@ def test_autokey_cipher_decoding(text_to_input, keyword, alphabet, expected):
 
 @pytest.mark.parametrize("text_to_input, keyword, alphabet",
                          [(TEXT_TO_CIPHER_LATIN, "fortifiation", LATIN_ALPHABET),
-                         (TEXT_TO_CIPHER_POLISH, "męski", POLISH_ALPHABET)])
+                          (TEXT_TO_CIPHER_POLISH, "męski", POLISH_ALPHABET)])
 def test_autokey_cipher_decoding_edge_cases(text_to_input, keyword, alphabet):
     with pytest.raises(ValueError) as exception_info:
         autokey_cipher_decoding(text_to_input, keyword, alphabet)
@@ -486,7 +486,7 @@ def test_playfair_cipher_generate_key_square_edge_cases(keyword_to_input, charac
 
 @pytest.mark.parametrize("text_to_input, key_square, charater_to_replace, character_to_replace_with, swap_letter, expected",
                          [(TEXT_TO_CIPHER_LATIN[:-2], "MONARCHYIVKBXGUWTFZLEDSQP", "J", "I", "x", "DBDPGVKWUOMTYSNBVGREDNCPOLCDZRFIOHUG"),
-                         (TEXT_TO_CIPHER_LATIN_2, "CYBERPUNKVJIWZMHAFXSQTLOG", "d", "t", "q", "OYXBULQACOFHLIFTOGALXCYHAGOB")])
+                          (TEXT_TO_CIPHER_LATIN_2, "CYBERPUNKVJIWZMHAFXSQTLOG", "d", "t", "q", "OYXBULQACOFHLIFTOGALXCYHAGOB")])
 def test_playfair_cipher_encoding(text_to_input, key_square, charater_to_replace, character_to_replace_with, swap_letter, expected):
     assert playfair_cipher_encoding(text_to_input, key_square, charater_to_replace, character_to_replace_with, swap_letter) == expected
 
@@ -542,18 +542,54 @@ def test_playfair_cipher_decoding_edge_cases(text_to_input, key_square, charater
 
 @pytest.mark.parametrize("text_to_input, gap_fill, mode, expected",
                          [(TEXT_TO_CIPHER_LATIN, " ", CIPHER_MODE, "- .... .  --.- ..- .. -.-. -.-  -... .-. --- .-- -.  ..-. --- -..-  .--- ..- -- .--. ...  --- ...- . .-.  - .... .  .-.. .- --.. -.--  -.. --- --.  ....."),
-                         (TEXT_TO_CIPHER_LATIN_2, "x", CIPHER_MODE, "-..x.x..-.x.x-.x-..xx-x....x.xx.x.-x...x-xx.--x.-x.-..x.-..xx---x..-.xx-x....x.xx-.-.x.-x...x-x.-..x."),
-                         ("- .... .  --.- ..- .. -.-. -.-  -... .-. --- .-- -.  ..-. --- -..-  .--- ..- -- .--. ...  --- ...- . .-.  - .... .  .-.. .- --.. -.--  -.. --- --.  .....", " ", DECIPHER_MODE, TEXT_TO_CIPHER_LATIN),
-                         ("-..x.x..-.x.x-.x-..xx-x....x.xx.x.-x...x-xx.--x.-x.-..x.-..xx---x..-.xx-x....x.xx-.-.x.-x...x-x.-..x.", "x", DECIPHER_MODE, TEXT_TO_CIPHER_LATIN_2)])
+                          (TEXT_TO_CIPHER_LATIN_2, "x", CIPHER_MODE, "-..x.x..-.x.x-.x-..xx-x....x.xx.x.-x...x-xx.--x.-x.-..x.-..xx---x..-.xx-x....x.xx-.-.x.-x...x-x.-..x."),
+                          ("- .... .  --.- ..- .. -.-. -.-  -... .-. --- .-- -.  ..-. --- -..-  .--- ..- -- .--. ...  --- ...- . .-.  - .... .  .-.. .- --.. -.--  -.. --- --.  .....", " ", DECIPHER_MODE, TEXT_TO_CIPHER_LATIN),
+                          ("-..x.x..-.x.x-.x-..xx-x....x.xx.x.-x...x-xx.--x.-x.-..x.-..xx---x..-.xx-x....x.xx-.-.x.-x...x-x.-..x.", "x", DECIPHER_MODE, TEXT_TO_CIPHER_LATIN_2)])
 def test_morse_code(text_to_input, gap_fill, mode, expected):
     assert morse_code(text_to_input, gap_fill, mode) == expected
 
 @pytest.mark.parametrize("text_to_input, gap_fill, mode, error_message",
                          [(TEXT_TO_CIPHER_POLISH, " ", CIPHER_MODE, "Characters in provided text are not in the internatilnal character set!"),
-                         (TEXT_TO_CIPHER_LATIN, " ", DECIPHER_MODE, "Enciphered text appears to have characters, that should not be there after encoding!"),
-                         (TEXT_TO_CIPHER_LATIN, "A", CIPHER_MODE, "Gap fill character should not be a character present in international_characters!"),
-                         (TEXT_TO_CIPHER_LATIN, "", CIPHER_MODE, "Gap fill should be at least one character long (ideally a space or a character not used in the text)!")])
+                          (TEXT_TO_CIPHER_LATIN, " ", DECIPHER_MODE, "Enciphered text appears to have characters, that should not be there after encoding!"),
+                          (TEXT_TO_CIPHER_LATIN, "A", CIPHER_MODE, "Gap fill character should not be a character present in international_characters!"),
+                          (TEXT_TO_CIPHER_LATIN, "", CIPHER_MODE, "Gap fill should be at least one character long (ideally a space or a character not used in the text)!")])
 def test_morse_code_edge_cases(text_to_input, gap_fill, mode, error_message):
     with pytest.raises(ValueError) as exception_info:
         morse_code(text_to_input, gap_fill, mode)
+    assert str(exception_info.value) == error_message
+
+@pytest.mark.parametrize("keyword_to_input",
+                         [("Monarchy"),
+                          ("BLOWZY"),
+                          ("cyberpunk")])
+def test_fractionated_morse_code_generate_key_table(keyword_to_input):
+    random_key_square = fractionated_morse_code_generate_key_table(keyword_to_input, False)
+    assert random_key_square.find(keyword_to_input.upper()) == 0
+    assert len(set(random_key_square)) == 26
+
+@pytest.mark.parametrize("keyword_to_input, error_message",
+                         [(POLISH_ALPHABET, "Keyword must be at most 26 characters long!"),
+                          ("ŻÓŁW", "Characters in the keyword should be Latin letters!"),
+                          ("ABBA", "Keyword should contain only non-repeating letters!")])
+def test_fractionated_morse_code_generate_key_table_edge_cases(keyword_to_input, error_message):
+    with pytest.raises(ValueError) as exception_info:
+        fractionated_morse_code_generate_key_table(keyword_to_input, False)
+    assert str(exception_info.value) == error_message
+
+@pytest.mark.parametrize("text_to_input, key_table, gap_fill, mode, expected",
+                         [(TEXT_TO_CIPHER_LATIN[:-2], "ROUNDTABLEIZFQXMGCPHKYWSJV", " ", CIPHER_MODE, "MRKWTOPYZIVRHBXDYJNWGOJQPGMFPLQPTAZSRAJEHWUICEWGZ"),
+                          (TEXT_TO_CIPHER_LATIN_2, "CYBERPUNKFXDJAMZVSTIOHGLWQ", "x", CIPHER_MODE, "FOYUHHKZCOOPCLIZZFIBGZEQTBKXUZBZFO"),
+                          ("MRKWTOPYZIVRHBXDYJNWGOJQPGMFPLQPTAZSRAJEHWUICEWGZ", "ROUNDTABLEIZFQXMGCPHKYWSJV", " ", DECIPHER_MODE, TEXT_TO_CIPHER_LATIN[:-2]),
+                          ("FOYUHHKZCOOPCLIZZFIBGZEQTBKXUZBZFO", "CYBERPUNKFXDJAMZVSTIOHGLWQ", "x", DECIPHER_MODE, TEXT_TO_CIPHER_LATIN_2)])
+def test_fractionated_morse_code(text_to_input, key_table, gap_fill, mode, expected):
+    assert fractionated_morse_code(text_to_input, key_table, gap_fill, mode) == expected
+
+@pytest.mark.parametrize("text_to_input, key_table, gap_fill, mode, error_message",
+                         [(TEXT_TO_CIPHER_LATIN[:-2], "RROUNDTABLEIZFQXMGCPHKYWSJV", " ", CIPHER_MODE, "Key table appears not to be generated by \"fractionated_morse_code_generate_key_table\" function (length is not 26 or is not unique)!"),
+                          (TEXT_TO_CIPHER_LATIN[:-2], "OUNDTABLEIZFQXMGCPHKYWSJV", " ", CIPHER_MODE, "Key table appears not to be generated by \"fractionated_morse_code_generate_key_table\" function (length is not 26 or is not unique)!"),
+                          (TEXT_TO_CIPHER_POLISH, "CYBERPUNKFXDJAMZVSTIOHGLWQ", "x", CIPHER_MODE, "Characters in the text should be Latin letters and spaces!"),
+                          (TEXT_TO_CIPHER_LATIN_2, "CYBERPUNKFXDJAMZVSTIOHGLWQ", "x", DECIPHER_MODE, "It appears, that the ciphered text does not come from this function encoding!")])
+def test_fractionated_morse_code_edge_cases(text_to_input, key_table, gap_fill, mode, error_message):
+    with pytest.raises(ValueError) as exception_info:
+        fractionated_morse_code(text_to_input, key_table, gap_fill, mode)
     assert str(exception_info.value) == error_message
