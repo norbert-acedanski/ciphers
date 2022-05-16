@@ -9,10 +9,11 @@
 Script gives an oportunity, with Caesar, Vigenère, Bacon Atbash, Simple Substitution, Columnar Transposition, Autokey, Rail-Fence, Bifid, Beaufort, Porta, Running key, Homophonic substitution, Hill, Playfair ciphers and Morse, Fractionated morse codes, to encode and decode messages.
 
 # Built with
-Python 3.9.10
+### Python 3.9.10
 
 # Supported by
-Python 2.7, 3.5, 3.6, 3.7, 3.8, 3.9, 3.10
+### Python: **2.7, 3.5, 3.6, 3.7, 3.8, 3.9, 3.10**  
+### Platforms: **Windows, Ubuntu, MacOS**
 
 # Getting started
 ## Requirements for running cipher/decipher functions:
