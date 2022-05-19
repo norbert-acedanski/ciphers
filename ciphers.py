@@ -724,9 +724,63 @@ def fractionated_morse_code(text: str, key_table: str, gap_fill: str=" ", mode: 
                 encoded_message = encoded_message[:-1]
         processed_text = morse_code(encoded_message, gap_fill, DECIPHER_MODE)
     return processed_text
+
+def straddle_checkerboard_cipher_generate_random_key(save_to_file: bool=True) -> str:
+    random_key = "".join(random.sample(LATIN_ALPHABET, len(LATIN_ALPHABET)))
+    if save_to_file:
+        with open("./generated_files/random_key_straddle_checkerboard.txt", "w", encoding="utf-8") as output_file:
+            output_file.write(random_key)
+    return random_key
+
+def straddle_checkerboard_cipher_encoding(text: str, key: str, key_number: int=0, spare_positions: list=[3, 7]) -> str:
+    text = text.upper().replace(" ", "")
+    key = key.upper()
+    if any(char not in LATIN_ALPHABET for char in text):
+        raise ValueError("Characters in text should only have letters from Latin alphabet!")
+    if any(char not in LATIN_ALPHABET for char in key) or len(key) != 26 or len(set(key)) != len(key):
+        raise ValueError("Characters in key should only have letters from Latin alphabet, length equal to 26 and not contain duplicates!")
+    if key_number < 0:
+        raise ValueError("Key number should not be negative!")
+    if len(spare_positions) != 2 or len(set(spare_positions)) != 2:
+        raise ValueError("Spare positions list should contain 2 different elements!")
+    if not (0 <= spare_positions[0] < 10) or not (0 <= spare_positions[1] < 10):
+        raise ValueError("Each element in spare_positions list should have a value between 1 and 9 including both ends!")
+    spare_positions = sorted(spare_positions)
+    letter_number = 0
+    key_dict = {}
+    for letter in key:
+        if letter_number in spare_positions:
+            letter_number += 1
+        number_string_to_input = ""
+        if letter_number < 10:
+            pass
+        elif letter_number < 20:
+            number_string_to_input = str(spare_positions[0])
+        elif letter_number < 30:
+            number_string_to_input = str(spare_positions[1])
+        number_string_to_input += str(letter_number % 10)
+        key_dict[letter] = number_string_to_input
+        letter_number += 1
+    processed_numbers = "".join([key_dict[letter] for letter in text])
+    added_numbers = ""
+    for number_number, number in enumerate(processed_numbers):
+        added_numbers += str((int(number) + int(str(key_number)[number_number % len(str(key_number))])) % 10)
+    if key_number == 0:
+        return added_numbers
+    processed_text = ""
+    enumerated_numbers = enumerate(added_numbers)
+    for number_number, number in enumerated_numbers:
+        if number_number == len(added_numbers) - 1:
+            processed_text += list(key_dict.keys())[list(key_dict.values()).index(number)]
+        elif (joined_number := added_numbers[number_number] + added_numbers[number_number + 1]) in list(key_dict.values()):
+            processed_text += list(key_dict.keys())[list(key_dict.values()).index(joined_number)]
+            next(enumerated_numbers)
+        else:
+            try:
+                processed_text += list(key_dict.keys())[list(key_dict.values()).index(number)]
+            except ValueError:
+                raise ValueError("Unfortunately this set of parameters cannot be used with this text because of the problem in non-carrying adding. Choose another number!")
+    return processed_text
     
 if __name__ == '__main__':
-    print(fractionated_morse_code("defend the east", "ROUNDTABLECFGHIJKMPQSVWXYZ"))
-    print(fractionated_morse_code("ESOAVVLJRSSTRX", "ROUNDTABLECFGHIJKMPQSVWXYZ", mode=DECIPHER_MODE))
-    print(fractionated_morse_code("THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG", "ROUNDTABLEIZFQXMGCPHKYWSJV"))
-    print(fractionated_morse_code("MRKWTOPYZIVRHBXDYJNWGOJQPGMFPLQPTAZSRAJEHWUICEWGZ", "ROUNDTABLEIZFQXMGCPHKYWSJV", mode=DECIPHER_MODE))
+    pass
