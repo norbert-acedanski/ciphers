@@ -593,3 +593,40 @@ def test_fractionated_morse_code_edge_cases(text_to_input, key_table, gap_fill, 
     with pytest.raises(ValueError) as exception_info:
         fractionated_morse_code(text_to_input, key_table, gap_fill, mode)
     assert str(exception_info.value) == error_message
+
+def test_straddle_checkerboard_cipher_generate_random_key():
+    random_key = straddle_checkerboard_cipher_generate_random_key(False)
+    assert "".join(sorted(list(set(random_key)))) == LATIN_ALPHABET
+
+@pytest.mark.parametrize("text_to_input, key, key_number, spare_positions, expected",
+                         [(TEXT_TO_CIPHER_LATIN[:-2], "OYPHMQZSJKCDARUFNITBWLXEGV", 13295, [2, 6], "QPEOZMZYHPMHOYRQSYPMOYKSBMPSQAYSSMOPZZSSQZZFMYPYZYSZ"),
+                          (TEXT_TO_CIPHER_LATIN_2, "fkmcpdyehbigqrosazlutjnwvx", 83729, [3, 7], "CMUDMECCMYMDPUFCCDOPEEPHYEPPFMYMDPPDPPCMY"),
+                          (TEXT_TO_CIPHER_LATIN_2, "ANUMYBQXOZERKISLFWDGHPVTJC", 2137, [0, 8], "ZUXNXUXMXUYQXYQMAYHQANNKQXALNAAYQXYQMXFNQANNPX"),
+                          (TEXT_TO_CIPHER_LATIN[:-2], "OYPHMQZSJKCDARUFNITBWLXEGV", 0, [2, 6], "6046572629222161250622827064202653906765256046563248123066"),
+                          (TEXT_TO_CIPHER_LATIN_2, "fkmcpdyehbigqrosazlutjnwvx", 0, [3, 7], "690974672309938377275387070360723094383772709"),
+                          (TEXT_TO_CIPHER_LATIN_2, "ANUMYBQXOZERKISLFWDGHPVTJC", 0, [0, 8], "8002080228085820202106850910707000885820287106850702")])
+def test_straddle_checkerboard_cipher_encoding(text_to_input, key, key_number, spare_positions, expected):
+    assert straddle_checkerboard_cipher_encoding(text_to_input, key, key_number, spare_positions) == expected
+
+@pytest.mark.parametrize("text_to_input, key, key_number, spare_positions, error_message",
+                         [(TEXT_TO_CIPHER_POLISH, "ANUMYBQXOZERKISLFWDGHPVTJC", 83729, [3, 7], "Characters in text should only have letters from Latin alphabet!"),
+                          (TEXT_TO_CIPHER_LATIN[:-2], "ĄNUMYBQXOZERKISLFWDGHPVTJC", 83729, [3, 7], "Characters in key should only have letters from Latin alphabet, length equal to 26 and not contain duplicates!"),
+                          (TEXT_TO_CIPHER_LATIN_2, "NUMYBQXOZERKISLFWDGHPVTJC", 83729, [3, 7], "Characters in key should only have letters from Latin alphabet, length equal to 26 and not contain duplicates!"),
+                          (TEXT_TO_CIPHER_LATIN_2, "AANUMYBQXOZERKISLFWDGHPVTJC", 83729, [3, 7], "Characters in key should only have letters from Latin alphabet, length equal to 26 and not contain duplicates!"),
+                          (TEXT_TO_CIPHER_LATIN[:-2], "ANUMYBQXOZERKISLFWDGHPVTJC", random.randint(-10, -1), [3, 7], "Key number should not be negative!"),
+                          (TEXT_TO_CIPHER_LATIN[:-2], "ANUMYBQXOZERKISLFWDGHPVTJC", 83729, [1, 3, 7], "Spare positions list should contain 2 different elements!"),
+                          (TEXT_TO_CIPHER_LATIN_2, "ANUMYBQXOZERKISLFWDGHPVTJC", 83729, [7], "Spare positions list should contain 2 different elements!"),
+                          (TEXT_TO_CIPHER_LATIN_2, "ANUMYBQXOZERKISLFWDGHPVTJC", 83729, [7, 7], "Spare positions list should contain 2 different elements!"),
+                          (TEXT_TO_CIPHER_LATIN[:-2], "ANUMYBQXOZERKISLFWDGHPVTJC", 83729, [random.randint(-10, -1), 2], "Each element in spare_positions list should have a value between 1 and 9 including both ends!"),
+                          (TEXT_TO_CIPHER_LATIN[:-2], "ANUMYBQXOZERKISLFWDGHPVTJC", 83729, [2, random.randint(-10, -1)], "Each element in spare_positions list should have a value between 1 and 9 including both ends!"),
+                          (TEXT_TO_CIPHER_LATIN_2, "ANUMYBQXOZERKISLFWDGHPVTJC", 83729, [random.randint(10, 20), 2], "Each element in spare_positions list should have a value between 1 and 9 including both ends!"),
+                          (TEXT_TO_CIPHER_LATIN_2, "ANUMYBQXOZERKISLFWDGHPVTJC", 83729, [2, random.randint(10, 20)], "Each element in spare_positions list should have a value between 1 and 9 including both ends!"),
+                          (TEXT_TO_CIPHER_LATIN[:-2], "ANUMYBQXOZERKISLFWDGHPVTJC", 83729, [random.randint(-10, -5), random.randint(-4, -1)], "Each element in spare_positions list should have a value between 1 and 9 including both ends!"),
+                          (TEXT_TO_CIPHER_LATIN[:-2], "ANUMYBQXOZERKISLFWDGHPVTJC", 83729, [random.randint(-10, -1), random.randint(10, 20)], "Each element in spare_positions list should have a value between 1 and 9 including both ends!"),
+                          (TEXT_TO_CIPHER_LATIN_2, "ANUMYBQXOZERKISLFWDGHPVTJC", 83729, [random.randint(10, 20), random.randint(-10, -1)], "Each element in spare_positions list should have a value between 1 and 9 including both ends!"),
+                          (TEXT_TO_CIPHER_LATIN_2, "ANUMYBQXOZERKISLFWDGHPVTJC", 83729, [random.randint(10, 15), random.randint(16, 20)], "Each element in spare_positions list should have a value between 1 and 9 including both ends!"),
+                          (TEXT_TO_CIPHER_LATIN[:-2], "fkmcpdyehbigqrosazlutjnwvx", 83729, [3, 7], "Unfortunately this set of parameters cannot be used with this text because of the problem in non-carrying adding. Choose another number!")])
+def test_straddle_checkerboard_cipher_encoding_edge_cases(text_to_input, key, key_number, spare_positions, error_message):
+    with pytest.raises(ValueError) as exception_info:
+        straddle_checkerboard_cipher_encoding(text_to_input, key, key_number, spare_positions)
+    assert str(exception_info.value) == error_message
