@@ -9,7 +9,7 @@ LATIN_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 POLISH_ALPHABET = "AĄBCĆDEĘFGHIJKLŁMNŃOÓPRSŚTUWYZŹŻ"
 RUSSIAN_ALPHABET = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
 GREEK_ALPHABET = "ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ"
-HEBREW_ALPHABET = "אבגדהוזחטיכךלמםנןסעפףצץקרשת"
+HEBREW_ALPHABET = "אבגדהוזחטיכךלמםנןסעפףצץקרשת" # To check if this is the correct order
 CIPHER_MODE, DECIPHER_MODE = 1, -1
 
 def read_file(filename: str) -> str:
@@ -49,7 +49,7 @@ def vigenere_cipher(text: str, keyword: str, alphabet, mode: int=CIPHER_MODE, ke
             number_of_other_characters += 1
     return processed_text
 
-def bacon_cipher_encoding(text: str, alphabet: str, letters_to_code_with: list=["a", "b"], unique_coding: bool=False) -> str:
+def bacon_cipher_encoding(text: str, alphabet: str, letters_to_code_with: List[str]=["a", "b"], unique_coding: bool=False) -> str:
     processed_text = ""
     text = text.upper()
     if unique_coding == False:
@@ -64,7 +64,7 @@ def bacon_cipher_encoding(text: str, alphabet: str, letters_to_code_with: list=[
             processed_text += encoded_character.replace("0", letters_to_code_with[0]).replace("1", letters_to_code_with[1])
     return processed_text
 
-def bacon_cipher_decoding(text: str, alphabet: str, letters_to_decode_with: list=["a", "b"], unique_coding: bool=False) -> str:
+def bacon_cipher_decoding(text: str, alphabet: str, letters_to_decode_with: List[str]=["a", "b"], unique_coding: bool=False) -> str:
     if unique_coding == False:
         alphabet = alphabet.replace("J", "").replace("V", "")
     for iterable in range(len(letters_to_decode_with)):
@@ -732,7 +732,7 @@ def straddle_checkerboard_cipher_generate_random_key(save_to_file: bool=True) ->
             output_file.write(random_key)
     return random_key
 
-def straddle_checkerboard_cipher_encoding(text: str, key: str, key_number: int=0, spare_positions: list=[3, 7]) -> str:
+def straddle_checkerboard_cipher_encoding(text: str, key: str, key_number: int=0, spare_positions: List[int]=[3, 7]) -> str:
     text = text.upper().replace(" ", "")
     key = key.upper()
     if any(char not in LATIN_ALPHABET for char in text):
