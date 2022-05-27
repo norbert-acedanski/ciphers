@@ -5,6 +5,7 @@ import numpy
 from typing import List
 
 
+DIGITS = "0123456789"
 LATIN_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 POLISH_ALPHABET = "AĄBCĆDEĘFGHIJKLŁMNŃOÓPRSŚTUWYZŹŻ"
 RUSSIAN_ALPHABET = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
@@ -17,7 +18,7 @@ def read_file(filename: str) -> str:
         text = in_file.read().upper()
         if len(text) == 0:
             raise Exception("Empty file!")
-    return text
+    return text.upper()
 
 def caesar_cipher(text: str, shift: int, alphabet: str, include_digits: bool=False) -> str:
     processed_text = ""
@@ -365,7 +366,7 @@ def homophonic_substitution_cipher(text: str, mode: int = CIPHER_MODE) -> str:
     text = text.upper()
     additional_characters = " "
     if mode == DECIPHER_MODE:
-        additional_characters += "0123456789"
+        additional_characters += DIGITS
     if any((char not in (LATIN_ALPHABET + additional_characters)) for char in text):
         raise ValueError("Homophonic substitution supports only latin letters for now!")
     letter_connection_dictionary = {"A": ["D", "9"], "B": ["X"], "C": ["S"], "D": ["F"], "E": ["Z", "7", "2", "1"], "F": ["E"],
@@ -382,7 +383,7 @@ def homophonic_substitution_cipher(text: str, mode: int = CIPHER_MODE) -> str:
     else:
         dictionary_values_list = list(letter_connection_dictionary.values())
         for character in text:
-            if character not in (LATIN_ALPHABET + "0123456789"):
+            if character not in (LATIN_ALPHABET + DIGITS):
                 processed_text += character
                 continue
             for value_number, value in enumerate(dictionary_values_list):
@@ -781,6 +782,49 @@ def straddle_checkerboard_cipher_encoding(text: str, key: str, key_number: int=0
             except ValueError:
                 raise ValueError("Unfortunately this set of parameters cannot be used with this text because of the problem in non-carrying adding. Choose another number!")
     return processed_text
-    
-if __name__ == '__main__':
-    pass
+
+def straddle_checkerboard_cipher_decoding(text: str, key: str, key_number: int=0, spare_positions: List[int]=[3, 7]) -> str:
+    text = text.upper().replace(" ", "")
+    key = key.upper()
+    if text[0].isdigit() and any(character not in DIGITS for character in text) or not text[0].isdigit() and any(character not in LATIN_ALPHABET for character in text):
+        raise ValueError("All characters in input text should be one type (either digits or letters from Latin alphabet)")
+    if any(char not in LATIN_ALPHABET for char in key) or len(key) != 26 or len(set(key)) != len(key):
+        raise ValueError("Characters in key should only have letters from Latin alphabet, length equal to 26 and not contain duplicates!")
+    if key_number < 0:
+        raise ValueError("Key number should not be negative!")
+    if len(spare_positions) != 2 or len(set(spare_positions)) != 2:
+        raise ValueError("Spare positions list should contain 2 different elements!")
+    if not (0 <= spare_positions[0] < 10) or not (0 <= spare_positions[1] < 10):
+        raise ValueError("Each element in spare_positions list should have a value between 1 and 9 including both ends!")
+    spare_positions = sorted(spare_positions)
+    letter_number = 0
+    key_dict = {}
+    for letter in key:
+        if letter_number in spare_positions:
+            letter_number += 1
+        number_string_to_input = ""
+        if letter_number < 10:
+            pass
+        elif letter_number < 20:
+            number_string_to_input = str(spare_positions[0])
+        elif letter_number < 30:
+            number_string_to_input = str(spare_positions[1])
+        number_string_to_input += str(letter_number % 10)
+        key_dict[letter] = number_string_to_input
+        letter_number += 1
+    if key_number != 0:
+        text = "".join([key_dict[letter] for letter in text])
+    added_numbers = ""
+    for number_number, number in enumerate(text):
+        added_numbers += str((int(number) - int(str(key_number)[number_number % len(str(key_number))]) + 10) % 10)
+    processed_text = ""
+    enumerated_numbers = enumerate(added_numbers)
+    for number_number, number in enumerated_numbers:
+        if number_number == len(added_numbers) - 1:
+            processed_text += list(key_dict.keys())[list(key_dict.values()).index(number)]
+        elif (joined_number := added_numbers[number_number] + added_numbers[number_number + 1]) in list(key_dict.values()):
+            processed_text += list(key_dict.keys())[list(key_dict.values()).index(joined_number)]
+            next(enumerated_numbers)
+        else:
+            processed_text += list(key_dict.keys())[list(key_dict.values()).index(number)]
+    return processed_text
