@@ -55,26 +55,24 @@ pip install tox
 tox --skip-missing-interpreters
 ```
 
-Currently, there should be **294 tests passed**.  
+Currently, there should be **293 tests passed**.  
 If all tests are passing, you can use the module safely.
 
 
 ## **USING CIPHERS:**
-1. Copy the text you want to cipher/decipher to proper .txt files.
-2. Use ***read_file*** function to load text from the file.
-3. Use one of the ciphers below to cipher or decipher messages. Reference to every cipher can be found below under **References** tab.
-4. ***caesar_cipher*** accepts 3 arguments and 1 optional argument:
+1. Use one of the ciphers below to cipher or decipher messages. Reference to every cipher can be found below under **References** tab.
+2. ***caesar_cipher*** accepts 3 arguments and 1 optional argument:
     - Required arguments:
-        - __text__ - text to cipher (from ***read_file*** function or from itself after encoding),
+        - __text__ - text to cipher (input from the user or from itself after encoding),
         - __shift__ - shift of the ciphered alphabet,
         - __alphabet__ - kind of alphabet you work with (latin, polish, etc.) - all are variables in the script,
     - Optional argument:
         - __includeDigits__ - specifies whether numbers contained in the text should be shifted (_True_/_False_ variable with _False_ being default option).  
 
     Function can be used either to cipher or decipher messages.
-5. ***vigenere_cipher*** accepts 3 arguments and 2 optional arguments:
+3. ***vigenere_cipher*** accepts 3 arguments and 2 optional arguments:
     - Required arguments:
-        - __text__ - text to cipher (from ***read_file*** function or from itself after encoding),
+        - __text__ - text to cipher (input from the user or from itself after encoding),
         - __keyword__ - word used as a key to cipher/decipher a message,
         - __alphabet__ - kind of alphabet you work with (latin, polish, etc.) - all are variables in the script,
     - Optional arguments:
@@ -82,79 +80,79 @@ If all tests are passing, you can use the module safely.
         - __keywordShift__ - int variable, that specifies, what shift should the keyword have. Default value is _0_.  
 
     Function can be used either to cipher or decipher messages.
-6. ***bacon_cipher_encoding*** accepts 2 arguments and 2 optional arguments:
+4. ***bacon_cipher_encoding*** accepts 2 arguments and 2 optional arguments:
     - Required arguments:
-        - __text__ - text to cipher (from ***read_file*** function),
+        - __text__ - text to cipher (input from the user),
         - __alphabet__ - kind of alphabet you work with (latin, polish, etc.) - all are variables in the script,
     - Optional argument:
         - __lettersToCodeWith__ - list of 2 characters to encode the message with. Default value is _["a", "b"]_,
         - __uniqueCoding__ - bool variable, that specifies whether to use unique encoding on bacon ciphering. Default value is _False_.
-7. ***bacon_cipher_decoding*** accepts 2 arguments and 2 optional arguments:
+5. ***bacon_cipher_decoding*** accepts 2 arguments and 2 optional arguments:
     - Required arguments:
         - __text__ - text to decipher (from ***bacon_cipher_encoding*** function),
         - __alphabet__ - kind of alphabet you work with (latin, polish, etc.) - all are variables in the script,
     - Optional argument:
         - __lettersToCodeWith__ - list of 2 characters to decode the message with. Default value is _["a", "b"]_,
         - __uniqueCoding__ - bool variable, that specifies whether to use unique encoding on bacon deciphering. Default value is _False_.
-8. ***atbash_cipher*** accepts 2 arguments and 1 optional argument:
+6. ***atbash_cipher*** accepts 2 arguments and 1 optional argument:
     - Required arguments:
-        - __text__ - text to cipher (from ***read_file*** function or from itself after encoding),
+        - __text__ - text to cipher (input from the user or from itself after encoding),
         - __alphabet__ - kind of alphabet you work with (latin, polish, etc.) - all are variables in the script,
     - Optional argument:
         - __includeDigits__ - specifies whether numbers contained in the text should be ciphered (_True_/_False_ variable with _False_ being default option).  
 
     Function can be used either to cipher or decipher messages.
-9. ***simple_substitution_generate_random_key*** accepts 1 argument - **alphabet** and 1 optional argument - **save_to_file** - and returns shuffled version (mainly used for simple substitution ciphering) and optionaly saves the key to a file as a default.
-10. ***simple_substitution_cipher*** accepts 2 arguments and 1 optional argument:
+7. ***simple_substitution_generate_random_key*** accepts 1 argument - **alphabet** and 1 optional argument - **save_to_file** - and returns shuffled version (mainly used for simple substitution ciphering) and optionaly saves the key to a file as a default.
+8. ***simple_substitution_cipher*** accepts 2 arguments and 1 optional argument:
     - Required arguments:
-        - __text__ - text to cipher (from ***read_file*** function or from itself after encoding),
+        - __text__ - text to cipher (input from the user or from itself after encoding),
         - __key__ - shuffled alphabet (generated by **simple_substitution_generate_random_key** function),
     - Optional arguments:
         - __mode__ - optional argument used to determine the operation mode of the function (*CIPHER_MODE* and *DECIPHER_MODE* - these are variables in the script) - cipher mode is a default mode.  
 
     Function can be used either to cipher or decipher messages.
-11. ***columnar_transposition_cipher_encoding*** accepts 2 arguments and 1 optional argument:
+9. ***columnar_transposition_cipher_encoding*** accepts 2 arguments and 1 optional argument:
     - Required arguments:
-        - __text__ - text to cipher (from ***read_file*** function),
+        - __text__ - text to cipher (input from the user),
         - __keyword__ - word used as a key to cipher/decipher a message (not longer than text to cipher),
     - Optional arguments:
         - __ending__ - A character to fill the missing spaces when they appear with _x_ being the default value.
-12. ***columnar_transposition_cipher_decoding*** accepts 2 arguments and 1 optional argument:
+10. ***columnar_transposition_cipher_decoding*** accepts 2 arguments and 1 optional argument:
     - Required arguments:
         - __text__ - text to decipher (from ***columnar_transposition_cipher_encoding*** function),
         - __keyword__ - word used as a key to cipher/decipher a message (not longer than text to cipher),
     - Optional arguments:
         - __ending__ - A character to fill the missing spaces when they appear with _x_ being the default value.
-13. ***autokey_cipher_encoding*** accepts 3 arguments and no optional arguments:
+11. ***autokey_cipher_encoding*** accepts 3 arguments and no optional arguments:
     - Required arguments:
-        - __text__ - text to cipher (from ***read_file*** function),
+        - __text__ - text to cipher (input from the user),
         - __keyword__ - word used as a key to cipher a message (not longer than text to cipher),
         - __alphabet__ - kind of alphabet you work with (latin, polish, etc.) - all are variables in the script.
-14. ***autokey_cipher_decoding*** accepts 3 arguments and no optional arguments:
+12. ***autokey_cipher_decoding*** accepts 3 arguments and no optional arguments:
     - Required arguments:
         - __text__ - text to decipher (from ***autokey_cipher_encoding*** function),
         - __keyword__ - word used as a key to cipher a message (not longer than text to cipher),
         - __alphabet__ - kind of alphabet you work with (latin, polish, etc.) - all are variables in the script.
-15. ***rail_fence_cipher_encoding*** accepts 2 arguments and 1 optional argument:
+13. ***rail_fence_cipher_encoding*** accepts 2 arguments and 1 optional argument:
     - Required arguments:
-        - __text__ - text to cipher (from ***read_file*** function),
+        - __text__ - text to cipher (input from the user),
         - __numberOfRails__ - number of rails the text should be split to,
     - Optional arguments:
         - __removeSpaces__ - optional argument, that specifies, whether to remove all spaces from the input text with _False_ as a default value.
-16. ***rail_fence_cipher_decoding*** accepts 2 arguments:
+14. ***rail_fence_cipher_decoding*** accepts 2 arguments:
     - Required arguments:
         - __text__ - text to decipher (from ***rail_fence_cipher_encoding*** function),
         - __numberOfRails__ - number of rails the text should be split to,
-17. ***bifid_cipher_generate_random_key*** accepts 2 optional arguments - **character_to_remove** and **save_to_file** - and returns shuffled alphabet with specified letter removed and optionaly saves the key to a file as a default.
-18. ***bifid_cipher_encoding*** accepts 3 arguments and 2 optional arguments:
+15. ***bifid_cipher_generate_random_key*** accepts 2 optional arguments - **character_to_remove** and **save_to_file** - and returns shuffled alphabet with specified letter removed and optionaly saves the key to a file as a default.
+16. ***bifid_cipher_encoding*** accepts 3 arguments and 2 optional arguments:
     - Required arguments:
-        - __text__ - text to cipher (from ***read_file*** function),
+        - __text__ - text to cipher (input from the user),
         - __period__ - period of shuffling the letters,
         - __key__ - shuffled Latin alphabet with one of the letters removed (generated by **bifid_cipher_generate_random_key** function),
     - Optional arguments:
         - __character_to_replace__ - character to be replaced, with "_J_" value as a default,
         - __character_to_replace_with__ - character, that replaces the character from above, with "_I_" value as a default.
-19. ***bifid_cipher_decoding*** accepts 3 arguments and 2 optional arguments:
+17. ***bifid_cipher_decoding*** accepts 3 arguments and 2 optional arguments:
     - Required arguments:
         - __text__ - text to decipher (from ***bifid_cipher_encoding*** function),
         - __period__ - period of shuffling the letters,
@@ -162,48 +160,48 @@ If all tests are passing, you can use the module safely.
     - Optional arguments:
         - __character_that_was_replaced__ - character, that was replaced in encoding function, with "_J_" value as a default,
         - __character_that_was_replaced_with__ - character, that replaced the character from above, with "_I_" value as a default.
-20. ***beaufort_cipher*** accepts 3 arguments and no optional arguments:
+18. ***beaufort_cipher*** accepts 3 arguments and no optional arguments:
     - Required arguments:
-        - __text__ - text to cipher (from ***read_file*** function or from itself after encoding),
+        - __text__ - text to cipher (input from the user or from itself after encoding),
         - __keyword__ - word used as a key to cipher a message (not longer than text to cipher),
         - __alphabet__ - kind of alphabet you work with (latin, polish, etc.) - all are variables in the script.  
 
     Function can be used either to cipher or decipher messages.
-21. ***porta_cipher*** accepts 3 arguments and no optional arguments:
+19. ***porta_cipher*** accepts 3 arguments and no optional arguments:
     - Required arguments:
-        - __text__ - text to cipher (from ***read_file*** function or from itself after encoding),
+        - __text__ - text to cipher (input from the user or from itself after encoding),
         - __keyword__ - word used as a key to cipher a message (not longer than text to cipher),
         - __alphabet__ - kind of alphabet you work with (latin, polish, etc.) - all are variables in the script.  
 
     Function can be used either to cipher or decipher messages.
-22. ***running_key_cipher*** accepts 3 arguments and 1 optional argument:
+20. ***running_key_cipher*** accepts 3 arguments and 1 optional argument:
     - Required arguments:
-        - __text__ - text to cipher (from ***read_file*** function or from itself after encoding),
+        - __text__ - text to cipher (input from the user or from itself after encoding),
         - __keyphrase__ - phras used as a key to cipher a message (equal in length or longer than text to cipher),
         - __alphabet__ - kind of alphabet you work with (latin, polish, etc.) - all are variables in the script.
     - Optional arguments:
         - __mode__ - optional argument used to determine the operation mode of the function (*CIPHER_MODE* and *DECIPHER_MODE* - these are variables in the script) - cipher mode is a default mode.  
 
     Function can be used either to cipher or decipher messages.
-23. ***homophonic_substitution_cipher*** accepts 1 argument and 1 optional argument:
+21. ***homophonic_substitution_cipher*** accepts 1 argument and 1 optional argument:
     - Required arguments:
-        - __text__ - text to cipher (from ***read_file*** function or from itself after encoding),
+        - __text__ - text to cipher (input from the user or from itself after encoding),
     - Optional arguments:
         - __mode__ - optional argument used to determine the operation mode of the function (*CIPHER_MODE* and *DECIPHER_MODE* - these are variables in the script) - cipher mode is a default mode.
-24. ***trifid_cipher_generate_random_key*** accepts 2 optional arguments - **additional_character** and **save_to_file** - and returns shuffled alphabet with specified character added and optionaly saves the key to a file as a default.
-25. ***trifid_cipher_encoding*** accepts 3 arguments and no optional arguments:
+22. ***trifid_cipher_generate_random_key*** accepts 2 optional arguments - **additional_character** and **save_to_file** - and returns shuffled alphabet with specified character added and optionaly saves the key to a file as a default.
+23. ***trifid_cipher_encoding*** accepts 3 arguments and no optional arguments:
     - Required arguments:
-        - __text__ - text to cipher (from ***read_file*** function),
+        - __text__ - text to cipher (input from the user),
         - __key__ - shuffled Latin alphabet with one character added (generated by **trifid_cipher_generate_random_key** function),
         - __period__ - period of shuffling the letters.
-26. ***trifid_cipher_decoding*** accepts 3 arguments and no optional arguments:
+24. ***trifid_cipher_decoding*** accepts 3 arguments and no optional arguments:
     - Required arguments:
         - __text__ - text to decipher (from ***trifid_cipher_encoding*** function),
         - __key__ - shuffled Latin alphabet with one character added (generated by **trifid_cipher_generate_random_key** function),
         - __period__ - period of shuffling the letters.
-27. ***hill_cipher*** accepts 3 arguments and 2 optional arguments:
+25. ***hill_cipher*** accepts 3 arguments and 2 optional arguments:
     - Required arguments:
-        - __text__ - text to cipher (from ***read_file*** function or from itself after encoding),
+        - __text__ - text to cipher (input from the user or from itself after encoding),
         - __alphabet__ - kind of alphabet you work with (latin, polish, etc.) - all are variables in the script,
         - __key_matrix__ - matrix used as a key to cipher/decipher a message, such that the determinant is not zero and is relatively prime with the length of the alphabet,
     - Optional arguments:
@@ -211,16 +209,16 @@ If all tests are passing, you can use the module safely.
         - __character_to_fill__ - A character to fill the missing spaces when they appear, with "_x_" as a default value.  
 
     Function can be used either to cipher or decipher messages.
-28. ***playfair_cipher_generate_key_square*** accepts 1 argument - **keyword** and 2 optional arguments - **character_to_remove** with "_J_" as a default value and **save_to_file** - and returns a key phrase composed of specified keyword added up front and shuffled latin alphabet (with specified character removed) as a rest of the keyword (total length - 25) and optionaly saves the key to a file as a default.
-29. ***playfair_cipher_encoding*** accepts 2 arguments and 3 optional arguments:
+26. ***playfair_cipher_generate_key_square*** accepts 1 argument - **keyword** and 2 optional arguments - **character_to_remove** with "_J_" as a default value and **save_to_file** - and returns a key phrase composed of specified keyword added up front and shuffled latin alphabet (with specified character removed) as a rest of the keyword (total length - 25) and optionaly saves the key to a file as a default.
+27. ***playfair_cipher_encoding*** accepts 2 arguments and 3 optional arguments:
     - Required arguments:
-        - __text__ - text to cipher (from ***read_file*** function),
+        - __text__ - text to cipher (input from the user),
         - __key_square__ - key square out of keyword and shuffled alphabet (generated by **playfair_cipher_generate_key_square** function),
     - Optional arguments:
         - __character_to_replace__ - character to be replaced. Default character is "_J_",
         - __character_to_replace_with__ - character, that replaces the character from above. Default character is "_I_"
         - __swap_letter__ - character, that replaces a character, if a pair of the same letters is found in the text. Default is "_X_".
-30. ***playfair_cipher_decoding*** accepts 2 arguments and 3 optional arguments:
+28. ***playfair_cipher_decoding*** accepts 2 arguments and 3 optional arguments:
     - Required arguments:
         - __text__ - text to decipher (from ***playfair_cipher_encoding*** function),
         - __key_square__ - key square out of keyword and shuffled alphabet (generated by **playfair_cipher_generate_key_square** function),
@@ -228,50 +226,50 @@ If all tests are passing, you can use the module safely.
         - __character_that_was_replace__ - character that was replaced in encoding. Default character is "_J_",
         - __character_that_was_replace_with__ - character, that replaces the character from above. Default character is "_I_"
         - __swap_letter__ - character, that replaced a character, if a pair of the same letters is found in the text. Default is "_X_".
-31. ***morse_code*** accepts 1 argument and 2 optional arguments:
+29. ***morse_code*** accepts 1 argument and 2 optional arguments:
     - Required arguments:
-        - __text__ - text to cipher (from ***read_file*** function or from itself after encoding),
+        - __text__ - text to cipher (input from the user or from itself after encoding),
     - Optional arguments:
         - __gap_fill__ - A character to fill the missing spaces between words and/or characters, with a space as a default value,
         - __mode__ - optional argument used to determine the operation mode of the function (*CIPHER_MODE* and *DECIPHER_MODE* - these are variables in the script) - cipher mode is a default mode.  
 
     Function can be used either to cipher or decipher messages.
-32. ***fractionated_morse_code_generate_key_table*** accepts 1 argument - **keyword** and 1 optional argument - **save_to_file** - and returns a key table composed of specified keyword added up front and shuffled latin alphabet as a rest of the keyword (total length - 26) and optionaly saves the key to a file as a default.
-33. ***fractionated_morse_code***  accepts 2 arguments and 2 optional arguments:
+30. ***fractionated_morse_code_generate_key_table*** accepts 1 argument - **keyword** and 1 optional argument - **save_to_file** - and returns a key table composed of specified keyword added up front and shuffled latin alphabet as a rest of the keyword (total length - 26) and optionaly saves the key to a file as a default.
+31. ***fractionated_morse_code***  accepts 2 arguments and 2 optional arguments:
     - Required arguments:
-        - __text__ - text to cipher (from ***read_file*** function or from itself after encoding),
+        - __text__ - text to cipher (input from the user or from itself after encoding),
         - __key_table__ - key table out of keyword and shuffled alphabet (generated by **fractionated_morse_code_generate_key_table** function),
     - Optional arguments:
         - __gap_fill__ - A character to fill the missing spaces between words and/or characters, with a space as a default value,
         - __mode__ - optional argument used to determine the operation mode of the function (*CIPHER_MODE* and *DECIPHER_MODE* - these are variables in the script) - cipher mode is a default mode.  
 
     Function can be used either to cipher or decipher messages.
-34. ***straddle_checkerboard_cipher_generate_random_key*** accepts 1 optional argument - **save_to_file** - and returns shuffled alphabet and optionaly saves the key to a file as a default.
-35. ***straddle_checkerboard_cipher_encoding*** accepts 2 arguments and 2 optional arguments:
+32. ***straddle_checkerboard_cipher_generate_random_key*** accepts 1 optional argument - **save_to_file** - and returns shuffled alphabet and optionaly saves the key to a file as a default.
+33. ***straddle_checkerboard_cipher_encoding*** accepts 2 arguments and 2 optional arguments:
     - Required arguments:
-        - __text__ - text to cipher (from ***read_file*** function),
+        - __text__ - text to cipher (input from the user),
         - __key__ - shuffled alphabet (generated by **straddle_checkerboard_cipher_generate_random_key** function),
     - Optional arguments:
         - __key_number__ - a number, that enciphers provided text even more (default value - _0_ - makes this function return only the enciphered number string. Read Referenes[20] for more information),
         - __spare_positions__ - list of 2 integers with values between 1 and 9 including, that specifies where the bland spots should be (Read References[20] for more information).
-36. ***straddle_checkerboard_cipher_decoding*** accepts 2 arguments and 2 optional arguments:
+34. ***straddle_checkerboard_cipher_decoding*** accepts 2 arguments and 2 optional arguments:
     - Required arguments:
         - __text__ - text to decipher (from ***straddle_checkerboard_cipher_encoding*** function),
         - __key__ - shuffled alphabet (generated by **straddle_checkerboard_cipher_generate_random_key** function),
     - Optional arguments:
         - __key_number__ - a number, that enciphers provided text even more (default value - _0_ - makes this function return only the enciphered number string. Read Referenes[20] for more information),
         - __spare_positions__ - list of 2 integers with values between 1 and 9 including, that specifies where the bland spots should be (Read References[20] for more information).
-37. The result is returned after the execution is complete.
+35. The result is returned after the execution is complete.
 
 # To Do:
 
-- Write function, that properly prepares text for encoding and decoding functions
+- Add docstring to each cipher
 - Make a package out of this project
 - Allow **homophonic_substitution_cipher** to accept different alphabets and the distribution of letters
 - Write a function, that, based on the alphabet, returns a distributed list of characters for letters in accepted alphabet
 - Refactor functions
 - check if *rail_fence_cipher_decoding* needs to cover removed spaces from the encoding function
-- investigate, whether straddle_checkerboard_cipher_encoding with specific values really cant encode them or this is a bug on implementation
+- investigate, whether straddle_checkerboard_cipher_encoding with specific values really can't encode them or this is a bug on implementation
 
 # Usage
 Use it to play with ciphering and deciphering messages as you wish.  

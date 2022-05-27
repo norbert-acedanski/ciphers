@@ -13,13 +13,6 @@ GREEK_ALPHABET = "ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ"
 HEBREW_ALPHABET = "אבגדהוזחטיכךלמםנןסעפףצץקרשת" # To check if this is the correct order
 CIPHER_MODE, DECIPHER_MODE = 1, -1
 
-def read_file(filename: str) -> str:
-    with open(filename, "r", encoding="utf-8") as in_file:
-        text = in_file.read().upper()
-        if len(text) == 0:
-            raise Exception("Empty file!")
-    return text.upper()
-
 def caesar_cipher(text: str, shift: int, alphabet: str, include_digits: bool=False) -> str:
     processed_text = ""
     text = text.upper()
