@@ -1,6 +1,9 @@
 import math
 import random
 import numpy
+import pandas
+import requests
+from bs4 import BeautifulSoup
 
 from typing import List
 
@@ -243,7 +246,7 @@ def rail_fence_cipher_decoding(text: str, number_of_rails: int) -> str:
 def bifid_cipher_generate_random_key(character_to_remove: str = "J", save_to_file: bool=True) -> str:
     character_to_remove = character_to_remove.upper()
     if len(character_to_remove) != 1 or character_to_remove not in LATIN_ALPHABET:
-        raise ValueError("Invalid input. Character has to be signle letter and has to be in Latin Alphabet!")
+        raise ValueError("Invalid input. Character has to be single letter and has to be in Latin Alphabet!")
     new_alphabet = LATIN_ALPHABET.replace(character_to_remove, "")
     random_key = "".join(random.sample(new_alphabet, len(new_alphabet)))
     if save_to_file:
@@ -354,6 +357,47 @@ def running_key_cipher(text: str, keyphrase: str, alphabet: str, mode: int=CIPHE
     for text_character, keyphrase_character in zip(text, keyphrase):
         processed_text += alphabet[(alphabet.index(text_character) + mode*alphabet.index(keyphrase_character)) % len(alphabet)]
     return processed_text
+
+def homophonic_substitution_generate_letter_connection_dictionary(alphabet: str):
+    wikipedia_url = "https://en.wikipedia.org/wiki/Letter_frequency"
+    wiki_response = requests.get(wikipedia_url)
+    soup = BeautifulSoup(wiki_response.text, "html.parser")
+    letter_frequency = soup.find_all("table", {"class": "wikitable"})[2]
+    data_frame = pandas.read_html(str(letter_frequency))
+    data_frame = pandas.DataFrame(data_frame[0])
+    data = data_frame.drop(["French[21]", "German[22]", "Spanish[23]", "Portuguese[24]", "Esperanto[25]", "Italian[26]", "Turkish[27]", "Swedish[28]", "Dutch[30]", "Danish[31]", "Icelandic[32]", "Finnish[33]", "Czech[citation needed]"], axis=1)
+    data = data.rename(columns={"English[citation needed]": "English", "Polish[29]": "Polish"})
+    dict_data = data.to_dict()
+    letters = list(dict_data["Letter"].values())
+    letters = [letter.upper() for letter in letters]
+    if alphabet == POLISH_ALPHABET:
+        alphabet_frequency = list(dict_data["Polish"].values())
+    elif alphabet == LATIN_ALPHABET:
+        alphabet_frequency = list(dict_data["English"].values())
+    else:
+        raise ValueError("For now, this function accepts only two alphabets (Latin and Polish)!")
+    alphabet_frequency = [float(percentage.replace("%", "").replace("~", "").replace("[citation needed]", "")) for percentage in alphabet_frequency]
+    alphabet_dict = {letter: percentage for letter, percentage in zip(letters, alphabet_frequency) if percentage != 0}
+    alphabet_frequency = list(alphabet_dict.values())
+    number_of_all_characters = 0
+    lower_value = 1
+    upper_value = max(alphabet_frequency)
+    while number_of_all_characters != (total_length := len(alphabet) + len(DIGITS)):
+        medium_value = (lower_value + upper_value)/2
+        all_characters = [int(percentage//medium_value) if percentage > medium_value else 1 for percentage in alphabet_frequency]
+        number_of_all_characters = sum(all_characters)
+        if number_of_all_characters > total_length:
+            lower_value = medium_value
+        else:
+            upper_value = medium_value
+    letter_connection_dictionary = {}
+    alphabet_copy = alphabet + DIGITS
+    for index, value in enumerate(all_characters):
+        random_sample = random.sample(alphabet_copy, value)
+        letter_connection_dictionary[alphabet[index]] = random_sample
+        for sample in random_sample:
+            alphabet_copy = alphabet_copy.replace(sample, "")
+    return letter_connection_dictionary
 
 def homophonic_substitution_cipher(text: str, mode: int = CIPHER_MODE) -> str:
     text = text.upper()
@@ -821,3 +865,6 @@ def straddle_checkerboard_cipher_decoding(text: str, key: str, key_number: int=0
         else:
             processed_text += list(key_dict.keys())[list(key_dict.values()).index(number)]
     return processed_text
+
+print(homophonic_substitution_generate_letter_connection_dictionary(alphabet=LATIN_ALPHABET))
+print(homophonic_substitution_generate_letter_connection_dictionary(alphabet=POLISH_ALPHABET))
