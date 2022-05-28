@@ -190,7 +190,7 @@ def test_rail_fence_cipher_decoding_edge_cases(text_to_input, random_number):
 def test_bifid_cipher_generate_random_key_edge_cases(character_to_remove):
     with pytest.raises(ValueError) as exception_info:
         bifid_cipher_generate_random_key(character_to_remove, False)
-    assert str(exception_info.value) == "Invalid input. Character has to be signle letter and has to be in Latin Alphabet!"
+    assert str(exception_info.value) == "Invalid input. Character has to be single letter and has to be in Latin Alphabet!"
 
 def test_bifid_cipher_generate_random_key():
     assert len(bifid_cipher_generate_random_key("J", False)) == len(LATIN_ALPHABET) - 1
@@ -328,6 +328,15 @@ def test_running_key_cipher(text_to_input, keyword, alphabet, mode, expected):
 def test_running_key_cipher_edge_cases(text_to_input, alphabet, error_message):
     with pytest.raises(ValueError) as exception_info:
         running_key_cipher(text_to_input, "foo", alphabet)
+    assert str(exception_info.value) == error_message
+
+@pytest.mark.parametrize("alphabet, error_message",
+                         [(RUSSIAN_ALPHABET, "For now, this function accepts only two alphabets (Latin and Polish)!"),
+                          (GREEK_ALPHABET, "For now, this function accepts only two alphabets (Latin and Polish)!"),
+                          (HEBREW_ALPHABET, "For now, this function accepts only two alphabets (Latin and Polish)!")])
+def test_homophonic_substitution_cipher_generate_letter_connection_dictionary_edge_cases(alphabet, error_message):
+    with pytest.raises(ValueError) as exception_info:
+        homophonic_substitution_generate_letter_connection_dictionary(alphabet)
     assert str(exception_info.value) == error_message
 
 @pytest.mark.parametrize("text_to_input, mode, expected",
