@@ -13,7 +13,8 @@ LATIN_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 POLISH_ALPHABET = "AĄBCĆDEĘFGHIJKLŁMNŃOÓPQRSŚTUVWXYZŹŻ"
 RUSSIAN_ALPHABET = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
 GREEK_ALPHABET = "ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ"
-HEBREW_ALPHABET = "אבגדהוזחטיכךלמםנןסעפףצץקרשת" # To check if this is the correct order
+HEBREW_ALPHABET = "אבגדהוזחטיכךלמםנןסעפףצץקרשת"
+print(HEBREW_ALPHABET[0])
 CIPHER_MODE, DECIPHER_MODE = 1, -1
 
 def caesar_cipher(text: str, shift: int, alphabet: str, include_digits: bool=False) -> str:
@@ -363,25 +364,41 @@ def running_key_cipher(text: str, keyphrase: str, alphabet: str, mode: int=CIPHE
     return processed_text
 
 def homophonic_substitution_generate_letter_connection_dictionary(alphabet: str):
-    wikipedia_url = "https://en.wikipedia.org/wiki/Letter_frequency"
-    wiki_response = requests.get(wikipedia_url)
-    soup = BeautifulSoup(wiki_response.text, "html.parser")
-    letter_frequency = soup.find_all("table", {"class": "wikitable"})[2]
+    if alphabet in [LATIN_ALPHABET, POLISH_ALPHABET]:
+        scrapping_url = "https://en.wikipedia.org/wiki/Letter_frequency"
+    elif alphabet == RUSSIAN_ALPHABET:
+        scrapping_url = "https://en.wikipedia.org/wiki/Russian_alphabet"
+    else:
+        raise ValueError("For now, this function accepts only three alphabets (Latin, Polish and Russian)! Frequency of other alphabets is not accesible on wikipedia page.")
+    scrapping_response = requests.get(scrapping_url)
+    soup = BeautifulSoup(scrapping_response.text, "html.parser")
+    if alphabet in [LATIN_ALPHABET, POLISH_ALPHABET]:
+        letter_frequency = soup.find_all("table", {"class": "wikitable"})[2]
+    elif alphabet == RUSSIAN_ALPHABET:
+        letter_frequency = soup.find_all("table", {"class": "wikitable"})[5]
     data_frame = pandas.read_html(str(letter_frequency))
     data_frame = pandas.DataFrame(data_frame[0])
-    data = data_frame.drop(["French[21]", "German[22]", "Spanish[23]", "Portuguese[24]", "Esperanto[25]", "Italian[26]", "Turkish[27]", "Swedish[28]", "Dutch[30]", "Danish[31]", "Icelandic[32]", "Finnish[33]", "Czech[citation needed]"], axis=1)
-    data = data.rename(columns={"English[citation needed]": "English", "Polish[29]": "Polish"})
+    if alphabet in [LATIN_ALPHABET, POLISH_ALPHABET]:
+        data = data_frame.drop(["French[21]", "German[22]", "Spanish[23]", "Portuguese[24]", "Esperanto[25]", "Italian[26]", "Turkish[27]", "Swedish[28]", "Dutch[30]", "Danish[31]", "Icelandic[32]", "Finnish[33]", "Czech[citation needed]"], axis=1)
+        data = data.rename(columns={"English[citation needed]": "English", "Polish[29]": "Polish"})
+    elif alphabet == RUSSIAN_ALPHABET:
+        data = data_frame.drop(["Rank", "Other information", "English comparison"], axis=1)
     dict_data = data.to_dict()
-    letters = list(dict_data["Letter"].values())
-    letters = [letter.upper() for letter in letters]
     if alphabet == POLISH_ALPHABET:
+        letters = list(dict_data["Letter"].values())
+        letters = [letter.upper() for letter in letters]
         alphabet_frequency = list(dict_data["Polish"].values())
     elif alphabet == LATIN_ALPHABET:
+        letters = list(dict_data["Letter"].values())
+        letters = [letter.upper() for letter in letters]
         alphabet_frequency = list(dict_data["English"].values())
-    else:
-        raise ValueError("For now, this function accepts only two alphabets (Latin and Polish)!")
+    elif alphabet == RUSSIAN_ALPHABET:
+        letters = list(dict_data["Letter"].values())
+        letters = [letter.upper() for letter in letters]
+        alphabet_frequency = list(dict_data["Frequency"].values())
     alphabet_frequency = [float(percentage.replace("%", "").replace("~", "").replace("[citation needed]", "")) for percentage in alphabet_frequency]
     alphabet_dict = {letter: percentage for letter, percentage in zip(letters, alphabet_frequency) if percentage != 0}
+    letters = list(alphabet_dict.keys())
     alphabet_frequency = list(alphabet_dict.values())
     number_of_all_characters = 0
     lower_value = 1
@@ -394,14 +411,21 @@ def homophonic_substitution_generate_letter_connection_dictionary(alphabet: str)
             lower_value = medium_value
         else:
             upper_value = medium_value
-    letter_connection_dictionary = {}
+    letter_connection_dictionary_unordered = {}
     alphabet_copy = alphabet + DIGITS
     for index, value in enumerate(all_characters):
         random_sample = random.sample(alphabet_copy, value)
-        letter_connection_dictionary[alphabet[index]] = random_sample
+        letter_connection_dictionary_unordered[letters[index]] = random_sample
         for sample in random_sample:
             alphabet_copy = alphabet_copy.replace(sample, "")
+    letter_connection_dictionary = {}
+    for letter in alphabet:
+        letter_connection_dictionary[letter] = letter_connection_dictionary_unordered[letter]
     return letter_connection_dictionary
+
+# print(homophonic_substitution_generate_letter_connection_dictionary(LATIN_ALPHABET))
+# print(homophonic_substitution_generate_letter_connection_dictionary(POLISH_ALPHABET))
+# print(homophonic_substitution_generate_letter_connection_dictionary(RUSSIAN_ALPHABET))
 
 def homophonic_substitution_cipher(text: str, letter_connection_dictionary: dict, mode: int = CIPHER_MODE) -> str:
     text = text.upper()
