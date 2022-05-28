@@ -345,7 +345,8 @@ def test_running_key_cipher_edge_cases(text_to_input, alphabet, error_message):
 
 @pytest.mark.parametrize("alphabet",
                          [LATIN_ALPHABET,
-                          POLISH_ALPHABET])
+                          POLISH_ALPHABET,
+                          RUSSIAN_ALPHABET])
 def test_homophonic_substitution_cipher_generate_letter_connection_dictionar(alphabet):
     letter_dictionary = homophonic_substitution_generate_letter_connection_dictionary(alphabet)
     assert sorted(list(letter_dictionary.keys())) == sorted(alphabet)
@@ -355,9 +356,8 @@ def test_homophonic_substitution_cipher_generate_letter_connection_dictionar(alp
     assert sorted(every_character) == sorted(alphabet + DIGITS)
 
 @pytest.mark.parametrize("alphabet, error_message",
-                         [(RUSSIAN_ALPHABET, "For now, this function accepts only two alphabets (Latin and Polish)!"),
-                          (GREEK_ALPHABET, "For now, this function accepts only two alphabets (Latin and Polish)!"),
-                          (HEBREW_ALPHABET, "For now, this function accepts only two alphabets (Latin and Polish)!")])
+                         [(GREEK_ALPHABET, "For now, this function accepts only three alphabets (Latin, Polish and Russian)! Frequency of other alphabets is not accesible on wikipedia page."),
+                          (HEBREW_ALPHABET, "For now, this function accepts only three alphabets (Latin, Polish and Russian)! Frequency of other alphabets is not accesible on wikipedia page.")])
 def test_homophonic_substitution_cipher_generate_letter_connection_dictionary_edge_cases(alphabet, error_message):
     with pytest.raises(ValueError) as exception_info:
         homophonic_substitution_generate_letter_connection_dictionary(alphabet)
@@ -400,11 +400,13 @@ def test_homophonic_substitution_cipher_encoding(text_to_input, letter_connectio
                                                     "G": ["T"], "H": ["5", "7"], "I": ["L", "A"], "J": ["0"], "K": ["G"], "L": ["9"], "M": ["F"], 
                                                     "N": ["D", "I"], "O": ["4", "V"], "P": ["3"], "Q": ["Q"], "R": ["H"], "S": ["W", "E"], 
                                                     "T": ["M", "Y"], "U": ["C"], "V": ["P"], "W": ["B"], "X": ["Z"], "Y": ["2"], "Z": ["S"]}),
-                          (TEXT_TO_CIPHER_POLISH.replace(",", "")[:-2], {"A": ["B", "U", "0"], "Ą": ["D"], "B": ["N"], "C": ["6"], "Ć": ["M", "E", "Ę"], "D": ["Ś"], 
-                                                                         "E": ["L"], "Ę": ["C"], "F": ["Ó", "V", "3"], "G": ["8"], "H": ["Ź"], "I": ["Ń"], "J": ["J"], 
-                                                                         "K": ["Ł", "1"], "L": ["Q", "I", "2"], "Ł": ["F"], "M": ["9"], "N": ["P"], "Ń": ["K"], "O": ["Y"], 
-                                                                         "Ó": ["T"], "P": ["Z"], "Q": ["5"], "R": ["X"], "S": ["Ą"], "Ś": ["4", "G"], "T": ["S"], 
-                                                                         "U": ["R"], "V": ["Ż"], "W": ["O"], "X": ["7"], "Y": ["A"], "Z": ["Ć"], "Ź": ["H"], "Ż": ["W"]})])
+                          (TEXT_TO_CIPHER_POLISH.replace(",", "")[:-2], {"A": ["S", "I", "C"], "Ą": ["3"], "B": ["Ć"], "C": ["T"], "Ć": ["6"], 
+                                                                         "D": ["P"], "E": ["Ś", "Y", "Z"], "Ę": ["F"], "F": ["O"], "G": ["2"], 
+                                                                         "H": ["B"], "I": ["8", "L", "E"], "J": ["Q"], "K": ["Ę"], "L": ["0"], 
+                                                                         "Ł": ["5"], "M": ["V"], "N": ["Ł", "1"], "Ń": ["Ó"], "O": ["K", "7", "Ź"], 
+                                                                         "Ó": ["4"], "P": ["D"], "Q": ["Ż"], "R": ["X"], "S": ["Ń"], "Ś": ["9"], 
+                                                                         "T": ["N"], "U": ["R"], "V": ["M"], "W": ["W"], "X": ["G"], "Y": ["J"], 
+                                                                         "Z": ["H", "A"], "Ź": ["U"], "Ż": ["Ą"]})])
 def test_homophonic_substitution_cipher_decoding(text_to_input, letter_connection_dictionary):
     ciphered_test = homophonic_substitution_cipher(text_to_input, letter_connection_dictionary, mode=CIPHER_MODE)
     assert homophonic_substitution_cipher(ciphered_test, letter_connection_dictionary, mode=DECIPHER_MODE) == text_to_input.upper()
@@ -434,11 +436,13 @@ def test_homophonic_substitution_cipher_edge_cases_1(text_to_input, mode):
                                                   "G": ["H"], "H": ["C"], "I": ["V", "3"], "J": ["I"], "K": ["T"], "L": ["P"], "M": ["G"], 
                                                   "N": ["A", "5"], "O": ["Q", "0"], "P": ["L"], "Q": ["K"], "R": ["J"], "S": ["R", "4"], 
                                                   "T": ["U", "6"], "U": ["O"], "V": ["W"], "W": ["M"], "X": ["Y"], "Y": ["B"], "Z": ["N"]}),
-                          (TEXT_TO_CIPHER_POLISH.replace(",", "")[:-2], {"A": ["B", "U", "0"], "Ą": ["D"], "B": ["N"], "C": ["6"], "Ć": ["M", "E", "Ę"], "D": ["Ś"], 
-                                                                         "E": ["L"], "Ę": ["C"], "F": ["Ó", "V", "3", "Д"], "G": ["8"], "H": ["Ź"], "I": ["Ń"], "J": ["J"], 
-                                                                         "K": ["Ł", "1"], "L": ["Q", "I", "2"], "Ł": ["F"], "M": ["9"], "N": ["P"], "Ń": ["K"], "O": ["Y"], 
-                                                                         "Ó": ["T"], "P": ["Z"], "Q": ["5"], "R": ["X"], "S": ["Ą"], "Ś": ["4", "G"], "T": ["S"], 
-                                                                         "U": ["R"], "V": ["Ż"], "W": ["O"], "X": ["7"], "Y": ["A"], "Z": ["Ć"], "Ź": ["H"], "Ż": ["W"]})])
+                          (TEXT_TO_CIPHER_POLISH.replace(",", "")[:-2], {"A": ["S", "I", "C"], "Ą": ["3"], "B": ["Ć"], "C": ["T"], "Ć": ["6"], 
+                                                                         "D": ["P"], "E": ["Ś", "Y", "Z"], "Ę": ["F"], "F": ["O"], "G": ["2"], 
+                                                                         "H": ["B"], "I": ["8", "L", "E", "Д"], "J": ["Q"], "K": ["Ę"], "L": ["0"], 
+                                                                         "Ł": ["5"], "M": ["V"], "N": ["Ł", "1"], "Ń": ["Ó"], "O": ["K", "7", "Ź"], 
+                                                                         "Ó": ["4"], "P": ["D"], "Q": ["Ż"], "R": ["X"], "S": ["Ń"], "Ś": ["9"], 
+                                                                         "T": ["N"], "U": ["R"], "V": ["M"], "W": ["W"], "X": ["G"], "Y": ["J"], 
+                                                                         "Z": ["H", "A"], "Ź": ["U"], "Ż": ["Ą"]})])
 def test_homophonic_substitution_cipher_edge_cases_2(text_to_input, letter_connection_dictionary):
     with pytest.raises(ValueError) as exception_info:
         homophonic_substitution_cipher(text_to_input, letter_connection_dictionary)
