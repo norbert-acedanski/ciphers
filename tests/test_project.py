@@ -15,49 +15,62 @@ TEXT_TO_CIPHER_POLISH = "MĘŻNY BĄDŹ, CHROŃ PUŁK TWÓJ I SZEŚĆ FLAG 1"
                           (TEXT_TO_CIPHER_LATIN, -3, LATIN_ALPHABET, False, "QEB NRFZH YOLTK CLU GRJMP LSBO QEB IXWV ALD 5"),
                           (TEXT_TO_CIPHER_LATIN, 3, LATIN_ALPHABET,  True, "WKH TXLFN EURZQ IRA MXPSV RYHU WKH ODCB GRJ 8"),
                           ("QEB NRFZH YOLTK CLU GRJMP LSBO QEB IXWV ALD", 3, LATIN_ALPHABET, False, TEXT_TO_CIPHER_LATIN[:-2]),
+                          ("WKH TXLFN EURZQ IRA MXPSV RYHU WKH ODCB GRJ 8", -3, LATIN_ALPHABET,  True, TEXT_TO_CIPHER_LATIN),
                           (TEXT_TO_CIPHER_POLISH, 0, POLISH_ALPHABET, False, TEXT_TO_CIPHER_POLISH),
-                          (TEXT_TO_CIPHER_POLISH, -3, POLISH_ALPHABET, True, "KĆYLT ŻŹBW, AĘOMŁ ŃSJH RŚNG F ÓUCPĄ DIZE 8"),
-                          ("PJĆRĄ ĘEHC, FŁWŚS UŻÓŃ ŹATN M YBIZG KODL", -5, POLISH_ALPHABET, True, TEXT_TO_CIPHER_POLISH[:-2])])
+                          (TEXT_TO_CIPHER_POLISH, -3, POLISH_ALPHABET, True, "KĆYLV ŻŹBX, AĘÓMŁ ŃSJH RTNG F PWCQĄ DIZE 8"),
+                          (TEXT_TO_CIPHER_POLISH[:-2], 5, POLISH_ALPHABET, True, "PJĆQĄ ĘEHC, FŁVSR TZÓŃ YŻŚN M WBIXG KODL"),
+                          ("KĆYLV ŻŹBX, AĘÓMŁ ŃSJH RTNG F PWCQĄ DIZE 8", 3, POLISH_ALPHABET, True, TEXT_TO_CIPHER_POLISH),
+                          ("PJĆQĄ ĘEHC, FŁVSR TZÓŃ YŻŚN M WBIXG KODL", -5, POLISH_ALPHABET, True, TEXT_TO_CIPHER_POLISH[:-2])])
 def test_caesar_cipher(text_to_input, shift, alphabet, include_digits, expected):
     assert caesar_cipher(text_to_input, shift, alphabet, include_digits) == expected
 
 @pytest.mark.parametrize("text_to_input, keyword, alphabet, mode, keyword_shift, expected",
-                         [(TEXT_TO_CIPHER_LATIN,  "LION", LATIN_ALPHABET, CIPHER_MODE, 0, "EPS DFQQX MZCJY NCK UCACD WJRC BVR WINL OWU 5"),
+                         [(TEXT_TO_CIPHER_LATIN, "LION", LATIN_ALPHABET, CIPHER_MODE, 0, "EPS DFQQX MZCJY NCK UCACD WJRC BVR WINL OWU 5"),
                           (TEXT_TO_CIPHER_LATIN, "LION", LATIN_ALPHABET, CIPHER_MODE, 2, "GRU FHSSZ OBELA PEM WECEF YLTE DXT YKPN QYW 5"),
                           ("EPS DFQQX MZCJY NCK UCACD WJRC BVR WINL OWU", "LION", LATIN_ALPHABET, DECIPHER_MODE, 0, TEXT_TO_CIPHER_LATIN[:-2]),
                           ("GRU FHSSZ OBELA PEM WECEF YLTE DXT YKPN QYW", "LION", LATIN_ALPHABET, DECIPHER_MODE, 2, TEXT_TO_CIPHER_LATIN[:-2]),
-                          (TEXT_TO_CIPHER_POLISH, "MĘSKI", POLISH_ALPHABET, CIPHER_MODE, 0, "ALRŹĘ ŃFYI, LUZHŻ AHRĆ EEĆO B ĆFRŻW PTMM 1"),
-                          (TEXT_TO_CIPHER_POLISH, "MĘSKI", POLISH_ALPHABET, CIPHER_MODE, 5, "DOWCJ SKĄM, OŻBŁĆ DŁWG IIGŚ Ę GKWĆA UŹPP 1"),
-                          ("ALRŹĘ ŃFYI, LUZHŻ AHRĆ EEĆO B ĆFRŻW PTMM", "MĘSKI", POLISH_ALPHABET, DECIPHER_MODE, 0, TEXT_TO_CIPHER_POLISH[:-2]),
-                          ("CNTĄH PIŻL, NZAKB CKTĘ GGĘR D ĘITBŹ ŚYOO", "MĘSKI", POLISH_ALPHABET, DECIPHER_MODE, 3, TEXT_TO_CIPHER_POLISH[:-2])])
+                          (TEXT_TO_CIPHER_POLISH, "MĘSKI", POLISH_ALPHABET, CIPHER_MODE, 0, "ZLRXĘ ŃFWI, LTXFY ZFQB ĆDĄO A BFQZV PŚMM 1"),
+                          (TEXT_TO_CIPHER_POLISH, "MĘSKI", POLISH_ALPHABET, CIPHER_MODE, 5, "BOVAJ RKŻM, OYAKĄ BKUĘ GHES D ĘKUBŹ TXPP 1"),
+                          ("ZLRXĘ ŃFWI, LTXFY ZFQB ĆDĄO A BFQZV PŚMM", "MĘSKI", POLISH_ALPHABET, DECIPHER_MODE, 0, TEXT_TO_CIPHER_POLISH[:-2]),
+                          ("BOVAJ RKŻM, OYAKĄ BKUĘ GHES D ĘKUBŹ TXPP", "MĘSKI", POLISH_ALPHABET, DECIPHER_MODE, 5, TEXT_TO_CIPHER_POLISH[:-2])])
 def test_vigenere_cipher(text_to_input, keyword, alphabet, mode, keyword_shift, expected):
     assert vigenere_cipher(text_to_input, keyword, alphabet, mode, keyword_shift) == expected
 
 @pytest.mark.parametrize("text_to_input, alphabet, letters_to_code_with, unique_coding, expected",
                          [(TEXT_TO_CIPHER_LATIN, LATIN_ALPHABET, ["c", "d"], True, "dccddccdddccdcc dccccdcdcccdccccccdccdcdc ccccddcccdcdddcdcddccddcd ccdcdcdddcdcddd cdccddcdcccddcccdddddccdc cdddcdcdcdccdccdcccd dccddccdddccdcc cdcddcccccddccdddccc cccddcdddcccddc 5"),
                           (TEXT_TO_CIPHER_LATIN, LATIN_ALPHABET, ["a", "b"], False, "baabaaabbbaabaa abbbbbaabbabaaaaaabaabaab aaaabbaaaaabbabbabaaabbaa aabababbabbabab abaaabaabbababbabbbabaaab abbabbaabbaabaabaaaa baabaaabbbaabaa ababaaaaaababbbbabba aaabbabbabaabba 5"),
-                          (TEXT_TO_CIPHER_POLISH, POLISH_ALPHABET, ["ń", "s"], True, "sńńńńńńsssssssssńńńssssńń ńńńsńńńńńsńńsńsssssń, ńńńssńsńsńsńssńsńńsssńńsń sńsńsssńsńńssssńssńs ssńńsssńsssńsńńńssńń ńsńss sńssssssńsńńssńssńńńńńsńń ńsńńńńsssńńńńńńńsńńs 1"),
-                          (TEXT_TO_CIPHER_POLISH, POLISH_ALPHABET, ["a", "b"], False, "abbbbaabbbbbbbabaaaabbabb aaabaaaaabaababbbbab, aaabbabababababbaababaaab babaabbaababbbaabbaa bbaaabbababaabbababb ababb babbabbbaaaabbababbbaabaa abaaaabbabaaaaaabaab 1")])
+                          (TEXT_TO_CIPHER_POLISH, POLISH_ALPHABET.replace("Q", "").replace("V", "").replace("X", ""), ["ń", "s"], True, "sńńńńńńsssssssssńńńssssńń ńńńsńńńńńsńńsńsssssń, ńńńssńsńsńsńssńsńńsssńńsń sńsńsssńsńńssssńssńs ssńńsssńsssńsńńńssńń ńsńss sńssssssńsńńssńssńńńńńsńń ńsńńńńsssńńńńńńńsńńs 1"),
+                          (TEXT_TO_CIPHER_POLISH, POLISH_ALPHABET.replace("Q", "").replace("V", "").replace("X", ""), ["a", "b"], False, "abbbbaabbbbbbbabaaaabbabb aaabaaaaabaababbbbab, aaabbabababababbaababaaab babaabbaababbbaabbaa bbaaabbababaabbababb ababb babbabbbaaaabbababbbaabaa abaaaabbabaaaaaabaab 1")])
 def test_bacon_cipher_encoding(text_to_input, alphabet, letters_to_code_with, unique_coding, expected):
     assert bacon_cipher_encoding(text_to_input, alphabet, letters_to_code_with, unique_coding) == expected
+
+def test_bacon_cipher_encoding_edge_case():
+    with pytest.raises(ValueError) as exception_info:
+        bacon_cipher_encoding(TEXT_TO_CIPHER_POLISH, POLISH_ALPHABET, ["a", "b"], True)
+    assert str(exception_info.value) == "Unfortunetely the alphabet length must be at most 32 characters! You can remove the letters from the alphabet, that are not used"
 
 @pytest.mark.parametrize("text_to_input, alphabet, letters_to_code_with, unique_coding, expected",
                          [("GAAGGAAGGGAAGAA GAAAAGAGAAAGAAAAAAGAAGAGA AAAAGGAAAGAGGGAGAGGAAGGAG AAGAGAGGGAGAGGG AGAAGGAGAAAGGAAAGGGGGAAGA AGGGAGAGAGAAGAAGAAAG GAAGGAAGGGAAGAA AGAGGAAAAAGGAAGGGAAA AAAGGAGGGAAAGGA...", LATIN_ALPHABET, ["a", "g"], True, TEXT_TO_CIPHER_LATIN[:-2] + "..."),
                           ("AGGAGGGAAAGGAGG GAAAAAGGAAGAGGGGGGAGGAGGA GGGGAAGGGGGAAGAAGAGGGAAGG GGAGAGAAGAAGAGA GAGGGAGGAAGAGAAGAAAGAGGGA GAAGAAGGAAGGAGGAGGGG AGGAGGGAAAGGAGG GAGAGGGGGGAGAAAAGAAG GGGAAGAAGAGGAAG 5", LATIN_ALPHABET, ["G", "a"], False, "THE Q(U/V)(I/J)CK BROWN FOX (I/J)(U/V)MPS O(U/V)ER THE LAZY DOG 5"),
-                          ("SŃŃŃŃŃŃSSSSSSSSSŃŃŃSSSSŃŃ ŃŃŃSŃŃŃŃŃSŃŃSŃSSSSSŃ, ŃŃŃSSŃSŃSŃSŃSSŃSŃŃSSSŃŃSŃ SŃSŃSSSŃSŃŃSSSSŃSSŃS SSŃŃSSSŃSSSŃSŃŃŃSSŃŃ ŃSŃSS SŃSSSSSSŃSŃŃSSŃSSŃŃŃŃŃSŃŃ ŃSŃŃŃŃSSSŃŃŃŃŃŃŃSŃŃS", POLISH_ALPHABET, ["ń", "S"], True, TEXT_TO_CIPHER_POLISH[:-2]),
-                          ("ABBBBAABBBBBBBABAAAABBABB AAABAAAAABAABABBBBAB, AAABBABABABABABBAABABAAAB BABAABBAABABBBAABBAA BBAAABBABABAABBABABB ABABB BABBABBBAAAABBABABBBAABAA ABAAAABBABAAAAAABAAB 1", POLISH_ALPHABET, ["a", "b"], False, "MĘŻNY BĄDŹ, CHROŃ P(U/V)ŁK TWÓ(I/J) (I/J) SZEŚĆ FLAG 1")])
+                          ("sńńńńńńsssssssssńńńssssńń ńńńsńńńńńsńńsńsssssń, ńńńssńsńsńsńssńsńńsssńńsń sńsńsssńsńńssssńssńs ssńńsssńsssńsńńńssńń ńsńss sńssssssńsńńssńssńńńńńsńń ńsńńńńsssńńńńńńńsńńs", POLISH_ALPHABET.replace("Q", "").replace("V", "").replace("X", ""), ["ń", "S"], True, TEXT_TO_CIPHER_POLISH[:-2]),
+                          ("abbbbaabbbbbbbabaaaabbabb aaabaaaaabaababbbbab, aaabbabababababbaababaaab babaabbaababbbaabbaa bbaaabbababaabbababb ababb babbabbbaaaabbababbbaabaa abaaaabbabaaaaaabaab 1", POLISH_ALPHABET.replace("Q", "").replace("V", "").replace("X", ""), ["a", "b"], False, "MĘŻNY BĄDŹ, CHROŃ P(U/V)ŁK TWÓ(I/J) (I/J) SZEŚĆ FLAG 1")])
 def test_bacon_cipher_decoding(text_to_input, alphabet, letters_to_code_with, unique_coding, expected):
     assert bacon_cipher_decoding(text_to_input, alphabet, letters_to_code_with, unique_coding) == expected
+
+def test_bacon_cipher_decoding_edge_case():
+    with pytest.raises(ValueError) as exception_info:
+        bacon_cipher_decoding("AAAAA BBBAA", POLISH_ALPHABET, ["a", "b"], True)
+    assert str(exception_info.value) == "Unfortunetely the alphabet length must be at most 32 characters! You can remove the letters from the alphabet, that are not used"
 
 @pytest.mark.parametrize("text_to_input, alphabet, include_digits, expected",
                          [(TEXT_TO_CIPHER_LATIN, LATIN_ALPHABET, True, "GSV JFRXP YILDM ULC QFNKH LEVI GSV OZAB WLT 4"),
                           (TEXT_TO_CIPHER_LATIN, LATIN_ALPHABET, False, "GSV JFRXP YILDM ULC QFNKH LEVI GSV OZAB WLT 5"),
-                          (TEXT_TO_CIPHER_POLISH, POLISH_ALPHABET, True, "ŁŚALC ZŹUĄ, YPGJK HDMŃ EĆIO Ó FBTĘW SNŻR 8"),
-                          (TEXT_TO_CIPHER_POLISH, POLISH_ALPHABET, False, "ŁŚALC ZŹUĄ, YPGJK HDMŃ EĆIO Ó FBTĘW SNŻR 1"),
+                          (TEXT_TO_CIPHER_POLISH, POLISH_ALPHABET, True, "ŃUANC ZŹWĄ, YSIŁM KĘOP FDLQ R HBVGX TÓŻŚ 8"),
+                          (TEXT_TO_CIPHER_POLISH, POLISH_ALPHABET, False, "ŃUANC ZŹWĄ, YSIŁM KĘOP FDLQ R HBVGX TÓŻŚ 1"),
                           ("GSV JFRXP YILDM ULC QFNKH LEVI GSV OZAB WLT 41", LATIN_ALPHABET, True, TEXT_TO_CIPHER_LATIN + "8"),
                           ("GSV JFRXP YILDM ULC QFNKH LEVI GSV OZAB WLT 41", LATIN_ALPHABET, False, TEXT_TO_CIPHER_LATIN[:-1] + "41"),
-                          ("ŁŚALC ZŹUĄ, YPGJK HDMŃ EĆIO Ó FBTĘW SNŻR 1", POLISH_ALPHABET, True, TEXT_TO_CIPHER_POLISH[:-1] + "8"),
-                          ("ŁŚALC ZŹUĄ, YPGJK HDMŃ EĆIO Ó FBTĘW SNŻR 1", POLISH_ALPHABET, False, TEXT_TO_CIPHER_POLISH)])
+                          ("ŃUANC ZŹWĄ, YSIŁM KĘOP FDLQ R HBVGX TÓŻŚ 1", POLISH_ALPHABET, True, TEXT_TO_CIPHER_POLISH[:-1] + "8"),
+                          ("ŃUANC ZŹWĄ, YSIŁM KĘOP FDLQ R HBVGX TÓŻŚ 1", POLISH_ALPHABET, False, TEXT_TO_CIPHER_POLISH)])
 def test_atbash_cipher(text_to_input, alphabet, include_digits, expected):
     assert atbash_cipher(text_to_input, alphabet, include_digits) == expected
 
@@ -122,8 +135,8 @@ def test_columnar_transposition_cipher_decoding_edge_cases():
 @pytest.mark.parametrize("text_to_input, keyword, alphabet, expected",
                          [(TEXT_TO_CIPHER_LATIN[:-2], "fortification", LATIN_ALPHABET, "YVVJCNKMBKWKAYVBZOURCPMSNGMSIJTKSGU"),
                           (TEXT_TO_CIPHER_LATIN[:-2], "lioN", LATIN_ALPHABET, "EPSDNPGAVZQGOWCTWZAMBIHTJHCICTGCOOF"),
-                          (TEXT_TO_CIPHER_POLISH[:-2].replace(",", ""), "męski", POLISH_ALPHABET, "ALRŹĘŃFĆŁŻJSŚMŚĆDAIMLWŚMŚUĆŁŻIEĄ"),
-                          (TEXT_TO_CIPHER_POLISH[:-2].replace(",", ""), "żabA", POLISH_ALPHABET, "ŁĘĄNJGARUDIWNPŻMBŻLPCTĆŃNŃCWDÓŚK")])
+                          (TEXT_TO_CIPHER_POLISH[:-2].replace(",", ""), "męski", POLISH_ALPHABET, "ZLRXĘŃFĆŁŻJSSMSBCZGŁJUSŁTTBŁZIEŻ"),
+                          (TEXT_TO_CIPHER_POLISH[:-2].replace(",", ""), "żabA", POLISH_ALPHABET, "ŁĘĄNJGAQWDIVNPYŁŻYJPAŚBŃNŃĄVDÓŚK")])
 def test_autokey_cipher_encoding(text_to_input, keyword, alphabet, expected):
     assert autokey_cipher_encoding(text_to_input, keyword, alphabet) == expected
 
@@ -138,8 +151,8 @@ def test_autokey_cipher_encoding_edge_cases(text_to_input, keyword, alphabet):
 @pytest.mark.parametrize("text_to_input, keyword, alphabet, expected",
                          [("YVVJCNKMBKWKAYVBZOURCPMSNGMSIJTKSGU", "fortification", LATIN_ALPHABET, TEXT_TO_CIPHER_LATIN[:-2].replace(" ", "")),
                           ("EPSDNPGAVZQGOWCTWZAMBIHTJHCICTGCOOF", "lioN", LATIN_ALPHABET, TEXT_TO_CIPHER_LATIN[:-2].replace(" ", "")),
-                          ("ALRŹĘŃFĆŁŻJSŚMŚĆDAIMLWŚMŚUĆŁŻIEĄ", "męski", POLISH_ALPHABET, TEXT_TO_CIPHER_POLISH[:-2].replace(",", "").replace(" ", "")),
-                          ("ŁĘĄNJGARUDIWNPŻMBŻLPCTĆŃNŃCWDÓŚK", "żabA", POLISH_ALPHABET, TEXT_TO_CIPHER_POLISH[:-2].replace(",", "").replace(" ", ""))])
+                          ("ZLRXĘŃFĆŁŻJSSMSBCZGŁJUSŁTTBŁZIEŻ", "męski", POLISH_ALPHABET, TEXT_TO_CIPHER_POLISH[:-2].replace(",", "").replace(" ", "")),
+                          ("ŁĘĄNJGAQWDIVNPYŁŻYJPAŚBŃNŃĄVDÓŚK", "żabA", POLISH_ALPHABET, TEXT_TO_CIPHER_POLISH[:-2].replace(",", "").replace(" ", ""))])
 def test_autokey_cipher_decoding(text_to_input, keyword, alphabet, expected):
     assert autokey_cipher_decoding(text_to_input, keyword, alphabet) == expected
 
@@ -270,12 +283,12 @@ def test_bifid_cipher_decoding_edge_case_2(character_what_was_replaced, characte
 @pytest.mark.parametrize("text_to_input, keyword, alphabet, expected",
                          [(TEXT_TO_CIPHER_LATIN[:-2], "fortification", LATIN_ALPHABET, "MHNDOXGSZCUSAAAUKOTTKMYEXUYKGTJHFOU"),
                           (TEXT_TO_CIPHER_LATIN[:-2], "lioN", LATIN_ALPHABET, "SBKXRAMDKRARYDAQCOCYTUTJUPHJAIPPIUI"),
-                          (TEXT_TO_CIPHER_POLISH[:-2].replace(",", ""), "męski", POLISH_ALPHABET, "AAŚYŁLEŃŁFENĆWRRŚHÓMYWJRLHŁODZMŹ"),
-                          (TEXT_TO_CIPHER_POLISH[:-2].replace(",", ""), "żabA", POLISH_ALPHABET, "ŁTCŁCŹĄWĄZŚHJLKEMOGDIÓSGBUHYSŃBS"),
+                          (TEXT_TO_CIPHER_POLISH[:-2].replace(",", ""), "męski", POLISH_ALPHABET, "AAŚYŁLEOŁFEODXŚSUIQNYXKSLHNÓDZMŹ"),
+                          (TEXT_TO_CIPHER_POLISH[:-2].replace(",", ""), "żabA", POLISH_ALPHABET, "ŃVCŃCŹĄXĄZUJŁNMFOQIELRTIBWJYTPBT"),
                           ("MHNDOXGSZCUSAAAUKOTTKMYEXUYKGTJHFOU", "fortification", LATIN_ALPHABET, TEXT_TO_CIPHER_LATIN[:-2].replace(" ", "")),
                           ("SBKXRAMDKRARYDAQCOCYTUTJUPHJAIPPIUI", "lioN", LATIN_ALPHABET, TEXT_TO_CIPHER_LATIN[:-2].replace(" ", "")),
-                          ("AAŚYŁLEŃŁFENĆWRRŚHÓMYWJRLHŁODZMŹ", "męski", POLISH_ALPHABET, TEXT_TO_CIPHER_POLISH[:-2].replace(",", "").replace(" ", "")),
-                          ("ŁTCŁCŹĄWĄZŚHJLKEMOGDIÓSGBUHYSŃBS", "żabA", POLISH_ALPHABET, TEXT_TO_CIPHER_POLISH[:-2].replace(",", "").replace(" ", ""))])
+                          ("AAŚYŁLEOŁFEODXŚSUIQNYXKSLHNÓDZMŹ", "męski", POLISH_ALPHABET, TEXT_TO_CIPHER_POLISH[:-2].replace(",", "").replace(" ", "")),
+                          ("ŃVCŃCŹĄXĄZUJŁNMFOQIELRTIBWJYTPBT", "żabA", POLISH_ALPHABET, TEXT_TO_CIPHER_POLISH[:-2].replace(",", "").replace(" ", ""))])
 def test_beaufort_cipher(text_to_input, keyword, alphabet, expected):
     assert beaufort_cipher(text_to_input, keyword, alphabet) == expected
 
@@ -290,12 +303,12 @@ def test_beaufort_cipher_edge_cases(text_to_input, alphabet):
 @pytest.mark.parametrize("text_to_input, keyword, alphabet, expected",
                          [(TEXT_TO_CIPHER_LATIN[:-2], "fortification", LATIN_ALPHABET, "EOZHDXTYOIKCHUHCSDOLEBMVKAWYTWIJUAT"),
                           (TEXT_TO_CIPHER_LATIN[:-2], "lioN", LATIN_ALPHABET, "BYYKCZWQTAHDIWHEODTJAKBXMCOXQRFFVKN"),
-                          (TEXT_TO_CIPHER_POLISH[:-2].replace(",", ""), "męski", POLISH_ALPHABET, "FUĆIĘUÓMFŚŃCFJABŃŚCEJŻRĄFŹDŻŹOŚY"),
-                          (TEXT_TO_CIPHER_POLISH[:-2].replace(",", ""), "żabA", POLISH_ALPHABET, "ĄSLĄKŃŃPŁOWEĆBĆHŹZFIDYYĘLRĘÓSŹNT"),
+                          (TEXT_TO_CIPHER_POLISH[:-2].replace(",", ""), "męski", POLISH_ALPHABET.replace("X", ""), "SUĆIFUPNGŚŃCĘJMBŃŚCĘJŹRĄGZDŻZOŚW"),
+                          (TEXT_TO_CIPHER_POLISH[:-2].replace(",", ""), "żabA", POLISH_ALPHABET.replace("X", ""), "ŹSŁALOOQMÓVECĄCHZYFJĆWWĘŁRĘPSZŃT"),
                           ("EOZHDXTYOIKCHUHCSDOLEBMVKAWYTWIJUAT", "fortification", LATIN_ALPHABET, TEXT_TO_CIPHER_LATIN[:-2].replace(" ", "")),
                           ("BYYKCZWQTAHDIWHEODTJAKBXMCOXQRFFVKN", "lioN", LATIN_ALPHABET, TEXT_TO_CIPHER_LATIN[:-2].replace(" ", "")),
-                          ("FUĆIĘUÓMFŚŃCFJABŃŚCEJŻRĄFŹDŻŹOŚY", "męski", POLISH_ALPHABET, TEXT_TO_CIPHER_POLISH[:-2].replace(",", "").replace(" ", "")),
-                          ("ĄSLĄKŃŃPŁOWEĆBĆHŹZFIDYYĘLRĘÓSŹNT", "żabA", POLISH_ALPHABET, TEXT_TO_CIPHER_POLISH[:-2].replace(",", "").replace(" ", ""))])
+                          ("SUĆIFUPNGŚŃCĘJMBŃŚCĘJŹRĄGZDŻZOŚW", "męski", POLISH_ALPHABET.replace("X", ""), TEXT_TO_CIPHER_POLISH[:-2].replace(",", "").replace(" ", "")),
+                          ("ŹSŁALOOQMÓVECĄCHZYFJĆWWĘŁRĘPSZŃT", "żabA", POLISH_ALPHABET.replace("X", ""), TEXT_TO_CIPHER_POLISH[:-2].replace(",", "").replace(" ", ""))])
 def test_porta_cipher(text_to_input, keyword, alphabet, expected):
     assert porta_cipher(text_to_input, keyword, alphabet) == expected
 
@@ -311,12 +324,12 @@ def test_porta_cipher_edge_cases(text_to_input, alphabet, error_message):
 @pytest.mark.parametrize("text_to_input, keyword, alphabet, mode, expected",
                          [(TEXT_TO_CIPHER_LATIN[:-2], "'You know what the greatest tragedy in the whole world is?' said Ginger, not paying him the least attention. It's all the people who never find out what they really want to do or what it is they're really good at", LATIN_ALPHABET, CIPHER_MODE, "RVYAHWYGIRHPUJUONUFTKHOVRZLHJIMRKSC"),
                           (TEXT_TO_CIPHER_LATIN[:-2], "The Discworld is as unreal as it is possible to be while still being just real enough to exist.", LATIN_ALPHABET, CIPHER_MODE, "MOITCAEGPIZZVXOPDHDTSZVWZMPWAORQLPR"),
-                          (TEXT_TO_CIPHER_POLISH[:-2].replace(",", ""), "Ludzie nie pragną nieśmiertelności - podjąłem po chwili. - Nie chcą tylko, po prostu, umierać. Chcą żyć, profesorze Decantor. Chcą czuć ziemię pod nogami, widzieć chmury nad głową, kochać innych ludzi, być z nimi i myśleć o tym. Nic więcej.", POLISH_ALPHABET, CIPHER_MODE, "ŹĄĆLĘFŃMĆŚARYCRIUONIŻŃĄMCÓGSANIŹ"),
-                          (TEXT_TO_CIPHER_POLISH[:-2].replace(",", ""), "Człowiek wyruszył na spotkanie innych światów, innych cywilizacji, nie poznawszy do końca własnych zakamarków, ślepych dróg, studni, zabarykadowanych, ciemnych drzwi.", POLISH_ALPHABET, CIPHER_MODE, "OĆLĆSKĘŃTŻAMHŁNGAKMMĘDŚSLNŹŁTŻYJ"),
+                          (TEXT_TO_CIPHER_POLISH[:-2].replace(",", ""), "Ludzie nie pragną nieśmiertelności - podjąłem po chwili. - Nie chcą tylko, po prostu, umierać. Chcą żyć, profesorze Decantor. Chcą czuć ziemię pod nogami, widzieć chmury nad głową, kochać innych ludzi, być z nimi i myśleć o tym. Nic więcej.", POLISH_ALPHABET, CIPHER_MODE, "XŻĆLĘFŃMĆSŹRVAQGTOMHYŃŻŁCÓĘRŹNIX"),
+                          (TEXT_TO_CIPHER_POLISH[:-2].replace(",", ""), "Człowiek wyruszył na spotkanie innych światów, innych cywilizacji, nie poznawszy do końca własnych zakamarków, ślepych dróg, studni, zabarykadowanych, ciemnych drzwi.", POLISH_ALPHABET, CIPHER_MODE, "OĆLĄŚKĘŃUŻŹŁFŁNĘZKŁŁĆCSSLNYŁŚYYJ"),
                           ("RVYAHWYGIRHPUJUONUFTKHOVRZLHJIMRKSC", "'You know what the greatest tragedy in the whole world is?' said Ginger, not paying him the least attention. It's all the people who never find out what they really want to do or what it is they're really good at", LATIN_ALPHABET, DECIPHER_MODE, TEXT_TO_CIPHER_LATIN[:-2].replace(" ", "")),
                           ("MOITCAEGPIZZVXOPDHDTSZVWZMPWAORQLPR", "The Discworld is as unreal as it is possible to be while still being just real enough to exist.", LATIN_ALPHABET, DECIPHER_MODE, TEXT_TO_CIPHER_LATIN[:-2].replace(" ", "")),
-                          ("ŹĄĆLĘFŃMĆŚARYCRIUONIŻŃĄMCÓGSANIŹ", "Ludzie nie pragną nieśmiertelności - podjąłem po chwili. - Nie chcą tylko, po prostu, umierać. Chcą żyć, profesorze Decantor. Chcą czuć ziemię pod nogami, widzieć chmury nad głową, kochać innych ludzi, być z nimi i myśleć o tym. Nic więcej.", POLISH_ALPHABET, DECIPHER_MODE, TEXT_TO_CIPHER_POLISH[:-2].replace(",", "").replace(" ", "")),
-                          ("OĆLĆSKĘŃTŻAMHŁNGAKMMĘDŚSLNŹŁTŻYJ", "Człowiek wyruszył na spotkanie innych światów, innych cywilizacji, nie poznawszy do końca własnych zakamarków, ślepych dróg, studni, zabarykadowanych, ciemnych drzwi.", POLISH_ALPHABET, DECIPHER_MODE, TEXT_TO_CIPHER_POLISH[:-2].replace(",", "").replace(" ", ""))])
+                          ("XŻĆLĘFŃMĆSŹRVAQGTOMHYŃŻŁCÓĘRŹNIX", "Ludzie nie pragną nieśmiertelności - podjąłem po chwili. - Nie chcą tylko, po prostu, umierać. Chcą żyć, profesorze Decantor. Chcą czuć ziemię pod nogami, widzieć chmury nad głową, kochać innych ludzi, być z nimi i myśleć o tym. Nic więcej.", POLISH_ALPHABET, DECIPHER_MODE, TEXT_TO_CIPHER_POLISH[:-2].replace(",", "").replace(" ", "")),
+                          ("OĆLĄŚKĘŃUŻŹŁFŁNĘZKŁŁĆCSSLNYŁŚYYJ", "Człowiek wyruszył na spotkanie innych światów, innych cywilizacji, nie poznawszy do końca własnych zakamarków, ślepych dróg, studni, zabarykadowanych, ciemnych drzwi.", POLISH_ALPHABET, DECIPHER_MODE, TEXT_TO_CIPHER_POLISH[:-2].replace(",", "").replace(" ", ""))])
 def test_running_key_cipher(text_to_input, keyword, alphabet, mode, expected):
     assert running_key_cipher(text_to_input, keyword, alphabet, mode) == expected
 
@@ -330,6 +343,17 @@ def test_running_key_cipher_edge_cases(text_to_input, alphabet, error_message):
         running_key_cipher(text_to_input, "foo", alphabet)
     assert str(exception_info.value) == error_message
 
+@pytest.mark.parametrize("alphabet",
+                         [LATIN_ALPHABET,
+                          POLISH_ALPHABET])
+def test_homophonic_substitution_cipher_generate_letter_connection_dictionar(alphabet):
+    letter_dictionary = homophonic_substitution_generate_letter_connection_dictionary(alphabet)
+    assert sorted(list(letter_dictionary.keys())) == sorted(alphabet)
+    every_character = []
+    for sub_list in list(letter_dictionary.values()):
+        every_character += sub_list
+    assert sorted(every_character) == sorted(alphabet + DIGITS)
+
 @pytest.mark.parametrize("alphabet, error_message",
                          [(RUSSIAN_ALPHABET, "For now, this function accepts only two alphabets (Latin and Polish)!"),
                           (GREEK_ALPHABET, "For now, this function accepts only two alphabets (Latin and Polish)!"),
@@ -339,22 +363,51 @@ def test_homophonic_substitution_cipher_generate_letter_connection_dictionary_ed
         homophonic_substitution_generate_letter_connection_dictionary(alphabet)
     assert str(exception_info.value) == error_message
 
-@pytest.mark.parametrize("text_to_input, mode, expected",
-                         [("BCDFGhjklmPQRuvwXyZ", CIPHER_MODE, "XSFEHCITPGLKJOWMYBN"),
-                          ("B"*10, CIPHER_MODE, "X"*10),
-                          ("q"*10, CIPHER_MODE, "K"*10),])
-def test_homophonic_substitution_cipher_encoding(text_to_input, mode, expected):
-    assert homophonic_substitution_cipher(text_to_input, mode=mode) == expected
+@pytest.mark.parametrize("text_to_input, letter_connection_dictionary, mode, expected",
+                         [("BCDFGjklmPQRuvwXyZ", {"A": ["D", "9"], "B": ["X"], "C": ["S"], "D": ["F"], "E": ["Z", "7", "2", "1"], "F": ["E"],
+                                                   "G": ["H"], "H": ["C", "8"], "I": ["V", "3"], "J": ["I"], "K": ["T"], "L": ["P"], "M": ["G"], 
+                                                   "N": ["A", "5"], "O": ["Q", "0"], "P": ["L"], "Q": ["K"], "R": ["J"], "S": ["R", "4"], 
+                                                   "T": ["U", "6"], "U": ["O"], "V": ["W"], "W": ["M"], "X": ["Y"], "Y": ["B"], "Z": ["N"]}, CIPHER_MODE, "XSFEHITPGLKJOWMYBN"),
+                          ("B"*10, {"A": ["D", "9"], "B": ["X"], "C": ["S"], "D": ["F"], "E": ["Z", "7", "2", "1"], "F": ["E"],
+                                    "G": ["H"], "H": ["C", "8"], "I": ["V", "3"], "J": ["I"], "K": ["T"], "L": ["P"], "M": ["G"], 
+                                    "N": ["A", "5"], "O": ["Q", "0"], "P": ["L"], "Q": ["K"], "R": ["J"], "S": ["R", "4"], 
+                                    "T": ["U", "6"], "U": ["O"], "V": ["W"], "W": ["M"], "X": ["Y"], "Y": ["B"], "Z": ["N"]}, CIPHER_MODE, "X"*10),
+                          ("q"*10, {"A": ["D", "9"], "B": ["X"], "C": ["S"], "D": ["F"], "E": ["Z", "7", "2", "1"], "F": ["E"],
+                                    "G": ["H"], "H": ["C", "8"], "I": ["V", "3"], "J": ["I"], "K": ["T"], "L": ["P"], "M": ["G"], 
+                                    "N": ["A", "5"], "O": ["Q", "0"], "P": ["L"], "Q": ["K"], "R": ["J"], "S": ["R", "4"], 
+                                    "T": ["U", "6"], "U": ["O"], "V": ["W"], "W": ["M"], "X": ["Y"], "Y": ["B"], "Z": ["N"]}, CIPHER_MODE, "K"*10),])
+def test_homophonic_substitution_cipher_encoding(text_to_input, letter_connection_dictionary, mode, expected):
+    assert homophonic_substitution_cipher(text_to_input, letter_connection_dictionary, mode) == expected
 
-@pytest.mark.parametrize("text_to_input",
-                         ["BCDFGhjklmPQRuvwXyZ",
-                          "B"*10,
-                          "q"*10,
-                          TEXT_TO_CIPHER_LATIN[:-2],
-                          TEXT_TO_CIPHER_LATIN_2])
-def test_homophonic_substitution_cipher_decoding(text_to_input):
-    ciphered_test = homophonic_substitution_cipher(text_to_input, mode=CIPHER_MODE)
-    assert homophonic_substitution_cipher(ciphered_test, mode=DECIPHER_MODE) == text_to_input.upper()
+@pytest.mark.parametrize("text_to_input, letter_connection_dictionary",
+                         [("BCDFGjklmPQRuvwXyZ", {"A": ["D", "9"], "B": ["X"], "C": ["S"], "D": ["F"], "E": ["Z", "7", "2", "1"], "F": ["E"],
+                                                  "G": ["H"], "H": ["C", "8"], "I": ["V", "3"], "J": ["I"], "K": ["T"], "L": ["P"], "M": ["G"], 
+                                                  "N": ["A", "5"], "O": ["Q", "0"], "P": ["L"], "Q": ["K"], "R": ["J"], "S": ["R", "4"], 
+                                                  "T": ["U", "6"], "U": ["O"], "V": ["W"], "W": ["M"], "X": ["Y"], "Y": ["B"], "Z": ["N"]}),
+                          ("B"*10, {"A": ["D", "9"], "B": ["X"], "C": ["S"], "D": ["F"], "E": ["Z", "7", "2", "1"], "F": ["E"],
+                                    "G": ["H"], "H": ["C", "8"], "I": ["V", "3"], "J": ["I"], "K": ["T"], "L": ["P"], "M": ["G"], 
+                                    "N": ["A", "5"], "O": ["Q", "0"], "P": ["L"], "Q": ["K"], "R": ["J"], "S": ["R", "4"], 
+                                    "T": ["U", "6"], "U": ["O"], "V": ["W"], "W": ["M"], "X": ["Y"], "Y": ["B"], "Z": ["N"]}),
+                          ("q"*10, {"A": ["D", "9"], "B": ["X"], "C": ["S"], "D": ["F"], "E": ["Z", "7", "2", "1"], "F": ["E"],
+                                    "G": ["H"], "H": ["C", "8"], "I": ["V", "3"], "J": ["I"], "K": ["T"], "L": ["P"], "M": ["G"], 
+                                    "N": ["A", "5"], "O": ["Q", "0"], "P": ["L"], "Q": ["K"], "R": ["J"], "S": ["R", "4"], 
+                                    "T": ["U", "6"], "U": ["O"], "V": ["W"], "W": ["M"], "X": ["Y"], "Y": ["B"], "Z": ["N"]}),
+                          (TEXT_TO_CIPHER_LATIN[:-2], {"A": ["D", "9"], "B": ["X"], "C": ["S"], "D": ["F"], "E": ["Z", "7", "2", "1"], "F": ["E"],
+                                                       "G": ["H"], "H": ["C", "8"], "I": ["V", "3"], "J": ["I"], "K": ["T"], "L": ["P"], "M": ["G"], 
+                                                       "N": ["A", "5"], "O": ["Q", "0"], "P": ["L"], "Q": ["K"], "R": ["J"], "S": ["R", "4"], 
+                                                       "T": ["U", "6"], "U": ["O"], "V": ["W"], "W": ["M"], "X": ["Y"], "Y": ["B"], "Z": ["N"]}),
+                          (TEXT_TO_CIPHER_LATIN_2, {"A": ["1", "J"], "B": ["N"], "C": ["U"], "D": ["K"], "E": ["R", "8", "X", "6"], "F": ["O"], 
+                                                    "G": ["T"], "H": ["5", "7"], "I": ["L", "A"], "J": ["0"], "K": ["G"], "L": ["9"], "M": ["F"], 
+                                                    "N": ["D", "I"], "O": ["4", "V"], "P": ["3"], "Q": ["Q"], "R": ["H"], "S": ["W", "E"], 
+                                                    "T": ["M", "Y"], "U": ["C"], "V": ["P"], "W": ["B"], "X": ["Z"], "Y": ["2"], "Z": ["S"]}),
+                          (TEXT_TO_CIPHER_POLISH.replace(",", "")[:-2], {"A": ["B", "U", "0"], "Ą": ["D"], "B": ["N"], "C": ["6"], "Ć": ["M", "E", "Ę"], "D": ["Ś"], 
+                                                                         "E": ["L"], "Ę": ["C"], "F": ["Ó", "V", "3"], "G": ["8"], "H": ["Ź"], "I": ["Ń"], "J": ["J"], 
+                                                                         "K": ["Ł", "1"], "L": ["Q", "I", "2"], "Ł": ["F"], "M": ["9"], "N": ["P"], "Ń": ["K"], "O": ["Y"], 
+                                                                         "Ó": ["T"], "P": ["Z"], "Q": ["5"], "R": ["X"], "S": ["Ą"], "Ś": ["4", "G"], "T": ["S"], 
+                                                                         "U": ["R"], "V": ["Ż"], "W": ["O"], "X": ["7"], "Y": ["A"], "Z": ["Ć"], "Ź": ["H"], "Ż": ["W"]})])
+def test_homophonic_substitution_cipher_decoding(text_to_input, letter_connection_dictionary):
+    ciphered_test = homophonic_substitution_cipher(text_to_input, letter_connection_dictionary, mode=CIPHER_MODE)
+    assert homophonic_substitution_cipher(ciphered_test, letter_connection_dictionary, mode=DECIPHER_MODE) == text_to_input.upper()
 
 @pytest.mark.parametrize("text_to_input, mode",
                          [(TEXT_TO_CIPHER_LATIN, CIPHER_MODE),
@@ -368,10 +421,28 @@ def test_homophonic_substitution_cipher_decoding(text_to_input):
                           (TEXT_TO_CIPHER_LATIN_2 + "Ω", DECIPHER_MODE),
                           (TEXT_TO_CIPHER_LATIN + "ס", DECIPHER_MODE),
                           (TEXT_TO_CIPHER_POLISH, DECIPHER_MODE)])
-def test_homophonic_substitution_cipher_edge_cases(text_to_input, mode):
+def test_homophonic_substitution_cipher_edge_cases_1(text_to_input, mode):
     with pytest.raises(ValueError) as exception_info:
-        homophonic_substitution_cipher(text_to_input, mode)
-    assert str(exception_info.value) == "Homophonic substitution supports only latin letters for now!"
+        homophonic_substitution_cipher(text_to_input, {"A": ["D", "9"], "B": ["X"], "C": ["S"], "D": ["F"], "E": ["Z", "7", "2", "1"], "F": ["E"],
+                                                       "G": ["H"], "H": ["C", "8"], "I": ["V", "3"], "J": ["I"], "K": ["T"], "L": ["P"], "M": ["G"], 
+                                                       "N": ["A", "5"], "O": ["Q", "0"], "P": ["L"], "Q": ["K"], "R": ["J"], "S": ["R", "4"], 
+                                                       "T": ["U", "6"], "U": ["O"], "V": ["W"], "W": ["M"], "X": ["Y"], "Y": ["B"], "Z": ["N"]}, mode)
+    assert str(exception_info.value) == "Homophonic substitution supports only letters from letter_connection_dictionary!"
+
+@pytest.mark.parametrize("text_to_input, letter_connection_dictionary",
+                         [("BCDFGjklmPQRuvwXyZ", {"A": ["D", "9"], "B": ["X"], "C": ["S"], "D": ["F"], "E": ["Z", "7", "2", "1"], "F": ["E"],
+                                                  "G": ["H"], "H": ["C"], "I": ["V", "3"], "J": ["I"], "K": ["T"], "L": ["P"], "M": ["G"], 
+                                                  "N": ["A", "5"], "O": ["Q", "0"], "P": ["L"], "Q": ["K"], "R": ["J"], "S": ["R", "4"], 
+                                                  "T": ["U", "6"], "U": ["O"], "V": ["W"], "W": ["M"], "X": ["Y"], "Y": ["B"], "Z": ["N"]}),
+                          (TEXT_TO_CIPHER_POLISH.replace(",", "")[:-2], {"A": ["B", "U", "0"], "Ą": ["D"], "B": ["N"], "C": ["6"], "Ć": ["M", "E", "Ę"], "D": ["Ś"], 
+                                                                         "E": ["L"], "Ę": ["C"], "F": ["Ó", "V", "3", "Д"], "G": ["8"], "H": ["Ź"], "I": ["Ń"], "J": ["J"], 
+                                                                         "K": ["Ł", "1"], "L": ["Q", "I", "2"], "Ł": ["F"], "M": ["9"], "N": ["P"], "Ń": ["K"], "O": ["Y"], 
+                                                                         "Ó": ["T"], "P": ["Z"], "Q": ["5"], "R": ["X"], "S": ["Ą"], "Ś": ["4", "G"], "T": ["S"], 
+                                                                         "U": ["R"], "V": ["Ż"], "W": ["O"], "X": ["7"], "Y": ["A"], "Z": ["Ć"], "Ź": ["H"], "Ż": ["W"]})])
+def test_homophonic_substitution_cipher_edge_cases_2(text_to_input, letter_connection_dictionary):
+    with pytest.raises(ValueError) as exception_info:
+        homophonic_substitution_cipher(text_to_input, letter_connection_dictionary)
+    assert str(exception_info.value) == "letter_connection_dictionary appears to be constructed wrong! Please use \"homophonic_substitution_generate_letter_connection_dictionary\" function to generate the dictionary!"
 
 def test_trifid_cipher_generate_random_key():
     random_key = trifid_cipher_generate_random_key(save_to_file=False)
@@ -435,10 +506,10 @@ def test_trifid_cipher_decoding_edge_cases():
 @pytest.mark.parametrize("text_to_input, alphabet, key_matrix, mode, character_to_fill, expected",
                          [(TEXT_TO_CIPHER_LATIN[:-2], LATIN_ALPHABET, [[1, 3], [3, 4]], CIPHER_MODE, "x", "OHAYSOGUATCACHFERDFSIGHBWXTLLHTPTNXG"),
                           (TEXT_TO_CIPHER_LATIN_2, LATIN_ALPHABET, [[6, 24, 1], [13, 16, 10], [20, 17, 15]], CIPHER_MODE, "L", "PXVBEIAJNQYMSBAGRTZXIUGKDYQNAQ"),
-                          (TEXT_TO_CIPHER_POLISH.replace(",", "")[:-2], POLISH_ALPHABET, [[8, 1], [3, 17]], CIPHER_MODE, "ą", "ĘĘGŹBRKŚOKEÓHIBTDHCRJFŁFLZĆJLEGT"),
+                          (TEXT_TO_CIPHER_POLISH.replace(",", "")[:-2], POLISH_ALPHABET, [[9, 6], [3, 19]], CIPHER_MODE, "ą", "IERDITĆVAMŃJŻLĄMCJRŻĘFŹŻGAĆIMHOY"),
                           ("OHAYSOGUATCACHFERDFSIGHBWXTLLHTPTNXG", LATIN_ALPHABET, [[1, 3], [3, 4]], DECIPHER_MODE, "x", TEXT_TO_CIPHER_LATIN.replace(" ", "")[:-1]),
                           ("PXVBEIAJNQYMSBAGRTZXIUGKDYQNAQ", LATIN_ALPHABET, [[6, 24, 1], [13, 16, 10], [20, 17, 15]], DECIPHER_MODE, "L", TEXT_TO_CIPHER_LATIN_2.replace(" ", "")),
-                          ("ĘĘGŹBRKŚOKEÓHIBTDHCRJFŁFLZĆJLEGT", POLISH_ALPHABET, [[8, 1], [3, 17]], DECIPHER_MODE, "ą", TEXT_TO_CIPHER_POLISH.replace(" ", "").replace(",", "")[:-1])])
+                          ("IERDITĆVAMŃJŻLĄMCJRŻĘFŹŻGAĆIMHOY", POLISH_ALPHABET, [[9, 6], [3, 19]], DECIPHER_MODE, "ą", TEXT_TO_CIPHER_POLISH.replace(" ", "").replace(",", "")[:-1])])
 def test_hill_cipher(text_to_input, alphabet, key_matrix, mode, character_to_fill, expected):
     assert hill_cipher(text_to_input, alphabet, key_matrix, mode, character_to_fill) == expected
 
@@ -451,7 +522,7 @@ def test_hill_cipher(text_to_input, alphabet, key_matrix, mode, character_to_fil
                           ("foo", LATIN_ALPHABET, [[1, 3], [3, 4]], "xx", "Character to fill should be one character and not blank space!"),
                           ("foo", LATIN_ALPHABET, [[1, 3], [3, 4]], " ", "Character to fill should be one character and not blank space!"),
                           ("foo", LATIN_ALPHABET, [[1, 4, 7], [2, 5, 8], [3, 6, 9]], "x", "Determinant of the matrix is 0 (matrix is not inversable, thus, no decoding will be possible). Change the key matrix!"),
-                          ("foo", LATIN_ALPHABET, [[1, 2], [5, 3]], "x", "Key matrix determinant has common devisor (2) with the length of the alphabet (26). Change the key matrix!"),
+                          ("foo", LATIN_ALPHABET, [[1, 3], [5, 3]], "x", "Key matrix determinant has common devisor (2) with the length of the alphabet (26). Change the key matrix!"),
                           (TEXT_TO_CIPHER_POLISH, LATIN_ALPHABET, [[1, 3], [3, 4]], "x", "Hill cipher supports only letters from the given alphabet!")])
 def test_hill_cipher_edge_case(text_to_input, alphabet, key_matrix, character_to_fill, error_message):
     with pytest.raises(ValueError) as exception_info:
