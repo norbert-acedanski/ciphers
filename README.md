@@ -266,8 +266,7 @@ If all tests are passing, you can use the module safely.
 
 - Add docstring to each cipher
 - Make a package out of this project
-- Allow **homophonic_substitution_cipher** to accept different alphabets and the distribution of letters
-- Add more alphabets to **homophonic_substitution_generate_letter_connection_dictionary** function
+- Add more tests to check *homophonic_substitution_cipher*
 - Refactor functions
 - Check if *rail_fence_cipher_decoding* needs to cover removed spaces from the encoding function
 - Investigate, whether straddle_checkerboard_cipher_encoding with specific values really can't encode them or this is a bug on implementation
