@@ -298,6 +298,7 @@ Project also contains basic examples of ciphering and deciphering as test cases.
 [19] Fractionated morse code - [Practical Cryptography][practicalcryptography_fractionated_morse]  
 [20] Straddle checkerboard cipher - [Practical Cryptography][practicalcryptography_straddle], [Wikipedia][wikipedia_straddle]  
 [21] Letter frequency - [Wikipedia][wikipedia_letter_frequency]  
+[22] Russian alphabet - [Wikipedia][wikipedia_russian_alphabet]  
 [22] Ternary system - [Wikipedia][wikipedia_ternary]  
 [23] Quotes from "Moving Pictures" by Terry Pratchet - [Chris Jones Writing][moving_pictures_quotes]  
 [24] Quotes from Stanisław Lem's books - [Lubimy czytać][lem_books_quotes]
@@ -342,6 +343,7 @@ Distributed under the MIT License. See LICENSE file for more information.
 [practicalcryptography_straddle]: http://practicalcryptography.com/ciphers/classical-era/straddle-checkerboard/
 [wikipedia_straddle]: https://en.wikipedia.org/wiki/Straddling_checkerboard
 [wikipedia_letter_frequency]: https://en.wikipedia.org/wiki/Letter_frequency
+[wikipedia_russian_alphabet]: https://en.wikipedia.org/wiki/Russian_alphabet
 [wikipedia_ternary]: https://en.wikipedia.org/wiki/Ternary_numeral_system
 [moving_pictures_quotes]: http://www.chrisjoneswriting.com/moving-pictures.html
 [lem_books_quotes]: https://lubimyczytac.pl/cytaty/54/autor/stanislaw-lem
