@@ -10,7 +10,7 @@ from typing import List
 
 DIGITS = "0123456789"
 LATIN_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-POLISH_ALPHABET = "AĄBCĆDEĘFGHIJKLŁMNŃOÓPRSŚTUWYZŹŻ"
+POLISH_ALPHABET = "AĄBCĆDEĘFGHIJKLŁMNŃOÓPQRSŚTUVWXYZŹŻ"
 RUSSIAN_ALPHABET = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
 GREEK_ALPHABET = "ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ"
 HEBREW_ALPHABET = "אבגדהוזחטיכךלמםנןסעפףצץקרשת" # To check if this is the correct order
@@ -49,6 +49,8 @@ def vigenere_cipher(text: str, keyword: str, alphabet, mode: int=CIPHER_MODE, ke
 def bacon_cipher_encoding(text: str, alphabet: str, letters_to_code_with: List[str]=["a", "b"], unique_coding: bool=False) -> str:
     processed_text = ""
     text = text.upper()
+    if len(alphabet) > 2**5:
+        raise ValueError("Unfortunetely the alphabet length must be at most 32 characters! You can remove the letters from the alphabet, that are not used")
     if unique_coding == False:
         alphabet = alphabet.replace("J", "").replace("V", "")
         text = text.replace("J", "I").replace("V", "U")
@@ -62,10 +64,12 @@ def bacon_cipher_encoding(text: str, alphabet: str, letters_to_code_with: List[s
     return processed_text
 
 def bacon_cipher_decoding(text: str, alphabet: str, letters_to_decode_with: List[str]=["a", "b"], unique_coding: bool=False) -> str:
+    text = text.upper()
+    if len(alphabet) > 2**5:
+        raise ValueError("Unfortunetely the alphabet length must be at most 32 characters! You can remove the letters from the alphabet, that are not used")
     if unique_coding == False:
         alphabet = alphabet.replace("J", "").replace("V", "")
-    for iterable in range(len(letters_to_decode_with)):
-        letters_to_decode_with[iterable] = letters_to_decode_with[iterable].upper()
+    letters_to_decode_with = [letter.upper() for letter in letters_to_decode_with]
     match_letters_to_code = {key: format(value, "05b") for (value, key) in enumerate(alphabet)}
     for key in match_letters_to_code:
         match_letters_to_code[key] = match_letters_to_code[key].replace("0", letters_to_decode_with[0]).replace("1", letters_to_decode_with[1])
@@ -399,17 +403,17 @@ def homophonic_substitution_generate_letter_connection_dictionary(alphabet: str)
             alphabet_copy = alphabet_copy.replace(sample, "")
     return letter_connection_dictionary
 
-def homophonic_substitution_cipher(text: str, mode: int = CIPHER_MODE) -> str:
+def homophonic_substitution_cipher(text: str, letter_connection_dictionary: dict, mode: int = CIPHER_MODE) -> str:
     text = text.upper()
     additional_characters = " "
     if mode == DECIPHER_MODE:
         additional_characters += DIGITS
-    if any((char not in (LATIN_ALPHABET + additional_characters)) for char in text):
-        raise ValueError("Homophonic substitution supports only latin letters for now!")
-    letter_connection_dictionary = {"A": ["D", "9"], "B": ["X"], "C": ["S"], "D": ["F"], "E": ["Z", "7", "2", "1"], "F": ["E"],
-                                    "G": ["H"], "H": ["C"], "I": ["V", "3"], "J": ["I"], "K": ["T"], "L": ["P"], "M": ["G"], 
-                                    "N": ["A", "5"], "O": ["Q", "0"], "P": ["L"], "Q": ["K"], "R": ["J"], "S": ["R", "4"], 
-                                    "T": ["U", "6"], "U": ["O"], "V": ["W"], "W": ["M"], "X": ["Y"], "Y": ["B"], "Z": ["N"]}
+    letters = list(letter_connection_dictionary.keys())
+    if any(char not in letters + list(additional_characters) for char in text):
+        raise ValueError("Homophonic substitution supports only letters from letter_connection_dictionary!")
+    number_of_characters_total = sum([len(item) for item in list(letter_connection_dictionary.values())])
+    if number_of_characters_total != len(letters) + len(DIGITS):
+        raise ValueError("letter_connection_dictionary appears to be constructed wrong! Please use \"homophonic_substitution_generate_letter_connection_dictionary\" function to generate the dictionary!")
     processed_text = ""
     if mode == CIPHER_MODE:
         for character in text:
@@ -420,7 +424,7 @@ def homophonic_substitution_cipher(text: str, mode: int = CIPHER_MODE) -> str:
     else:
         dictionary_values_list = list(letter_connection_dictionary.values())
         for character in text:
-            if character not in (LATIN_ALPHABET + DIGITS):
+            if character not in letters + list(DIGITS):
                 processed_text += character
                 continue
             for value_number, value in enumerate(dictionary_values_list):
@@ -523,7 +527,7 @@ def hill_cipher(text: str, alphabet: str, key_matrix: List[list], mode: int=CIPH
         print("Last letter of the message is the same as the \"character_to_fill\", that fills the gap. Cosider changing the \"character_to_fill\" to be different than " + text[-1])
     key_array = numpy.array(key_matrix)
     alphabet_length = len(alphabet)
-    key_determinant = (int(numpy.linalg.det(key_array)) % alphabet_length + alphabet_length) % alphabet_length
+    key_determinant = (round(numpy.linalg.det(key_array)) % alphabet_length + alphabet_length) % alphabet_length
     if key_determinant == 0:
         raise ValueError("Determinant of the matrix is 0 (matrix is not inversable, thus, no decoding will be possible). Change the key matrix!")
     if (common_divisor := math.gcd(key_determinant, alphabet_length)) != 1:
@@ -534,9 +538,8 @@ def hill_cipher(text: str, alphabet: str, key_matrix: List[list], mode: int=CIPH
         key_inverse = numpy.linalg.inv(key_array)
         multiplicative_inverse = pow(key_determinant, -1, alphabet_length)
         key_array = numpy.rint(numpy.fmod(multiplicative_inverse*numpy.fmod(numpy.fmod(key_inverse*numpy.linalg.det(key_array), alphabet_length) + alphabet_length, alphabet_length) + alphabet_length, alphabet_length))
-    key_matrix_size = len(key_matrix)
-    message_vector = [[0]]*key_matrix_size
-    sliced_text = [text[i:i + key_matrix_size] for i in range(0, len(text), key_matrix_size)]
+    message_vector = [[0]]*number_of_columns
+    sliced_text = [text[i:i + number_of_columns] for i in range(0, len(text), number_of_columns)]
     processed_text = ""
     for text_group in sliced_text:
         for character_number, character in enumerate(text_group):
@@ -546,7 +549,7 @@ def hill_cipher(text: str, alphabet: str, key_matrix: List[list], mode: int=CIPH
         for character_number in enciphered_vector:
             processed_text += alphabet[int(character_number[0])]
     if mode == DECIPHER_MODE:
-        for _ in range(key_matrix_size):
+        for _ in range(number_of_columns):
             if processed_text[-1] == character_to_fill:
                 processed_text = processed_text[:-1]
             else:
@@ -865,6 +868,3 @@ def straddle_checkerboard_cipher_decoding(text: str, key: str, key_number: int=0
         else:
             processed_text += list(key_dict.keys())[list(key_dict.values()).index(number)]
     return processed_text
-
-print(homophonic_substitution_generate_letter_connection_dictionary(alphabet=LATIN_ALPHABET))
-print(homophonic_substitution_generate_letter_connection_dictionary(alphabet=POLISH_ALPHABET))
