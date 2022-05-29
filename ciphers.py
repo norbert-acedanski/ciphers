@@ -29,8 +29,8 @@ def caesar_cipher(text: str, shift: int, alphabet: str, include_digits: bool=Fal
             else:
                 processed_text += character
         return processed_text
-    shifted_alphabed = alphabet[shift:] + alphabet[:shift]
-    table = str.maketrans(alphabet, shifted_alphabed)
+    shifted_alphabet = alphabet[shift:] + alphabet[:shift]
+    table = str.maketrans(alphabet, shifted_alphabet)
     return text.translate(table)
 
 def vigenere_cipher(text: str, keyword: str, alphabet, mode: int=CIPHER_MODE, keyword_shift: int=0) -> str:
@@ -48,11 +48,10 @@ def vigenere_cipher(text: str, keyword: str, alphabet, mode: int=CIPHER_MODE, ke
     return processed_text
 
 def bacon_cipher_encoding(text: str, alphabet: str, letters_to_code_with: List[str]=["a", "b"], unique_coding: bool=False) -> str:
-    processed_text = ""
     text = text.upper()
     if len(alphabet) > 2**5:
         raise ValueError("Unfortunetely the alphabet length must be at most 32 characters! You can remove the letters from the alphabet, that are not used")
-    if unique_coding == False:
+    if not unique_coding:
         alphabet = alphabet.replace("J", "").replace("V", "")
         text = text.replace("J", "I").replace("V", "U")
     processed_text = ""
@@ -68,14 +67,13 @@ def bacon_cipher_decoding(text: str, alphabet: str, letters_to_decode_with: List
     text = text.upper()
     if len(alphabet) > 2**5:
         raise ValueError("Unfortunetely the alphabet length must be at most 32 characters! You can remove the letters from the alphabet, that are not used")
-    if unique_coding == False:
+    if not unique_coding:
         alphabet = alphabet.replace("J", "").replace("V", "")
     letters_to_decode_with = [letter.upper() for letter in letters_to_decode_with]
     match_letters_to_code = {key: format(value, "05b") for (value, key) in enumerate(alphabet)}
     for key in match_letters_to_code:
         match_letters_to_code[key] = match_letters_to_code[key].replace("0", letters_to_decode_with[0]).replace("1", letters_to_decode_with[1])
     text_index = 0
-    number_of_different_characters = 0
     processed_text = ""
     while text_index < len(text):
         encrypted_code_part = text[text_index:text_index + 5]
@@ -86,13 +84,13 @@ def bacon_cipher_decoding(text: str, alphabet: str, letters_to_decode_with: List
         else:
             processed_text += list(match_letters_to_code.keys())[list(match_letters_to_code.values()).index(encrypted_code_part)]
             text_index += 5
-    if unique_coding == False:
+    if not unique_coding:
         return processed_text.replace("I", "(I/J)").replace("U", "(U/V)")
     return processed_text
 
 def atbash_cipher(text: str, alphabet: str, include_digits: bool=False) -> str:
     text = text.upper()
-    if include_digits == True:
+    if include_digits:
         processed_text = ""
         for character in text:
             if character in alphabet:
@@ -267,7 +265,8 @@ def bifid_cipher_encoding(text: str, period: int, key: str, character_to_replace
         raise Exception("Please insert letters from the latin alphabet only!")
     if len(key) != len(LATIN_ALPHABET) - 1:
         raise ValueError("Key length has to be 1 less than that of the Latin Alphabet!")
-    if len(character_to_replace) != 1 or len(character_to_replace_with) != 1 or character_to_replace not in LATIN_ALPHABET or character_to_replace_with not in LATIN_ALPHABET or character_to_replace == character_to_replace_with:
+    if len(character_to_replace) != 1 or len(character_to_replace_with) != 1 or character_to_replace not in LATIN_ALPHABET \
+            or character_to_replace_with not in LATIN_ALPHABET or character_to_replace == character_to_replace_with:
         raise ValueError("Invalid character_that_was_replaced or character_that_was_replaced_with. Characters have to be single, different letters and have to be in Latin Alphabet!")
     text = text.replace(character_to_replace, character_to_replace_with)
     key_square = {}
@@ -423,10 +422,6 @@ def homophonic_substitution_generate_letter_connection_dictionary(alphabet: str)
         letter_connection_dictionary[letter] = letter_connection_dictionary_unordered[letter]
     return letter_connection_dictionary
 
-# print(homophonic_substitution_generate_letter_connection_dictionary(LATIN_ALPHABET))
-# print(homophonic_substitution_generate_letter_connection_dictionary(POLISH_ALPHABET))
-# print(homophonic_substitution_generate_letter_connection_dictionary(RUSSIAN_ALPHABET))
-
 def homophonic_substitution_cipher(text: str, letter_connection_dictionary: dict, mode: int = CIPHER_MODE) -> str:
     text = text.upper()
     additional_characters = " "
@@ -525,7 +520,7 @@ def trifid_cipher_decoding(text: str, key: str, period: int) -> str:
             third_number = str((letter_number - 1) % 3)
             number_string += first_number + second_number + third_number
         number_list.append(number_string)
-        number_string =  ""
+        number_string = ""
     processed_text = ""
     for number_string in number_list:
         for letter_number in range(string_length := len(number_string)//3):
@@ -605,11 +600,11 @@ def playfair_cipher_generate_key_square(keyword: str, character_to_remove: str="
             output_file.write(key_square)
     return key_square
 
-def playfair_cipher_encoding(text: str, key_square: str, charater_to_replace: str="J", character_to_replace_with: str="I", swap_letter: str="X") -> str:
+def playfair_cipher_encoding(text: str, key_square: str, character_to_replace: str="J", character_to_replace_with: str="I", swap_letter: str="X") -> str:
     text = text.replace(" ", "").upper()
     key_square = key_square.replace(" ", "").upper()
     swap_letter = swap_letter.replace(" ", "").upper()
-    charater_to_replace = charater_to_replace.replace(" ", "").upper()
+    character_to_replace = character_to_replace.replace(" ", "").upper()
     character_to_replace_with = character_to_replace_with.replace(" ", "").upper()
     if any(char not in LATIN_ALPHABET for char in key_square):
         raise ValueError("key_square supports only letters from Latin alphabet!")
@@ -619,23 +614,24 @@ def playfair_cipher_encoding(text: str, key_square: str, charater_to_replace: st
         raise ValueError(f"Key square appears to be wrong length - {len(key_square)}, should be 25!")
     if len(swap_letter) != 1:
         raise ValueError("Swap letter should be a single character!")
-    if len(charater_to_replace) != 1 or len(character_to_replace_with) != 1 or \
-           charater_to_replace not in LATIN_ALPHABET or character_to_replace_with not in LATIN_ALPHABET or \
-           charater_to_replace == character_to_replace_with:
+    if len(character_to_replace) != 1 or len(character_to_replace_with) != 1 or \
+           character_to_replace not in LATIN_ALPHABET or character_to_replace_with not in LATIN_ALPHABET or \
+           character_to_replace == character_to_replace_with:
         raise ValueError("Characters, that are replaced and replaced with should be single, not equal letters and be in Latin alphabet!")
-    if charater_to_replace in key_square:
+    if character_to_replace in key_square:
         raise ValueError("Key square should not contain character, that was supposed to be replaced!")
     if len(text) % 2 != 0:
         text += swap_letter
-    text = text.replace(charater_to_replace, character_to_replace_with)
+    text = text.replace(character_to_replace, character_to_replace_with)
     if any(char not in key_square for char in text):
         raise ValueError("Playfair cipher supports only letters from the key_square!")
     sliced_text = [text[i:i + 2] for i in range(0, len(text), 2)]
     sliced_key_square = [key_square[i:i + 5] for i in range(0, len(key_square), 5)]
+
     def get_row_and_column(letter):
-        for slice_number, slice in enumerate(sliced_key_square):
-            if letter in slice:
-                return {"row": slice_number, "column": slice.index(letter)}
+        for slice_number, slice_value in enumerate(sliced_key_square):
+            if letter in slice_value:
+                return {"row": slice_number, "column": slice_value.index(letter)}
     processed_text = ""
     for pair in sliced_text:
         if pair[0] == pair[1]:
@@ -652,12 +648,12 @@ def playfair_cipher_encoding(text: str, key_square: str, charater_to_replace: st
             processed_text += sliced_key_square[first_letter["row"]][second_letter["column"]] + sliced_key_square[second_letter["row"]][first_letter["column"]]
     return processed_text
 
-def playfair_cipher_decoding(text: str, key_square: str, charater_that_was_replaced: str="J", charater_that_was_replaced_with: str="I", swap_letter: str="X") -> str:
+def playfair_cipher_decoding(text: str, key_square: str, character_that_was_replaced: str="J", character_that_was_replaced_with: str="I", swap_letter: str="X") -> str:
     text = text.replace(" ", "").upper()
     key_square = key_square.replace(" ", "").upper()
     swap_letter = swap_letter.replace(" ", "").upper()
-    charater_that_was_replaced = charater_that_was_replaced.replace(" ", "").upper()
-    charater_that_was_replaced_with = charater_that_was_replaced_with.replace(" ", "").upper()
+    character_that_was_replaced = character_that_was_replaced.replace(" ", "").upper()
+    character_that_was_replaced_with = character_that_was_replaced_with.replace(" ", "").upper()
     if any(char not in LATIN_ALPHABET for char in key_square):
         raise ValueError("key_square should only have letters from Latin alphabet!")
     if len(set(key_square)) != len(key_square):
@@ -666,11 +662,11 @@ def playfair_cipher_decoding(text: str, key_square: str, charater_that_was_repla
         raise ValueError(f"Key square appears to be wrong length - {len(key_square)}, should be 25!")
     if len(swap_letter) != 1:
         raise ValueError("Swap letter should be a single character!")
-    if len(charater_that_was_replaced) != 1 or len(charater_that_was_replaced_with) != 1 or \
-           charater_that_was_replaced not in LATIN_ALPHABET or charater_that_was_replaced_with not in LATIN_ALPHABET or \
-           charater_that_was_replaced == charater_that_was_replaced_with:
+    if len(character_that_was_replaced) != 1 or len(character_that_was_replaced_with) != 1 or \
+           character_that_was_replaced not in LATIN_ALPHABET or character_that_was_replaced_with not in LATIN_ALPHABET or \
+           character_that_was_replaced == character_that_was_replaced_with:
         raise ValueError("Characters, that are replaced and replaced with should be single, not equal letters and be in Latin alphabet!")
-    if charater_that_was_replaced in key_square:
+    if character_that_was_replaced in key_square:
         raise ValueError("Key square should not contain character, that was supposed to be replaced!")
     if len(text) % 2 != 0:
         raise ValueError("Length of the encoded text should be even!")
@@ -678,10 +674,11 @@ def playfair_cipher_decoding(text: str, key_square: str, charater_that_was_repla
         raise ValueError("Text should only have letters from the key_square!")
     sliced_text = [text[i:i + 2] for i in range(0, len(text), 2)]
     sliced_key_square = [key_square[i:i + 5] for i in range(0, len(key_square), 5)]
+
     def get_row_and_column(letter):
-        for slice_number, slice in enumerate(sliced_key_square):
-            if letter in slice:
-                return {"row": slice_number, "column": slice.index(letter)}
+        for slice_number, slice_value in enumerate(sliced_key_square):
+            if letter in slice_value:
+                return {"row": slice_number, "column": slice_value.index(letter)}
     processed_text = ""
     for pair in sliced_text:
         first_letter = get_row_and_column(pair[0])
@@ -701,7 +698,7 @@ def playfair_cipher_decoding(text: str, key_square: str, charater_that_was_repla
     processed_text += sliced_processed_text[-1]
     if processed_text[-1] == swap_letter:
         processed_text = processed_text[:-1] + f"({swap_letter}/{processed_text[-2]}/_)"
-    return processed_text.replace(charater_that_was_replaced_with, f"({charater_that_was_replaced_with}/{charater_that_was_replaced})")
+    return processed_text.replace(character_that_was_replaced_with, f"({character_that_was_replaced_with}/{character_that_was_replaced})")
 
 def morse_code(text: str, gap_fill: str=" ", mode: int=CIPHER_MODE) -> str:
     international_characters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", 
@@ -725,11 +722,11 @@ def morse_code(text: str, gap_fill: str=" ", mode: int=CIPHER_MODE) -> str:
         for character in text:
             processed_text += international_morse_equivalent[international_characters.index(character)] + gap_fill if character != " " else gap_fill
     elif mode == DECIPHER_MODE:
-        splited_words = text.split(gap_fill*2)
-        splited_characters = [[]]*len(splited_words)
-        for word_number, word in enumerate(splited_words):
-            splited_characters[word_number] = word.split(gap_fill)
-        for word in splited_characters:
+        split_words = text.split(gap_fill*2)
+        split_characters = [[]]*len(split_words)
+        for word_number, word in enumerate(split_words):
+            split_characters[word_number] = word.split(gap_fill)
+        for word in split_characters:
             for character in word:
                 processed_text += international_characters[international_morse_equivalent.index(character)]
             processed_text += " "
@@ -759,6 +756,7 @@ def fractionated_morse_code(text: str, key_table: str, gap_fill: str=" ", mode: 
     text = text.upper()
     if len(set(key_table)) != 26 or len(set(key_table)) != len(key_table):
         raise ValueError("Key table appears not to be generated by \"fractionated_morse_code_generate_key_table\" function (length is not 26 or is not unique)!")
+
     def base_3(number):
         if number == 0:
             return "0"*3
@@ -775,9 +773,9 @@ def fractionated_morse_code(text: str, key_table: str, gap_fill: str=" ", mode: 
         encoded_message = morse_code(text, gap_fill, CIPHER_MODE)
         if (number_of_characters := len(encoded_message) % 3) != 0:
             encoded_message += gap_fill*(3 - number_of_characters)
-        splited_morse = [encoded_message[i:i + 3] for i in range(0, len(encoded_message), 3)]
-        for splited_part in splited_morse:
-            processed_text += key_table[encrypted_letters.index(splited_part)]
+        split_morse = [encoded_message[i:i + 3] for i in range(0, len(encoded_message), 3)]
+        for split_part in split_morse:
+            processed_text += key_table[encrypted_letters.index(split_part)]
     elif mode == DECIPHER_MODE:
         if any(character not in LATIN_ALPHABET for character in text):
             raise ValueError("It appears, that the ciphered text does not come from this function encoding!")

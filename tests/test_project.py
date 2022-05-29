@@ -533,15 +533,15 @@ def test_hill_cipher_edge_case(text_to_input, alphabet, key_matrix, character_to
         hill_cipher(text_to_input, alphabet, key_matrix, character_to_fill=character_to_fill)
     assert str(exception_info.value) == error_message
 
-@pytest.mark.parametrize("keyword_to_input, charater_to_remove",
+@pytest.mark.parametrize("keyword_to_input, character_to_remove",
                          [("Monarchy", "J"),
                           ("BLOWZY", "a"),
                           ("cyberpunk", "Z")])
-def test_playfair_cipher_generate_key_square(keyword_to_input, charater_to_remove):
-    random_key_square = playfair_cipher_generate_key_square(keyword_to_input, charater_to_remove, False)
+def test_playfair_cipher_generate_key_square(keyword_to_input, character_to_remove):
+    random_key_square = playfair_cipher_generate_key_square(keyword_to_input, character_to_remove, False)
     assert random_key_square.find(keyword_to_input.upper()) == 0
     assert len(set(random_key_square)) == 25
-    assert charater_to_remove.upper() not in random_key_square
+    assert character_to_remove.upper() not in random_key_square
 
 @pytest.mark.parametrize("keyword_to_input, character_to_remove, error_message",
                          [(POLISH_ALPHABET, "J", "Keyword must be at most 25 characters long!"),
@@ -555,13 +555,13 @@ def test_playfair_cipher_generate_key_square_edge_cases(keyword_to_input, charac
         playfair_cipher_generate_key_square(keyword_to_input, character_to_remove, False)
     assert str(exception_info.value) == error_message
 
-@pytest.mark.parametrize("text_to_input, key_square, charater_to_replace, character_to_replace_with, swap_letter, expected",
+@pytest.mark.parametrize("text_to_input, key_square, character_to_replace, character_to_replace_with, swap_letter, expected",
                          [(TEXT_TO_CIPHER_LATIN[:-2], "MONARCHYIVKBXGUWTFZLEDSQP", "J", "I", "x", "DBDPGVKWUOMTYSNBVGREDNCPOLCDZRFIOHUG"),
                           (TEXT_TO_CIPHER_LATIN_2, "CYBERPUNKVJIWZMHAFXSQTLOG", "d", "t", "q", "OYXBULQACOFHLIFTOGALXCYHAGOB")])
-def test_playfair_cipher_encoding(text_to_input, key_square, charater_to_replace, character_to_replace_with, swap_letter, expected):
-    assert playfair_cipher_encoding(text_to_input, key_square, charater_to_replace, character_to_replace_with, swap_letter) == expected
+def test_playfair_cipher_encoding(text_to_input, key_square, character_to_replace, character_to_replace_with, swap_letter, expected):
+    assert playfair_cipher_encoding(text_to_input, key_square, character_to_replace, character_to_replace_with, swap_letter) == expected
 
-@pytest.mark.parametrize("text_to_input, key_square, charater_to_replace, character_to_replace_with, swap_letter, error_message",
+@pytest.mark.parametrize("text_to_input, key_square, character_to_replace, character_to_replace_with, swap_letter, error_message",
                          [("ąż", "monarchybdefgiklpqstuvwxz", "j", "i", "x", "Playfair cipher supports only letters from the key_square!"),
                           ("foo", "ążnarchybdefgiklpqstuvwxz", "j", "i", "x", "key_square supports only letters from Latin alphabet!"),
                           ("foo", "abbarchybdefgiklpqstuvwxz", "j", "i", "x", "Key square appears to have a few same letters in it. Use \"playfair_cipher_generate_key_square\" function"),
@@ -578,18 +578,18 @@ def test_playfair_cipher_encoding(text_to_input, key_square, charater_to_replace
                           ("alphabet", "monarchybdefgiklpqstuvwxz", "j", "j", "x", "Characters, that are replaced and replaced with should be single, not equal letters and be in Latin alphabet!"),
                           ("alphabet", "monarchybdefgiklpqstuvwxz", "i", "j", "x", "Key square should not contain character, that was supposed to be replaced!"),
                           ("abxxab", "monarchybdefgiklpqstuvwxz", "j", "i", "x", "Text appears to have a double letter pair, that equals to the swap_letter: X. Please change the swap_letter!")])
-def test_playfair_cipher_encoding_edge_cases(text_to_input, key_square, charater_to_replace, character_to_replace_with, swap_letter, error_message):
+def test_playfair_cipher_encoding_edge_cases(text_to_input, key_square, character_to_replace, character_to_replace_with, swap_letter, error_message):
     with pytest.raises(ValueError) as exception_info:
-        playfair_cipher_encoding(text_to_input, key_square, charater_to_replace, character_to_replace_with, swap_letter)
+        playfair_cipher_encoding(text_to_input, key_square, character_to_replace, character_to_replace_with, swap_letter)
     assert str(exception_info.value) == error_message
 
-@pytest.mark.parametrize("text_to_input, key_square, charater_to_replace, character_to_replace_with, swap_letter, expected",
+@pytest.mark.parametrize("text_to_input, key_square, character_to_replace, character_to_replace_with, swap_letter, expected",
                          [("DBDPGVKWUOMTYSNBVGREDNCPOLCDZRFIOHUG", "MONARCHYIVKBXGUWTFZLEDSQP", "J", "I", "x", TEXT_TO_CIPHER_LATIN.replace("J", "I").replace("I", "(I/J)").replace("X", "(X/O)").replace(" ", "")[:-1] + "(X/G/_)"),
                           ("OYXBULQACOFHLIFTOGALXCYHAGOB", "CYBERPUNKVJIWZMHAFXSQTLOG", "d", "t", "q", TEXT_TO_CIPHER_LATIN_2.replace("D", "T").replace("T", "(T/D)").replace(" ", "").replace("EE", "E(Q/E)"))])
-def test_playfair_cipher_decoding(text_to_input, key_square, charater_to_replace, character_to_replace_with, swap_letter, expected):
-    assert playfair_cipher_decoding(text_to_input, key_square, charater_to_replace, character_to_replace_with, swap_letter) == expected
+def test_playfair_cipher_decoding(text_to_input, key_square, character_to_replace, character_to_replace_with, swap_letter, expected):
+    assert playfair_cipher_decoding(text_to_input, key_square, character_to_replace, character_to_replace_with, swap_letter) == expected
 
-@pytest.mark.parametrize("text_to_input, key_square, charater_to_replace, character_to_replace_with, swap_letter, error_message",
+@pytest.mark.parametrize("text_to_input, key_square, character_to_replace, character_to_replace_with, swap_letter, error_message",
                          [("ąż", "monarchybdefgiklpqstuvwxz", "j", "i", "x", "Text should only have letters from the key_square!"),
                           ("foo", "ążnarchybdefgiklpqstuvwxz", "j", "i", "x", "key_square should only have letters from Latin alphabet!"),
                           ("foo", "abbarchybdefgiklpqstuvwxz", "j", "i", "x", "Key square appears to have a few same letters in it. \"playfair_cipher_generate_key_square\" function should be used to define it!"),
@@ -606,9 +606,9 @@ def test_playfair_cipher_decoding(text_to_input, key_square, charater_to_replace
                           ("alphabet", "monarchybdefgiklpqstuvwxz", "j", "j", "x", "Characters, that are replaced and replaced with should be single, not equal letters and be in Latin alphabet!"),
                           ("alphabet", "monarchybdefgiklpqstuvwxz", "i", "j", "x", "Key square should not contain character, that was supposed to be replaced!"),
                           ("alphabeto", "monarchybdefgiklpqstuvwxz", "j", "i", "x", "Length of the encoded text should be even!")])
-def test_playfair_cipher_decoding_edge_cases(text_to_input, key_square, charater_to_replace, character_to_replace_with, swap_letter, error_message):
+def test_playfair_cipher_decoding_edge_cases(text_to_input, key_square, character_to_replace, character_to_replace_with, swap_letter, error_message):
     with pytest.raises(ValueError) as exception_info:
-        playfair_cipher_decoding(text_to_input, key_square, charater_to_replace, character_to_replace_with, swap_letter)
+        playfair_cipher_decoding(text_to_input, key_square, character_to_replace, character_to_replace_with, swap_letter)
     assert str(exception_info.value) == error_message
 
 @pytest.mark.parametrize("text_to_input, gap_fill, mode, expected",
