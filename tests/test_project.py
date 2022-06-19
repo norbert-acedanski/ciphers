@@ -36,26 +36,26 @@ def test_caesar_cipher(text_to_input, shift, alphabet, include_digits, expected)
 def test_vigenere_cipher(text_to_input, keyword, alphabet, mode, keyword_shift, expected):
     assert vigenere_cipher(text_to_input, keyword, alphabet, mode, keyword_shift) == expected
 
-@pytest.mark.parametrize("text_to_input, alphabet, letters_to_code_with, unique_coding, expected",
+@pytest.mark.parametrize("text_to_input, alphabet, letters_to_encode_with, unique_coding, expected",
                          [(TEXT_TO_CIPHER_LATIN, LATIN_ALPHABET, ["c", "d"], True, "dccddccdddccdcc dccccdcdcccdccccccdccdcdc ccccddcccdcdddcdcddccddcd ccdcdcdddcdcddd cdccddcdcccddcccdddddccdc cdddcdcdcdccdccdcccd dccddccdddccdcc cdcddcccccddccdddccc cccddcdddcccddc 5"),
                           (TEXT_TO_CIPHER_LATIN, LATIN_ALPHABET, ["a", "b"], False, "baabaaabbbaabaa abbbbbaabbabaaaaaabaabaab aaaabbaaaaabbabbabaaabbaa aabababbabbabab abaaabaabbababbabbbabaaab abbabbaabbaabaabaaaa baabaaabbbaabaa ababaaaaaababbbbabba aaabbabbabaabba 5"),
                           (TEXT_TO_CIPHER_POLISH, POLISH_ALPHABET.replace("Q", "").replace("V", "").replace("X", ""), ["ń", "s"], True, "sńńńńńńsssssssssńńńssssńń ńńńsńńńńńsńńsńsssssń, ńńńssńsńsńsńssńsńńsssńńsń sńsńsssńsńńssssńssńs ssńńsssńsssńsńńńssńń ńsńss sńssssssńsńńssńssńńńńńsńń ńsńńńńsssńńńńńńńsńńs 1"),
                           (TEXT_TO_CIPHER_POLISH, POLISH_ALPHABET.replace("Q", "").replace("V", "").replace("X", ""), ["a", "b"], False, "abbbbaabbbbbbbabaaaabbabb aaabaaaaabaababbbbab, aaabbabababababbaababaaab babaabbaababbbaabbaa bbaaabbababaabbababb ababb babbabbbaaaabbababbbaabaa abaaaabbabaaaaaabaab 1")])
-def test_bacon_cipher_encoding(text_to_input, alphabet, letters_to_code_with, unique_coding, expected):
-    assert bacon_cipher_encoding(text_to_input, alphabet, letters_to_code_with, unique_coding) == expected
+def test_bacon_cipher_encoding(text_to_input, alphabet, letters_to_encode_with, unique_coding, expected):
+    assert bacon_cipher_encoding(text_to_input, alphabet, letters_to_encode_with, unique_coding) == expected
 
 def test_bacon_cipher_encoding_edge_case():
     with pytest.raises(ValueError) as exception_info:
         bacon_cipher_encoding(TEXT_TO_CIPHER_POLISH, POLISH_ALPHABET, ["a", "b"], True)
     assert str(exception_info.value) == "Unfortunetely the alphabet length must be at most 32 characters! You can remove the letters from the alphabet, that are not used"
 
-@pytest.mark.parametrize("text_to_input, alphabet, letters_to_code_with, unique_coding, expected",
+@pytest.mark.parametrize("text_to_input, alphabet, letters_to_decode_with, unique_coding, expected",
                          [("GAAGGAAGGGAAGAA GAAAAGAGAAAGAAAAAAGAAGAGA AAAAGGAAAGAGGGAGAGGAAGGAG AAGAGAGGGAGAGGG AGAAGGAGAAAGGAAAGGGGGAAGA AGGGAGAGAGAAGAAGAAAG GAAGGAAGGGAAGAA AGAGGAAAAAGGAAGGGAAA AAAGGAGGGAAAGGA...", LATIN_ALPHABET, ["a", "g"], True, TEXT_TO_CIPHER_LATIN[:-2] + "..."),
                           ("AGGAGGGAAAGGAGG GAAAAAGGAAGAGGGGGGAGGAGGA GGGGAAGGGGGAAGAAGAGGGAAGG GGAGAGAAGAAGAGA GAGGGAGGAAGAGAAGAAAGAGGGA GAAGAAGGAAGGAGGAGGGG AGGAGGGAAAGGAGG GAGAGGGGGGAGAAAAGAAG GGGAAGAAGAGGAAG 5", LATIN_ALPHABET, ["G", "a"], False, "THE Q(U/V)(I/J)CK BROWN FOX (I/J)(U/V)MPS O(U/V)ER THE LAZY DOG 5"),
                           ("sńńńńńńsssssssssńńńssssńń ńńńsńńńńńsńńsńsssssń, ńńńssńsńsńsńssńsńńsssńńsń sńsńsssńsńńssssńssńs ssńńsssńsssńsńńńssńń ńsńss sńssssssńsńńssńssńńńńńsńń ńsńńńńsssńńńńńńńsńńs", POLISH_ALPHABET.replace("Q", "").replace("V", "").replace("X", ""), ["ń", "S"], True, TEXT_TO_CIPHER_POLISH[:-2]),
                           ("abbbbaabbbbbbbabaaaabbabb aaabaaaaabaababbbbab, aaabbabababababbaababaaab babaabbaababbbaabbaa bbaaabbababaabbababb ababb babbabbbaaaabbababbbaabaa abaaaabbabaaaaaabaab 1", POLISH_ALPHABET.replace("Q", "").replace("V", "").replace("X", ""), ["a", "b"], False, "MĘŻNY BĄDŹ, CHROŃ P(U/V)ŁK TWÓ(I/J) (I/J) SZEŚĆ FLAG 1")])
-def test_bacon_cipher_decoding(text_to_input, alphabet, letters_to_code_with, unique_coding, expected):
-    assert bacon_cipher_decoding(text_to_input, alphabet, letters_to_code_with, unique_coding) == expected
+def test_bacon_cipher_decoding(text_to_input, alphabet, letters_to_decode_with, unique_coding, expected):
+    assert bacon_cipher_decoding(text_to_input, alphabet, letters_to_decode_with, unique_coding) == expected
 
 def test_bacon_cipher_decoding_edge_case():
     with pytest.raises(ValueError) as exception_info:
