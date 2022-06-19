@@ -262,10 +262,12 @@ If all tests are passing, you can use the module safely.
         - __spare_positions__ - list of 2 integers with values between 1 and 9 including, that specifies where the bland spots should be (Read References[20] for more information).
 36. The result is returned after the execution is complete.
 
+## **Other useful functions from the module:**
+- ***print_available_alphabets*** accepts no arguments and prints all available alphabet names with corresponding values.
+
 # To Do:
 
 - Add docstring to each cipher
-- Add function, that prints a list of available alphabets
 - Change tests, that test generating keys to include saving to file
 - Make a package out of this project
 - Add more tests to check *homophonic_substitution_cipher*
