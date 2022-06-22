@@ -47,7 +47,7 @@ def test_bacon_cipher_encoding(text_to_input, alphabet, letters_to_encode_with, 
 def test_bacon_cipher_encoding_edge_case():
     with pytest.raises(ValueError) as exception_info:
         bacon_cipher_encoding(TEXT_TO_CIPHER_POLISH, POLISH_ALPHABET, ["a", "b"], True)
-    assert str(exception_info.value) == "Unfortunetely the alphabet length must be at most 32 characters! You can remove the letters from the alphabet, that are not used"
+    assert str(exception_info.value) == "Unfortunately the alphabet length must be at most 32 characters! You can remove the letters from the alphabet, that are not used"
 
 @pytest.mark.parametrize("text_to_input, alphabet, letters_to_decode_with, unique_coding, expected",
                          [("GAAGGAAGGGAAGAA GAAAAGAGAAAGAAAAAAGAAGAGA AAAAGGAAAGAGGGAGAGGAAGGAG AAGAGAGGGAGAGGG AGAAGGAGAAAGGAAAGGGGGAAGA AGGGAGAGAGAAGAAGAAAG GAAGGAAGGGAAGAA AGAGGAAAAAGGAAGGGAAA AAAGGAGGGAAAGGA...", LATIN_ALPHABET, ["a", "g"], True, TEXT_TO_CIPHER_LATIN[:-2] + "..."),
@@ -526,7 +526,7 @@ def test_hill_cipher(text_to_input, alphabet, key_matrix, mode, character_to_fil
                           ("foo", LATIN_ALPHABET, [[1, 3], [3, 4]], "xx", "Character to fill should be one character and not blank space!"),
                           ("foo", LATIN_ALPHABET, [[1, 3], [3, 4]], " ", "Character to fill should be one character and not blank space!"),
                           ("foo", LATIN_ALPHABET, [[1, 4, 7], [2, 5, 8], [3, 6, 9]], "x", "Determinant of the matrix is 0 (matrix is not inversable, thus, no decoding will be possible). Change the key matrix!"),
-                          ("foo", LATIN_ALPHABET, [[1, 3], [5, 3]], "x", "Key matrix determinant has common devisor (2) with the length of the alphabet (26). Change the key matrix!"),
+                          ("foo", LATIN_ALPHABET, [[1, 3], [5, 3]], "x", "Key matrix determinant (14) has common devisor (2) with the length of the alphabet (26). Change the key matrix!"),
                           (TEXT_TO_CIPHER_POLISH, LATIN_ALPHABET, [[1, 3], [3, 4]], "x", "Hill cipher supports only letters from the given alphabet!")])
 def test_hill_cipher_edge_case(text_to_input, alphabet, key_matrix, character_to_fill, error_message):
     with pytest.raises(ValueError) as exception_info:

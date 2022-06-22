@@ -271,7 +271,6 @@ If all tests are passing, you can use the module safely.
 - Change tests, that test generating keys to include saving to file
 - Make a package out of this project
 - Add more tests to check *homophonic_substitution_cipher*
-- Refactor functions
 - Check if *rail_fence_cipher_decoding* needs to cover removed spaces from the encoding function
 - Investigate, whether straddle_checkerboard_cipher_encoding with specific values really can't encode them or this is a bug on implementation
 
