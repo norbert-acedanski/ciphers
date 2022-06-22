@@ -156,12 +156,12 @@ def atbash_cipher(text: str, alphabet: str, include_digits: bool=False) -> str:
     return processed_text
 
 def simple_substitution_generate_random_key(alphabet: str, save_to_file: bool=True) -> str:
-    """ Function, that generates a random key for the usage of Simple substitution cipher.
+    """ Function, that generates a random key for the usage of Simple substitution cipher function.
     Shuffles all letters from a given alphabet.
 
     :param alphabet: Ordered letters for a given alphabet (allows alphabets only from given ones).
     :param save_to_file: Optional argument, that specifies, whether to save a generated key into a file.
-    :return: Shuffled alphabet.
+    :return: Random key.
     """
     random_key = "".join(random.sample(alphabet, len(alphabet)))
     if save_to_file:
@@ -259,7 +259,7 @@ def columnar_transposition_cipher_decoding(text: str, keyword: str, ending: str=
     return processed_text
 
 def autokey_cipher_encoding(text: str, keyword: str, alphabet: str) -> str:
-    """ Auto-key cipher function. The keyword serves as a prefix to a key-phrase, that is generated as a keyword + text
+    """ Auto-key cipher function for encoding. The keyword serves as a prefix to a key-phrase, that is generated as a keyword + text
     and match the length of the text after removing spaces. Then, similarly to Vigenere cipher, a letter from the message
     is shifted by the index of the letter from key-phrase in given alphabet.
 
@@ -277,7 +277,7 @@ def autokey_cipher_encoding(text: str, keyword: str, alphabet: str) -> str:
     return processed_text
 
 def autokey_cipher_decoding(text: str, keyword: str, alphabet: str) -> str:
-    """ Auto-key cipher function. Decoding reverses the procedures from encoding function.
+    """ Auto-key cipher function for decoding. Decoding reverses the procedures from encoding function.
 
     :param text: Message to be decoded. Can contain only letter characters.
     :param keyword: A word, that a message should be decoded with.
@@ -297,12 +297,12 @@ def autokey_cipher_decoding(text: str, keyword: str, alphabet: str) -> str:
     return processed_text
 
 def rail_fence_cipher_encoding(text: str, number_of_rails: int, remove_spaces: bool=False) -> str:
-    """
+    """ Rail-fence cipher function for encoding.
 
-    :param text:
-    :param number_of_rails:
-    :param remove_spaces:
-    :return:
+    :param text: Message to be encoded. Can contain non-letter characters like numbers, punctuation marks, etc.
+    :param number_of_rails: Specifies the number of rails (rows), to which the message is split.
+    :param remove_spaces: Optional argument, that specifies, whether to remove white spaces from the text before encoding.
+    :return: Ciphered message.
     """
     if number_of_rails < 2:
         raise ValueError("Number of rails should be at least 2!")
@@ -323,11 +323,11 @@ def rail_fence_cipher_encoding(text: str, number_of_rails: int, remove_spaces: b
     return processed_text
 
 def rail_fence_cipher_decoding(text: str, number_of_rails: int) -> str:
-    """
+    """ Rail-fence cipher function for decoding.
 
-    :param text:
-    :param number_of_rails:
-    :return:
+    :param text: Message to be decoded. Can contain non-letter characters like numbers, punctuation marks, etc.
+    :param number_of_rails: Specifies the number of rails (rows), to which the message was split.
+    :return: Deciphered message.
     """
     if number_of_rails < 2:
         raise ValueError("Number of rails should be at least 2!")
@@ -357,11 +357,12 @@ def rail_fence_cipher_decoding(text: str, number_of_rails: int) -> str:
     return processed_text
 
 def bifid_cipher_generate_random_key(character_to_remove: str = "J", save_to_file: bool=True) -> str:
-    """
+    """ Function, that generates a random key for the usage of Bifid cipher function.
+    Shuffles Latin alphabet with one character removed.
 
-    :param character_to_remove:
-    :param save_to_file:
-    :return:
+    :param character_to_remove: Character, that is supposed to be removed from the alphabet before shuffling.
+    :param save_to_file: Optional argument, that specifies, whether to save a generated key into a file.
+    :return: Random key.
     """
     character_to_remove = character_to_remove.upper()
     if len(character_to_remove) != 1 or character_to_remove not in LATIN_ALPHABET:
@@ -374,7 +375,7 @@ def bifid_cipher_generate_random_key(character_to_remove: str = "J", save_to_fil
     return random_key
 
 def bifid_cipher_encoding(text: str, period: int, key: str, character_to_replace: str="J", character_to_replace_with: str="I") -> str:
-    """
+    """ Bifid cipher function for encoding.
 
     :param text:
     :param period:
@@ -415,7 +416,7 @@ def bifid_cipher_encoding(text: str, period: int, key: str, character_to_replace
     return processed_text
 
 def bifid_cipher_decoding(text: str, period: int, key: str, character_that_was_replaced: str="J", character_that_was_replaced_with: str="I") -> str:
-    """
+    """ Bifid cipher function for decoding.
 
     :param text:
     :param period:
@@ -456,7 +457,7 @@ def bifid_cipher_decoding(text: str, period: int, key: str, character_that_was_r
     return processed_text
 
 def beaufort_cipher(text: str, keyword: str, alphabet: str) -> str:
-    """
+    """ Beufort cipher function.
 
     :param text:
     :param keyword:
@@ -471,7 +472,7 @@ def beaufort_cipher(text: str, keyword: str, alphabet: str) -> str:
     return processed_text
 
 def porta_cipher(text: str, keyword: str, alphabet: str) -> str:
-    """
+    """ Porta cipher function.
 
     :param text:
     :param keyword:
@@ -499,7 +500,7 @@ def porta_cipher(text: str, keyword: str, alphabet: str) -> str:
     return processed_text
 
 def running_key_cipher(text: str, keyphrase: str, alphabet: str, mode: int=CIPHER_MODE) -> str:
-    """
+    """ Running key cipher function.
 
     :param text:
     :param keyphrase:
@@ -519,10 +520,13 @@ def running_key_cipher(text: str, keyphrase: str, alphabet: str, mode: int=CIPHE
     return processed_text
 
 def homophonic_substitution_generate_letter_connection_dictionary(alphabet: str):
-    """
+    """ Function, that generates a letter connection dictionary for the usage of Homophonic substitution cipher function.
+    Creates a dictionary of alphabet letters as keys and lists of letters from the alphabet and numbers as values.
+    Lists are determined by reading letter frequency of a particular alphabet from wikipedia page.
+    The more common a letter is, the more characters are placed in the list as a value for that letter.
 
-    :param alphabet:
-    :return:
+    :param alphabet: Ordered letters for a given alphabet (allows alphabets only from given ones).
+    :return: Letter connection dictionary.
     """
     if alphabet in [LATIN_ALPHABET, POLISH_ALPHABET]:
         scrapping_url = "https://en.wikipedia.org/wiki/Letter_frequency"
@@ -576,7 +580,7 @@ def homophonic_substitution_generate_letter_connection_dictionary(alphabet: str)
     return letter_connection_dictionary
 
 def homophonic_substitution_cipher(text: str, letter_connection_dictionary: dict, mode: int = CIPHER_MODE) -> str:
-    """
+    """ Homophonic substitution cipher function.
 
     :param text:
     :param letter_connection_dictionary:
@@ -613,11 +617,12 @@ def homophonic_substitution_cipher(text: str, letter_connection_dictionary: dict
     return processed_text
 
 def trifid_cipher_generate_random_key(additional_character: str=".", save_to_file: bool=True) -> str:
-    """
+    """ Function, that generates a random key for the usage of Trifid cipher function.
+    Shuffles Latin alphabet with additional provided alphabet, that is not in Latin alphabet.
 
-    :param additional_character:
-    :param save_to_file:
-    :return:
+    :param additional_character: A character, that is supposed to be shuffled with alphabet (non-latin character).
+    :param save_to_file: Optional argument, that specifies, whether to save a generated key into a file.
+    :return: Random key.
     """
     additional_character = additional_character.upper()
     if additional_character in LATIN_ALPHABET:
@@ -630,7 +635,7 @@ def trifid_cipher_generate_random_key(additional_character: str=".", save_to_fil
     return random_key
 
 def trifid_cipher_encoding(text: str, key: str, period: int) -> str:
-    """
+    """ Trifid cipher function for encoding.
 
     :param text:
     :param key:
@@ -670,7 +675,7 @@ def trifid_cipher_encoding(text: str, key: str, period: int) -> str:
     return processed_text
 
 def trifid_cipher_decoding(text: str, key: str, period: int) -> str:
-    """
+    """ Trifid cipher function for decoding.
 
     :param text:
     :param key:
@@ -708,7 +713,7 @@ def trifid_cipher_decoding(text: str, key: str, period: int) -> str:
     return processed_text
 
 def hill_cipher(text: str, alphabet: str, key_matrix: List[list], mode: int=CIPHER_MODE, character_to_fill: str= "x"):
-    """
+    """ Hill cipher function.
 
     :param text:
     :param alphabet:
@@ -765,12 +770,14 @@ def hill_cipher(text: str, alphabet: str, key_matrix: List[list], mode: int=CIPH
     return processed_text
 
 def playfair_cipher_generate_key_square(keyword: str, character_to_remove: str="J", save_to_file: bool=True) -> str:
-    """
+    """ Function, that generates a random key square for the usage of Playfair cipher function.
+    Puts together a provided keyword and shuffled Latin alphabet with removed letters from "keyword" without a specified
+    character to get 25-letter keysquare.
 
-    :param keyword:
-    :param character_to_remove:
-    :param save_to_file:
-    :return:
+    :param keyword: A word or any set of characters, that don't contain repeating letters.
+    :param character_to_remove: Character, that is supposed to be removed from the alphabet before shuffling.
+    :param save_to_file: Optional argument, that specifies, whether to save a generated key into a file.
+    :return: Key square.
     """
     keyword = keyword.upper()
     character_to_remove = character_to_remove.replace(" ", "").upper()
@@ -797,7 +804,7 @@ def playfair_cipher_generate_key_square(keyword: str, character_to_remove: str="
     return key_square
 
 def playfair_cipher_encoding(text: str, key_square: str, character_to_replace: str="J", character_to_replace_with: str="I", swap_letter: str="X") -> str:
-    """
+    """ Playfair cipher function for encoding.
 
     :param text:
     :param key_square:
@@ -854,7 +861,7 @@ def playfair_cipher_encoding(text: str, key_square: str, character_to_replace: s
     return processed_text
 
 def playfair_cipher_decoding(text: str, key_square: str, character_that_was_replaced: str="J", character_that_was_replaced_with: str="I", swap_letter: str="X") -> str:
-    """
+    """ Playfair cipher function for decoding.
 
     :param text:
     :param key_square:
@@ -915,7 +922,7 @@ def playfair_cipher_decoding(text: str, key_square: str, character_that_was_repl
     return processed_text.replace(character_that_was_replaced_with, f"({character_that_was_replaced_with}/{character_that_was_replaced})")
 
 def morse_code(text: str, gap_fill: str=" ", mode: int=CIPHER_MODE) -> str:
-    """
+    """ Morse code function.
 
     :param text:
     :param gap_fill:
@@ -955,11 +962,12 @@ def morse_code(text: str, gap_fill: str=" ", mode: int=CIPHER_MODE) -> str:
     return processed_text
 
 def fractionated_morse_code_generate_key_table(keyword: str, save_to_file: bool=True) -> str:
-    """
+    """ Function, that generates a random key table for the usage of Fractionated morse code function.
+    Puts together provided keyword and shuffled Latin alphabet with removed letters from "keyword" to get 26-letter key_table.
 
-    :param keyword:
-    :param save_to_file:
-    :return:
+    :param keyword: A word or any set of characters, that don't contain repeating letters.
+    :param save_to_file: Optional argument, that specifies, whether to save a generated key into a file.
+    :return: Key table
     """
     keyword = keyword.upper()
     if (keyword_length := len(keyword)) > 26:
@@ -980,7 +988,7 @@ def fractionated_morse_code_generate_key_table(keyword: str, save_to_file: bool=
     return key_table
 
 def fractionated_morse_code(text: str, key_table: str, gap_fill: str=" ", mode: int=CIPHER_MODE) -> str:
-    """
+    """ Fractionated morse code function.
 
     :param text:
     :param key_table:
@@ -1024,10 +1032,11 @@ def fractionated_morse_code(text: str, key_table: str, gap_fill: str=" ", mode: 
     return processed_text
 
 def straddle_checkerboard_cipher_generate_random_key(save_to_file: bool=True) -> str:
-    """
+    """ Function, that generates a random key for the usage of Straddle checkerboard cipher function.
+    Shuffles all letters from Latin alphabet.
 
-    :param save_to_file:
-    :return:
+    :param save_to_file: Optional argument, that specifies, whether to save a generated key into a file.
+    :return: Random key.
     """
     random_key = "".join(random.sample(LATIN_ALPHABET, len(LATIN_ALPHABET)))
     if save_to_file:
@@ -1036,7 +1045,7 @@ def straddle_checkerboard_cipher_generate_random_key(save_to_file: bool=True) ->
     return random_key
 
 def straddle_checkerboard_cipher_encoding(text: str, key: str, key_number: int=0, spare_positions: List[int]=[3, 7]) -> str:
-    """
+    """ Straddle checkerboard cipher function for encoding.
 
     :param text:
     :param key:
@@ -1094,7 +1103,7 @@ def straddle_checkerboard_cipher_encoding(text: str, key: str, key_number: int=0
     return processed_text
 
 def straddle_checkerboard_cipher_decoding(text: str, key: str, key_number: int=0, spare_positions: List[int]=[3, 7]) -> str:
-    """
+    """ Straddle checkerboard cipher function for decoding.
 
     :param text:
     :param key:
