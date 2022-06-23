@@ -620,9 +620,9 @@ def test_morse_code(text_to_input, gap_fill, mode, expected):
     assert morse_code(text_to_input, gap_fill, mode) == expected
 
 @pytest.mark.parametrize("text_to_input, gap_fill, mode, error_message",
-                         [(TEXT_TO_CIPHER_POLISH, " ", CIPHER_MODE, "Characters in provided text are not in the internatilnal character set!"),
+                         [(TEXT_TO_CIPHER_POLISH, " ", CIPHER_MODE, "Characters in provided text are not in the international character set!"),
                           (TEXT_TO_CIPHER_LATIN, " ", DECIPHER_MODE, "Enciphered text appears to have characters, that should not be there after encoding!"),
-                          (TEXT_TO_CIPHER_LATIN, "A", CIPHER_MODE, "Gap fill character should not be a character present in international_characters!"),
+                          (TEXT_TO_CIPHER_LATIN, "A", CIPHER_MODE, "Gap fill character should not be a character present in international characters!"),
                           (TEXT_TO_CIPHER_LATIN, "", CIPHER_MODE, "Gap fill should be at least one character long (ideally a space or a character not used in the text)!")])
 def test_morse_code_edge_cases(text_to_input, gap_fill, mode, error_message):
     with pytest.raises(ValueError) as exception_info:

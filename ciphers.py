@@ -26,7 +26,7 @@ def print_available_alphabets():
 
 def caesar_cipher(text: str, shift: int, alphabet: str, include_digits: bool = False) -> str:
     """ Caesar cipher function. Simple shifting of the message. Can be used both for encoding and decoding messages.
-    See reference [2] from README file for more information.
+    See reference [2] from README file for more information about the cipher.
 
     :param text: Message to be encoded or decoded. Can contain non-letter characters like numbers, punctuation marks, etc.
     :param shift: A number by which the message should be shifted (positive shifts to the right, e.g. A -> B).
@@ -54,7 +54,7 @@ def vigenere_cipher(text: str, keyword: str, alphabet, mode: int = CIPHER_MODE, 
     """ Vigenere cipher function. Uses a keyword to encrypt/decrypt message. A letter from the message is shifted by
     the index of the letter from keyword in given alphabet (e.g. text = "Foo", keyword = "Bar" -> "Gof").
     Can be used both for encoding and decoding messages.
-    See reference [3] from README file for more information.
+    See reference [3] from README file for more information about the cipher.
 
     :param text: Message to be encoded or decoded. Can contain non-letter characters like numbers, punctuation marks, etc.
     :param keyword: A word, that a message should be encoded/decoded with.
@@ -80,7 +80,7 @@ def vigenere_cipher(text: str, keyword: str, alphabet, mode: int = CIPHER_MODE, 
 def bacon_cipher_encoding(text: str, alphabet: str, letters_to_encode_with: Tuple[str] = ("a", "b"), unique_coding: bool = False) -> str:
     """ Bacon cipher function for encoding messages. Encodes each letter like a binary number. Instead of 0's and 1's,
     characters from a given list are used. First letter from the list replaces 0's, second - 1's.
-    See reference [4] from README file for more information.
+    See reference [4] from README file for more information about the cipher.
 
     :param text: Message to be encoded. Can contain non-letter characters like numbers, punctuation marks, etc.
     :param alphabet: Ordered letters for a given alphabet with maximum of 32 letters (ideally unchanged from given ones).
@@ -107,7 +107,7 @@ def bacon_cipher_encoding(text: str, alphabet: str, letters_to_encode_with: Tupl
 def bacon_cipher_decoding(text: str, alphabet: str, letters_to_decode_with: Tuple[str] = ("a", "b"), unique_coding: bool = False) -> str:
     """ Bacon cipher function for decoding messages. Decodes each letter like a binary number. Instead of 0's and 1's,
     characters from a given list are used. First letter from the list represents 0's, second - 1's.
-    See reference [4] from README file for more information.
+    See reference [4] from README file for more information about the cipher.
 
     :param text: Message to be decoded. Should contain letters only form the provided list, but can contain non-letter characters like numbers, punctuation marks, etc.
     :param alphabet: Ordered letters for a given alphabet with maximum of 32 letters (ideally unchanged from given ones).
@@ -143,7 +143,7 @@ def bacon_cipher_decoding(text: str, alphabet: str, letters_to_decode_with: Tupl
 def atbash_cipher(text: str, alphabet: str, include_digits: bool = False) -> str:
     """ Atbash cipher function. Flips all letters or/and numbers to corresponding letters at the other end of the
     alphabet (e.g. A -> Z, 0 -> 9). Can be used both for encoding and decoding messages.
-    See reference [5] from README file for more information.
+    See reference [5] from README file for more information about the cipher.
 
     :param text: Message to be encoded or decoded. Can contain non-letter characters like numbers, punctuation marks, etc.
     :param alphabet: Ordered letters for a given alphabet (ideally unchanged from given ones).
@@ -168,7 +168,7 @@ def atbash_cipher(text: str, alphabet: str, include_digits: bool = False) -> str
 def simple_substitution_generate_random_key(alphabet: str, save_to_file: bool = True) -> str:
     """ Function, that generates a random key for the usage of Simple substitution cipher function.
     Shuffles all letters from a given alphabet.
-    See reference [6] from README file for more information.
+    See reference [6] from README file for more information about the cipher.
 
     :param alphabet: Ordered letters for a given alphabet (allows alphabets only from given ones).
     :param save_to_file: Optional argument, that specifies, whether to save a generated key into a file.
@@ -183,7 +183,7 @@ def simple_substitution_generate_random_key(alphabet: str, save_to_file: bool = 
 
 def simple_substitution_cipher(text: str, key: str, mode: int = CIPHER_MODE) -> str:
     """ Simple substitution cipher function. Can be used both for encoding and decoding messages.
-    See reference [6] from README file for more information.
+    See reference [6] from README file for more information about the cipher.
 
     :param text: Message to be encoded or decoded. Can contain non-letter characters like numbers, punctuation marks, etc.
     :param key: Shuffled alphabet generated by "simple_substitution_generate_random_key" function.
@@ -208,7 +208,7 @@ def columnar_transposition_cipher_encoding(text: str, keyword: str, ending: str 
     not equal to the length of the keyword, a specified character fills the chunk. The next step is to sort the keyword 
     alphabetically and move corresponding columns under each letter to a new position. The last step is to read the
     encoded message top down left to right.
-    See reference [7] from README file for more information.
+    See reference [7] from README file for more information about the cipher.
 
     :param text: Message to be encoded. Can contain only letters.
     :param keyword: A word, that a message should be encoded with.
@@ -217,10 +217,9 @@ def columnar_transposition_cipher_encoding(text: str, keyword: str, ending: str 
     """
     if any(not char.isalpha() for char in keyword):
         raise ValueError("Keyword must contain only letters!")
-    text = text.replace(" ", "")
     if len(ending) != 1:
         raise Exception('Wrong length of "ending" character (length 1 is the only option)!')
-    text = text.upper()
+    text = text.upper().replace(" ", "")
     ending = ending.upper()
     if text[-1] == ending:
         print("Last letter of the message is the same as the \"ending\", that fills the gaps. Cosider changing the \"ending\" to be different than " + text[-1])
@@ -242,7 +241,7 @@ def columnar_transposition_cipher_encoding(text: str, keyword: str, ending: str 
 
 def columnar_transposition_cipher_decoding(text: str, keyword: str, ending: str = "x") -> str:
     """ Columnar transposition cipher function for decoding. Decoding reverses the procedures from encoding function.
-    See reference [7] from README file for more information.
+    See reference [7] from README file for more information about the cipher.
 
     :param text: Message to be decoded. Can contain only letters. The length of the message should be a multiple of the length of the keyword.
     :param keyword: A word, that a message should be decoded with.
@@ -280,7 +279,7 @@ def autokey_cipher_encoding(text: str, keyword: str, alphabet: str) -> str:
     """ Auto-key cipher function for encoding. The keyword serves as a prefix to a key-phrase, that is generated as a keyword + text
     and match the length of the text after removing spaces. Then, similarly to Vigenere cipher, a letter from the message
     is shifted by the index of the letter from key-phrase in given alphabet.
-    See reference [8] from README file for more information.
+    See reference [8] from README file for more information about the cipher.
 
     :param text: Message to be encoded. Can contain only letter characters.
     :param keyword: A word, that a message should be encoded with.
@@ -298,7 +297,7 @@ def autokey_cipher_encoding(text: str, keyword: str, alphabet: str) -> str:
 
 def autokey_cipher_decoding(text: str, keyword: str, alphabet: str) -> str:
     """ Auto-key cipher function for decoding. Decoding reverses the procedures from encoding function.
-    See reference [8] from README file for more information.
+    See reference [8] from README file for more information about the cipher.
 
     :param text: Message to be decoded. Can contain only letter characters.
     :param keyword: A word, that a message should be decoded with.
@@ -321,7 +320,7 @@ def autokey_cipher_decoding(text: str, keyword: str, alphabet: str) -> str:
 def rail_fence_cipher_encoding(text: str, number_of_rails: int, remove_spaces: bool = False) -> str:
     """ Rail-fence cipher function for encoding. Splits the message to a saw-like structure with rows depending on the
     number of rails provided. Then, row by row, the message is joined without dots.
-    See [9] reference from README file for more information.
+    See [9] reference from README file for more information about the cipher.
 
     :param text: Message to be encoded. Can contain non-letter characters like numbers, punctuation marks, etc.
     :param number_of_rails: Specifies the number of rails (rows), to which the message is split.
@@ -349,7 +348,7 @@ def rail_fence_cipher_encoding(text: str, number_of_rails: int, remove_spaces: b
 
 def rail_fence_cipher_decoding(text: str, number_of_rails: int) -> str:
     """ Rail-fence cipher function for decoding. Decoding reverses the procedures from encoding function.
-    See [9] reference from README file for more information.
+    See reference [9] from README file for more information about the cipher.
 
     :param text: Message to be decoded. Can contain non-letter characters like numbers, punctuation marks, etc.
     :param number_of_rails: Specifies the number of rails (rows), to which the message was split.
@@ -386,7 +385,7 @@ def rail_fence_cipher_decoding(text: str, number_of_rails: int) -> str:
 def bifid_cipher_generate_random_key(character_to_remove: str = "J", save_to_file: bool = True) -> str:
     """ Function, that generates a random key for the usage of Bifid cipher function.
     Shuffles Latin alphabet with one character removed.
-    See reference [10] from README file for more information.
+    See reference [10] from README file for more information about the cipher.
 
     :param character_to_remove: Character, that is supposed to be removed from the alphabet before shuffling.
     :param save_to_file: Optional argument, that specifies, whether to save a generated key into a file.
@@ -406,14 +405,14 @@ def bifid_cipher_generate_random_key(character_to_remove: str = "J", save_to_fil
 def bifid_cipher_encoding(text: str, period: int, key: str, character_to_replace: str = "J",
                           character_to_replace_with: str = "I") -> str:
     """ Bifid cipher function for encoding.
-    See reference [10] from README file for more information.
+    See reference [10] from README file for more information about the cipher.
 
-    :param text:
-    :param period:
-    :param key:
+    :param text: Message to be encoded. Can contain only letters from Latin alphabet.
+    :param period: Specifies the number of letters, that is supposed to be in each chunk, when dividing the message.
+    :param key: Key generated by "bifid_cipher_generate_random_key" function or any shuffled Latin alphabet with one character removed.
     :param character_to_replace:
     :param character_to_replace_with:
-    :return:
+    :return: Ciphere message.
     """
     if period < 1:
         raise ValueError("Period must be positive!")
@@ -450,14 +449,14 @@ def bifid_cipher_encoding(text: str, period: int, key: str, character_to_replace
 def bifid_cipher_decoding(text: str, period: int, key: str, character_that_was_replaced: str = "J",
                           character_that_was_replaced_with: str = "I") -> str:
     """ Bifid cipher function for decoding.
-    See reference [10] from README file for more information.
+    See reference [10] from README file for more information about the cipher.
 
-    :param text:
-    :param period:
-    :param key:
+    :param text: Message to be decoded. Can contain only letters from Latin alphabet.
+    :param period: Specifies the number of letters, that was supposed to be in each chunk, when dividing the message.
+    :param key: Key used to encode the message (generated by "bifid_cipher_generate_random_key" function).
     :param character_that_was_replaced:
     :param character_that_was_replaced_with:
-    :return:
+    :return: Deciphered message.
     """
     if period < 1:
         raise ValueError("Period must be positive!")
@@ -493,12 +492,12 @@ def bifid_cipher_decoding(text: str, period: int, key: str, character_that_was_r
 
 def beaufort_cipher(text: str, keyword: str, alphabet: str) -> str:
     """ Beufort cipher function.
-    See reference [11] from README file for more information.
+    See reference [11] from README file for more information about the cipher.
 
-    :param text:
-    :param keyword:
-    :param alphabet:
-    :return:
+    :param text: Message to be encoded or decoded. Can contain only letter characters.
+    :param keyword: A word, that a message should be encoded/decoded with.
+    :param alphabet: Ordered letters for a given alphabet (ideally unchanged from given ones).
+    :return: Ciphered or deciphered message.
     """
     text = text.upper().replace(" ", "")
     if any(not char.isalpha() for char in text):
@@ -510,12 +509,12 @@ def beaufort_cipher(text: str, keyword: str, alphabet: str) -> str:
 
 def porta_cipher(text: str, keyword: str, alphabet: str) -> str:
     """ Porta cipher function.
-    See reference [12] from README file for more information.
+    See reference [12] from README file for more information about the cipher.
 
-    :param text:
-    :param keyword:
-    :param alphabet:
-    :return:
+    :param text: Message to be encoded or decoded. Can contain only letter characters.
+    :param keyword: A word, that a message should be encoded/decoded with.
+    :param alphabet: Ordered letters for a given alphabet (ideally unchanged from given ones).
+    :return: Ciphered or deciphered message.
     """
     text = text.upper().replace(" ", "")
     if any(not char.isalpha() for char in text):
@@ -540,13 +539,13 @@ def porta_cipher(text: str, keyword: str, alphabet: str) -> str:
 
 def running_key_cipher(text: str, keyphrase: str, alphabet: str, mode: int = CIPHER_MODE) -> str:
     """ Running key cipher function.
-    See reference [13] from README file for more information.
+    See reference [13] from README file for more information about the cipher.
 
-    :param text:
+    :param text: Message to be encoded or decoded. Can contain only letter characters.
     :param keyphrase:
-    :param alphabet:
-    :param mode:
-    :return:
+    :param alphabet: Ordered letters for a given alphabet (ideally unchanged from given ones).
+    :param mode: Specifies the mode for the function. Ideally use CIPHER_MODE and DECIPHER_MODE as inputs.
+    :return: Ciphered or deciphered message.
     """
     text = text.upper().replace(" ", "")
     keyphrase = "".join([character.upper() if character.isalpha() else "" for character in keyphrase])
@@ -565,7 +564,7 @@ def homophonic_substitution_generate_letter_connection_dictionary(alphabet: str)
     Creates a dictionary of alphabet letters as keys and lists of letters from the alphabet and numbers as values.
     Lists are determined by reading letter frequency of a particular alphabet from wikipedia page.
     The more common a letter is, the more characters are placed in the list as a value for that letter.
-    See reference [14], [21], [22] from README file for more information.
+    See reference [14], [21], [22] from README file for more information about the cipher.
 
     :param alphabet: Ordered letters for a given alphabet (allows alphabets only from given ones).
     :return: Letter connection dictionary.
@@ -623,12 +622,12 @@ def homophonic_substitution_generate_letter_connection_dictionary(alphabet: str)
 
 def homophonic_substitution_cipher(text: str, letter_connection_dictionary: dict, mode: int = CIPHER_MODE) -> str:
     """ Homophonic substitution cipher function.
-    See reference [14] from README file for more information.
+    See reference [14] from README file for more information about the cipher.
 
-    :param text:
+    :param text: Message to be encoded or decoded. Can contain only letter characters, when CIPHER_MODE or letter characters with digits, when DECIPHER_MODE.
     :param letter_connection_dictionary:
-    :param mode:
-    :return:
+    :param mode: Specifies the mode for the function. Ideally use CIPHER_MODE and DECIPHER_MODE as inputs.
+    :return: Ciphered or deciphered message.
     """
     text = text.upper()
     additional_characters = " " + DIGITS if mode == DECIPHER_MODE else " "
@@ -638,15 +637,12 @@ def homophonic_substitution_cipher(text: str, letter_connection_dictionary: dict
     number_of_characters_total = sum([len(item) for item in list(letter_connection_dictionary.values())])
     if number_of_characters_total != len(letters) + len(DIGITS):
         raise ValueError("letter_connection_dictionary appears to be constructed wrong! Please use \"homophonic_substitution_generate_letter_connection_dictionary\" function to generate the dictionary!")
-    processed_text = ""
     if mode == CIPHER_MODE:
-        for character in text:
-            if character in letter_connection_dictionary.keys():
-                processed_text += random.choice(letter_connection_dictionary[character])
-            else:
-                processed_text += character
+        processed_text = "".join([random.choice(letter_connection_dictionary[character])
+                                  if character in letter_connection_dictionary.keys() else character for character in text])
     else:
         dictionary_values_list = list(letter_connection_dictionary.values())
+        processed_text = ""
         for character in text:
             if character not in letters + list(DIGITS):
                 processed_text += character
@@ -660,8 +656,8 @@ def homophonic_substitution_cipher(text: str, letter_connection_dictionary: dict
 
 def trifid_cipher_generate_random_key(additional_character: str = ".", save_to_file: bool = True) -> str:
     """ Function, that generates a random key for the usage of Trifid cipher function.
-    Shuffles Latin alphabet with additional provided alphabet, that is not in Latin alphabet.
-    See reference [15] from README file for more information.
+    Shuffles Latin alphabet with additionally provided character, that is not in Latin alphabet.
+    See reference [15] from README file for more information about the cipher.
 
     :param additional_character: A character, that is supposed to be shuffled with alphabet (non-latin character).
     :param save_to_file: Optional argument, that specifies, whether to save a generated key into a file.
@@ -680,12 +676,12 @@ def trifid_cipher_generate_random_key(additional_character: str = ".", save_to_f
 
 def trifid_cipher_encoding(text: str, key: str, period: int) -> str:
     """ Trifid cipher function for encoding.
-    See reference [15] from README file for more information.
+    See reference [15] from README file for more information about the cipher.
 
-    :param text:
-    :param key:
-    :param period:
-    :return:
+    :param text: Message to be encoded. Can contain only letters from the provided key.
+    :param key: Key generated by "trifid_cipher_generate_random_key" function or any shuffled Latin alphabet with one additional character.
+    :param period: Specifies the number of letters, that is supposed to be in each chunk, when dividing the message.
+    :return: Ciphered message.
     """
     text = text.replace(" ", "").upper()
     key = key.upper()
@@ -724,12 +720,12 @@ def trifid_cipher_encoding(text: str, key: str, period: int) -> str:
 
 def trifid_cipher_decoding(text: str, key: str, period: int) -> str:
     """ Trifid cipher function for decoding.
-    See reference [15] from README file for more information.
+    See reference [15] from README file for more information about the cipher.
 
-    :param text:
-    :param key:
-    :param period:
-    :return:
+    :param text: Message to be decoded. Can contain only letters from the provided key + spaces.
+    :param key: Key used to encode the message (generated by "trifid_cipher_generate_random_key" function).
+    :param period: Specifies the number of letters, that was supposed to be in each chunk, when dividing the message.
+    :return: Deciphered message.
     """
     text = text.upper()
     key = key.upper()
@@ -766,14 +762,14 @@ def trifid_cipher_decoding(text: str, key: str, period: int) -> str:
 
 def hill_cipher(text: str, alphabet: str, key_matrix: List[list], mode: int = CIPHER_MODE, character_to_fill: str = "x"):
     """ Hill cipher function.
-    See reference [16] from README file for more information.
+    See reference [16] from README file for more information about the cipher.
 
-    :param text:
-    :param alphabet:
+    :param text: Message to be encoded or decoded. Can contain only letters from the provided alphabet.
+    :param alphabet: Ordered letters for a given alphabet (ideally unchanged from given ones).
     :param key_matrix:
-    :param mode:
+    :param mode: Specifies the mode for the function. Ideally use CIPHER_MODE and DECIPHER_MODE as inputs.
     :param character_to_fill:
-    :return:
+    :return: Ciphered or deciphered message.
     """
     text = text.replace(" ", "").upper()
     number_of_columns = len(key_matrix)
@@ -827,7 +823,7 @@ def playfair_cipher_generate_key_square(keyword: str, character_to_remove: str =
     """ Function, that generates a random key square for the usage of Playfair cipher function.
     Puts together a provided keyword and shuffled Latin alphabet with removed letters from "keyword" without a specified
     character to get 25-letter keysquare.
-    See reference [17] from README file for more information.
+    See reference [17] from README file for more information about the cipher.
 
     :param keyword: A word or any set of characters, that don't contain repeating letters.
     :param character_to_remove: Character, that is supposed to be removed from the alphabet before shuffling.
@@ -862,14 +858,14 @@ def playfair_cipher_generate_key_square(keyword: str, character_to_remove: str =
 def playfair_cipher_encoding(text: str, key_square: str, character_to_replace: str = "J",
                              character_to_replace_with: str = "I", swap_letter: str = "X") -> str:
     """ Playfair cipher function for encoding.
-    See reference [17] from README file for more information.
+    See reference [17] from README file for more information about the cipher.
 
-    :param text:
+    :param text: Message to be encoded. Can contain only letters from Latin alphabet.
     :param key_square:
     :param character_to_replace:
     :param character_to_replace_with:
     :param swap_letter:
-    :return:
+    :return: Ciphered message.
     """
     text = text.replace(" ", "").upper()
     key_square = key_square.replace(" ", "").upper()
@@ -925,14 +921,14 @@ def playfair_cipher_encoding(text: str, key_square: str, character_to_replace: s
 def playfair_cipher_decoding(text: str, key_square: str, character_that_was_replaced: str = "J",
                              character_that_was_replaced_with: str = "I", swap_letter: str = "X") -> str:
     """ Playfair cipher function for decoding.
-    See reference [17] from README file for more information.
+    See reference [17] from README file for more information about the cipher.
 
-    :param text:
+    :param text: Message to be decoded. Can contain only letters from Latin alphabet.
     :param key_square:
     :param character_that_was_replaced:
     :param character_that_was_replaced_with:
     :param swap_letter:
-    :return:
+    :return: Deciphered message.
     """
     text = text.replace(" ", "").upper()
     key_square = key_square.replace(" ", "").upper()
@@ -988,12 +984,12 @@ def playfair_cipher_decoding(text: str, key_square: str, character_that_was_repl
 
 def morse_code(text: str, gap_fill: str = " ", mode: int = CIPHER_MODE) -> str:
     """ Morse code function.
-    See reference [18] from README file for more information.
+    See reference [18] from README file for more information about the code.
 
-    :param text:
-    :param gap_fill:
-    :param mode:
-    :return:
+    :param text: Message to be encoded or decoded. Can contain only letters from Latin alphabet + characters: .,:"'!?@-;()= and digits.
+    :param gap_fill: Specifies what character was used as a separator between words provided in text.
+    :param mode: Specifies the mode for the function. Ideally use CIPHER_MODE and DECIPHER_MODE as inputs.
+    :return: Ciphered or deciphered message.
     """
     international_characters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", 
                                 "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", ".", ",", ":", '"', "'", "!",
@@ -1004,11 +1000,11 @@ def morse_code(text: str, gap_fill: str = " ", mode: int = CIPHER_MODE) -> str:
                                       "..--..", ".--.-.", "-....-", "-.-.-.", "-.--.", "-.--.-", "-...-", ".----", "..---",
                                       "...--", "....-", ".....", "-....", "--...", "---..", "----.", "-----"]
     if mode == CIPHER_MODE and any(character not in [*international_characters, " "] for character in text.upper()):
-        raise ValueError("Characters in provided text are not in the internatilnal character set!")
+        raise ValueError("Characters in provided text are not in the international character set!")
     elif mode == DECIPHER_MODE and any(character not in ".-" + gap_fill for character in text):
         raise ValueError("Enciphered text appears to have characters, that should not be there after encoding!")
     if gap_fill in international_characters:
-        raise ValueError("Gap fill character should not be a character present in international_characters!")
+        raise ValueError("Gap fill character should not be a character present in international characters!")
     if gap_fill == "":
         raise ValueError("Gap fill should be at least one character long (ideally a space or a character not used in the text)!")
     processed_text = ""
@@ -1018,9 +1014,7 @@ def morse_code(text: str, gap_fill: str = " ", mode: int = CIPHER_MODE) -> str:
             processed_text += international_morse_equivalent[international_characters.index(character)] + gap_fill if character != " " else gap_fill
     elif mode == DECIPHER_MODE:
         split_words = text.split(gap_fill*2)
-        split_characters = [[]]*len(split_words)
-        for word_number, word in enumerate(split_words):
-            split_characters[word_number] = word.split(gap_fill)
+        split_characters = [word.split(gap_fill) for word in split_words]
         for word in split_characters:
             for character in word:
                 processed_text += international_characters[international_morse_equivalent.index(character)]
@@ -1032,7 +1026,7 @@ def morse_code(text: str, gap_fill: str = " ", mode: int = CIPHER_MODE) -> str:
 def fractionated_morse_code_generate_key_table(keyword: str, save_to_file: bool = True) -> str:
     """ Function, that generates a random key table for the usage of Fractionated morse code function.
     Puts together provided keyword and shuffled Latin alphabet with removed letters from "keyword" to get 26-letter key_table.
-    See reference [19] from README file for more information.
+    See reference [19] from README file for more information about the code.
 
     :param keyword: A word or any set of characters, that don't contain repeating letters.
     :param save_to_file: Optional argument, that specifies, whether to save a generated key into a file.
@@ -1059,13 +1053,13 @@ def fractionated_morse_code_generate_key_table(keyword: str, save_to_file: bool 
 
 def fractionated_morse_code(text: str, key_table: str, gap_fill: str = " ", mode: int = CIPHER_MODE) -> str:
     """ Fractionated morse code function.
-    See reference [19], [23] from README file for more information.
+    See reference [19], [23] from README file for more information about the code.
 
-    :param text:
+    :param text: Message to be encoded or decoded. Can contain only letters from Latin alphabet and when CIPHER_MODE - additionaly spaces.
     :param key_table:
-    :param gap_fill:
-    :param mode:
-    :return:
+    :param gap_fill: Specifies what character was used as a separator between words provided in text.
+    :param mode: Specifies the mode for the function. Ideally use CIPHER_MODE and DECIPHER_MODE as inputs.
+    :return: Ciphered or deciphered message.
     """
     text = text.upper()
     if len(set(key_table)) != 26 or len(set(key_table)) != len(key_table):
@@ -1106,7 +1100,7 @@ def fractionated_morse_code(text: str, key_table: str, gap_fill: str = " ", mode
 def straddle_checkerboard_cipher_generate_random_key(save_to_file: bool = True) -> str:
     """ Function, that generates a random key for the usage of Straddle checkerboard cipher function.
     Shuffles all letters from Latin alphabet.
-    See reference [20] from README file for more information.
+    See reference [20] from README file for more information about the cipher.
 
     :param save_to_file: Optional argument, that specifies, whether to save a generated key into a file.
     :return: Random key.
@@ -1120,13 +1114,13 @@ def straddle_checkerboard_cipher_generate_random_key(save_to_file: bool = True) 
 
 def straddle_checkerboard_cipher_encoding(text: str, key: str, key_number: int = 0, spare_positions: Tuple[int] = (3, 7)) -> str:
     """ Straddle checkerboard cipher function for encoding.
-    See reference [20] from README file for more information.
+    See reference [20] from README file for more information about the cipher.
 
-    :param text:
-    :param key:
+    :param text: Message to be encoded. Can contain only letters from Latin alphabet.
+    :param key: Key generated by "straddle_checkerboard_cipher_generate_random_key" function or any shuffled Latin alphabet.
     :param key_number:
     :param spare_positions:
-    :return:
+    :return: Ciphered message.
     """
     text = text.upper().replace(" ", "")
     key = key.upper()
@@ -1179,13 +1173,13 @@ def straddle_checkerboard_cipher_encoding(text: str, key: str, key_number: int =
 
 def straddle_checkerboard_cipher_decoding(text: str, key: str, key_number: int = 0, spare_positions: List[int] = (3, 7)) -> str:
     """ Straddle checkerboard cipher function for decoding.
-    See reference [20] from README file for more information.
+    See reference [20] from README file for more information about the cipher.
 
-    :param text:
-    :param key:
+    :param text: Message to be decoded. Can contain only letters from Latin alphabet if the output of encoding was letters and only digits if the output of encoding was digits.
+    :param key: Key used to encode the message (generated by "straddle_checkerboard_cipher_generate_random_key" function).
     :param key_number:
     :param spare_positions:
-    :return:
+    :return: Deciphered message.
     """
     text = text.upper().replace(" ", "")
     key = key.upper()

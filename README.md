@@ -263,7 +263,7 @@ If all tests are passing, you can use the module safely.
 36. The result is returned after the execution is complete.
 
 ## **Other useful functions from the module:**
-- ***print_available_alphabets*** accepts no arguments and prints all available alphabet names with corresponding values.
+- ***print_available_alphabets*** - accepts no arguments, prints all available alphabet names with corresponding values.
 
 # To Do:
 
@@ -272,7 +272,7 @@ If all tests are passing, you can use the module safely.
 - Make a package out of this project
 - Add more tests to check *homophonic_substitution_cipher*
 - Check if *rail_fence_cipher_decoding* needs to cover removed spaces from the encoding function
-- Investigate, whether straddle_checkerboard_cipher_encoding with specific values really can't encode them or this is a bug on implementation
+- Investigate, whether *straddle_checkerboard_cipher_encoding* with specific values really can't encode them or this is a bug on implementation
 
 # Usage
 Use it to play with ciphering and deciphering messages as you wish.  
