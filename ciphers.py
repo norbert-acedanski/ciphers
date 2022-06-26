@@ -4,7 +4,7 @@ import numpy
 import pandas
 import requests
 from bs4 import BeautifulSoup
-from typing import List, Tuple
+from typing import List, Tuple, Dict
 
 DIGITS = "0123456789"
 LATIN_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -202,7 +202,7 @@ def simple_substitution_cipher(text: str, key: str, mode: int = CIPHER_MODE) -> 
     return processed_text
 
 
-def columnar_transposition_cipher_encoding(text: str, keyword: str, ending: str = "x") -> str:
+def columnar_transposition_cipher_encoding(text: str, keyword: str, character_to_fill: str = "x") -> str:
     """ Columnar transposition cipher function for encoding. The message is stripped from spaces, then sliced to chunks
     with length equal to the length of the keyword. The chunks are placed under the keyword. If the last chunk has length 
     not equal to the length of the keyword, a specified character fills the chunk. The next step is to sort the keyword 
@@ -212,20 +212,20 @@ def columnar_transposition_cipher_encoding(text: str, keyword: str, ending: str 
 
     :param text: Message to be encoded. Can contain only letters.
     :param keyword: A word, that a message should be encoded with.
-    :param ending: Optional argument, that specifies, what letter should be used to fill gaps in the last slice of the text (ideally should not be equal to the last letter in the message).
+    :param character_to_fill: Optional argument, that specifies, what letter should be used to fill gaps in the last slice of the text (ideally should not be equal to the last letter in the message).
     :return: Ciphered message.
     """
     if any(not char.isalpha() for char in keyword):
         raise ValueError("Keyword must contain only letters!")
-    if len(ending) != 1:
-        raise Exception('Wrong length of "ending" character (length 1 is the only option)!')
+    if len(character_to_fill) != 1:
+        raise Exception('Wrong length of "character_that_filled" character (length 1 is the only option)!')
     text = text.upper().replace(" ", "")
-    ending = ending.upper()
-    if text[-1] == ending:
-        print("Last letter of the message is the same as the \"ending\", that fills the gaps. Cosider changing the \"ending\" to be different than " + text[-1])
+    character_to_fill = character_to_fill.upper()
+    if text[-1] == character_to_fill:
+        print('Last letter of the message is the same as the "character_to_fill", that fills the gaps. Consider changing the "character_to_fill" to be different than ' + text[-1])
     separated_list = [text[i:i + len(keyword)] for i in range(0, len(text), len(keyword))]
     if len(separated_list[-1]) < len(keyword):
-        separated_list[-1] += "".join([ending for i in range(len(keyword) - len(separated_list[-1]))])
+        separated_list[-1] += "".join([character_to_fill for i in range(len(keyword) - len(separated_list[-1]))])
     sorted_keyword = "".join(sorted(keyword))
     transposed_list = list(map(list, zip(*separated_list)))
     transposed_list_joined = ["".join(element) for element in transposed_list]
@@ -239,21 +239,21 @@ def columnar_transposition_cipher_encoding(text: str, keyword: str, ending: str 
     return processed_text
 
 
-def columnar_transposition_cipher_decoding(text: str, keyword: str, ending: str = "x") -> str:
+def columnar_transposition_cipher_decoding(text: str, keyword: str, character_that_filled: str = "x") -> str:
     """ Columnar transposition cipher function for decoding. Decoding reverses the procedures from encoding function.
     See reference [7] from README file for more information about the cipher.
 
     :param text: Message to be decoded. Can contain only letters. The length of the message should be a multiple of the length of the keyword.
     :param keyword: A word, that a message should be decoded with.
-    :param ending: Optional argument, that specifies, what letter was used to fill gaps in the last slice of the text (if the letter was equal to the last letter in encoded message it will be removed).
+    :param character_that_filled: Optional argument, that specifies, what letter was used to fill gaps in the last slice of the text (if the letter was equal to the last letter in encoded message it will be removed).
     :return: Deciphered message.
     """
     if any(not char.isalpha() for char in keyword):
         raise ValueError("Keyword must contain only letters!")
-    if len(ending) != 1:
-        raise Exception('Wrong length of "ending" character (length 1 is the only option)!')
+    if len(character_that_filled) != 1:
+        raise Exception('Wrong length of "character_that_filled" character (length 1 is the only option)!')
     text = text.upper()
-    ending = ending.upper()
+    character_that_filled = character_that_filled.upper()
     encoded_split_message = [text[i:i + len(text)//len(keyword)] for i in range(0, len(text), len(text)//len(keyword))]
     sorted_keyword = "".join(sorted(keyword))
     keyword_length = len(keyword)
@@ -268,7 +268,7 @@ def columnar_transposition_cipher_decoding(text: str, keyword: str, ending: str 
         for column in range(keyword_length):
             processed_text += sorted_split_message[column][row]
     for _ in range(keyword_length):
-        if processed_text[-1] == ending:
+        if processed_text[-1] == character_that_filled:
             processed_text = processed_text[:-1]
         else:
             break
@@ -410,9 +410,9 @@ def bifid_cipher_encoding(text: str, period: int, key: str, character_to_replace
     :param text: Message to be encoded. Can contain only letters from Latin alphabet.
     :param period: Specifies the number of letters, that is supposed to be in each chunk, when dividing the message.
     :param key: Key generated by "bifid_cipher_generate_random_key" function or any shuffled Latin alphabet with one character removed.
-    :param character_to_replace:
-    :param character_to_replace_with:
-    :return: Ciphere message.
+    :param character_to_replace: A character (letter), that is supposed to be replaced with another character when encoding.
+    :param character_to_replace_with: A character (letter), that is supposed to replace all instances of the "character_to_replace".
+    :return: Ciphered message.
     """
     if period < 1:
         raise ValueError("Period must be positive!")
@@ -454,8 +454,8 @@ def bifid_cipher_decoding(text: str, period: int, key: str, character_that_was_r
     :param text: Message to be decoded. Can contain only letters from Latin alphabet.
     :param period: Specifies the number of letters, that was supposed to be in each chunk, when dividing the message.
     :param key: Key used to encode the message (generated by "bifid_cipher_generate_random_key" function).
-    :param character_that_was_replaced:
-    :param character_that_was_replaced_with:
+    :param character_that_was_replaced: A character (letter), that was replaced by another letter in encoding process.
+    :param character_that_was_replaced_with: A character (letter), that replaces all instances of the "character_that_was_replaced".
     :return: Deciphered message.
     """
     if period < 1:
@@ -542,7 +542,7 @@ def running_key_cipher(text: str, keyphrase: str, alphabet: str, mode: int = CIP
     See reference [13] from README file for more information about the cipher.
 
     :param text: Message to be encoded or decoded. Can contain only letter characters.
-    :param keyphrase:
+    :param keyphrase: A string (longer, than ciphered text) of characters (letters mostly), that will serve as a key for encryption. Excerpts from books are a good example.
     :param alphabet: Ordered letters for a given alphabet (ideally unchanged from given ones).
     :param mode: Specifies the mode for the function. Ideally use CIPHER_MODE and DECIPHER_MODE as inputs.
     :return: Ciphered or deciphered message.
@@ -559,7 +559,7 @@ def running_key_cipher(text: str, keyphrase: str, alphabet: str, mode: int = CIP
     return processed_text
 
 
-def homophonic_substitution_generate_letter_connection_dictionary(alphabet: str):
+def homophonic_substitution_generate_letter_connection_dictionary(alphabet: str) -> Dict[str, List[str]]:
     """ Function, that generates a letter connection dictionary for the usage of Homophonic substitution cipher function.
     Creates a dictionary of alphabet letters as keys and lists of letters from the alphabet and numbers as values.
     Lists are determined by reading letter frequency of a particular alphabet from wikipedia page.
@@ -620,12 +620,12 @@ def homophonic_substitution_generate_letter_connection_dictionary(alphabet: str)
     return letter_connection_dictionary
 
 
-def homophonic_substitution_cipher(text: str, letter_connection_dictionary: dict, mode: int = CIPHER_MODE) -> str:
+def homophonic_substitution_cipher(text: str, letter_connection_dictionary: Dict[str, List[str]], mode: int = CIPHER_MODE) -> str:
     """ Homophonic substitution cipher function.
     See reference [14] from README file for more information about the cipher.
 
     :param text: Message to be encoded or decoded. Can contain only letter characters, when CIPHER_MODE or letter characters with digits, when DECIPHER_MODE.
-    :param letter_connection_dictionary:
+    :param letter_connection_dictionary: A dictionary with letter as keys, and lists of characters and digits as values. Generated by "homophonic_substitution_generate_letter_connection_dictionary" function.
     :param mode: Specifies the mode for the function. Ideally use CIPHER_MODE and DECIPHER_MODE as inputs.
     :return: Ciphered or deciphered message.
     """
@@ -723,7 +723,7 @@ def trifid_cipher_decoding(text: str, key: str, period: int) -> str:
     See reference [15] from README file for more information about the cipher.
 
     :param text: Message to be decoded. Can contain only letters from the provided key + spaces.
-    :param key: Key used to encode the message (generated by "trifid_cipher_generate_random_key" function).
+    :param key: Key used to encode the message (generated by "trifid_cipher_generate_random_key" function or any shuffled Latin alphabet with one additional character).
     :param period: Specifies the number of letters, that was supposed to be in each chunk, when dividing the message.
     :return: Deciphered message.
     """
@@ -760,15 +760,15 @@ def trifid_cipher_decoding(text: str, key: str, period: int) -> str:
     return processed_text
 
 
-def hill_cipher(text: str, alphabet: str, key_matrix: List[list], mode: int = CIPHER_MODE, character_to_fill: str = "x"):
+def hill_cipher(text: str, alphabet: str, key_matrix: List[List[int]], mode: int = CIPHER_MODE, character_to_fill: str = "x"):
     """ Hill cipher function.
     See reference [16] from README file for more information about the cipher.
 
     :param text: Message to be encoded or decoded. Can contain only letters from the provided alphabet.
     :param alphabet: Ordered letters for a given alphabet (ideally unchanged from given ones).
-    :param key_matrix:
+    :param key_matrix: A square matrix (list of "n" lists, each with "n" numbers), that is used to encode and decode a message. The determinant of the matrix mus be non-zero and cannot have a common devisor with the length of the alphabet (e.g. Latin alphabet length is 26)
     :param mode: Specifies the mode for the function. Ideally use CIPHER_MODE and DECIPHER_MODE as inputs.
-    :param character_to_fill:
+    :param character_to_fill: Optional argument, that specifies, what letter should be used to fill gaps in the last slice of the text (ideally should not be equal to the last letter in the message).
     :return: Ciphered or deciphered message.
     """
     text = text.replace(" ", "").upper()
@@ -781,12 +781,12 @@ def hill_cipher(text: str, alphabet: str, key_matrix: List[list], mode: int = CI
             if element > len(alphabet) - 1 or element < 0:
                 raise ValueError(f"Numbers in the matrix should be in range 0 - {len(alphabet) - 1} for this alphabet")
     if len(character_to_fill.replace(" ", "")) != 1:
-        raise ValueError("Character to fill should be one character and not blank space!")
+        raise ValueError('"character_to_fill" should be one character and not blank space!')
     if any(char not in alphabet for char in text):
         raise ValueError("Hill cipher supports only letters from the given alphabet!")
     character_to_fill = character_to_fill.upper()
     if text[-1] == character_to_fill:
-        print("Last letter of the message is the same as the \"character_to_fill\", that fills the gap. Cosider changing the \"character_to_fill\" to be different than " + text[-1])
+        print('Last letter of the message is the same as the "character_to_fill", that fills the gap. Cosider changing it to be different than ' + text[-1])
     key_array = numpy.array(key_matrix)
     alphabet_length = len(alphabet)
     key_determinant = (round(numpy.linalg.det(key_array)) % alphabet_length + alphabet_length) % alphabet_length
@@ -794,7 +794,7 @@ def hill_cipher(text: str, alphabet: str, key_matrix: List[list], mode: int = CI
         raise ValueError("Determinant of the matrix is 0 (matrix is not inversable, thus, no decoding will be possible). Change the key matrix!")
     if (common_divisor := math.gcd(key_determinant, alphabet_length)) != 1:
         raise ValueError(f"Key matrix determinant ({key_determinant}) has common devisor ({common_divisor}) with the length of the alphabet ({alphabet_length}). Change the key matrix!")
-    number_of_characters_to_fill = (len(key_matrix) - len(text)) % len(key_matrix)
+    number_of_characters_to_fill = len(text) % len(key_matrix)
     text += character_to_fill*number_of_characters_to_fill
     if mode == DECIPHER_MODE:
         key_inverse = numpy.linalg.inv(key_array)
@@ -861,10 +861,10 @@ def playfair_cipher_encoding(text: str, key_square: str, character_to_replace: s
     See reference [17] from README file for more information about the cipher.
 
     :param text: Message to be encoded. Can contain only letters from Latin alphabet.
-    :param key_square:
-    :param character_to_replace:
-    :param character_to_replace_with:
-    :param swap_letter:
+    :param key_square: Key used to encode a message (generated by "playfair_cipher_generate_key_square" function or any shuffled Latin alphabet with one character removed).
+    :param character_to_replace: A character (letter), that is supposed to be replaced with another character when encoding.
+    :param character_to_replace_with: A character (letter), that is supposed to replace all instances of the "character_to_replace".
+    :param swap_letter: A character, that serves two purposes. First is to extend the message to be even length if needed. Second, if a pair of the same letters is found, the second letter in that pair becomes "swap_letter".
     :return: Ciphered message.
     """
     text = text.replace(" ", "").upper()
@@ -924,10 +924,10 @@ def playfair_cipher_decoding(text: str, key_square: str, character_that_was_repl
     See reference [17] from README file for more information about the cipher.
 
     :param text: Message to be decoded. Can contain only letters from Latin alphabet.
-    :param key_square:
-    :param character_that_was_replaced:
-    :param character_that_was_replaced_with:
-    :param swap_letter:
+    :param key_square: Key, that was used to encode a message (generated by "playfair_cipher_generate_key_square" function or any shuffled Latin alphabet with one character removed).
+    :param character_that_was_replaced: A character (letter), that was supposed to be replaced with another character when encoding.
+    :param character_that_was_replaced_with: A character (letter), that was supposed to replace all instances of the "character_that_was_replaced".
+    :param swap_letter: A character, that served two purposes. First - extended the message to be even length if it was needed. Second, if a pair of the same letters was found, the second letter in that pair became "swap_letter".
     :return: Deciphered message.
     """
     text = text.replace(" ", "").upper()
@@ -1056,7 +1056,7 @@ def fractionated_morse_code(text: str, key_table: str, gap_fill: str = " ", mode
     See reference [19], [23] from README file for more information about the code.
 
     :param text: Message to be encoded or decoded. Can contain only letters from Latin alphabet and when CIPHER_MODE - additionaly spaces.
-    :param key_table:
+    :param key_table: A string, that is used to encode or decode a message (generated by "fractionated_morse_code_generate_key_table" function or any shuffled Latin alphabet).
     :param gap_fill: Specifies what character was used as a separator between words provided in text.
     :param mode: Specifies the mode for the function. Ideally use CIPHER_MODE and DECIPHER_MODE as inputs.
     :return: Ciphered or deciphered message.
@@ -1112,14 +1112,15 @@ def straddle_checkerboard_cipher_generate_random_key(save_to_file: bool = True) 
     return random_key
 
 
-def straddle_checkerboard_cipher_encoding(text: str, key: str, key_number: int = 0, spare_positions: Tuple[int] = (3, 7)) -> str:
+def straddle_checkerboard_cipher_encoding(text: str, key: str, key_number: int = 0, return_numbers: bool = False, spare_positions: Tuple[int, int] = (3, 7)) -> str:
     """ Straddle checkerboard cipher function for encoding.
     See reference [20] from README file for more information about the cipher.
 
     :param text: Message to be encoded. Can contain only letters from Latin alphabet.
     :param key: Key generated by "straddle_checkerboard_cipher_generate_random_key" function or any shuffled Latin alphabet.
-    :param key_number:
-    :param spare_positions:
+    :param key_number: An integer, that specifies, what number should be added with non-carrying addition to partially encoded message (ideally more than one digit number).
+    :param return_numbers: Optional argument, that specifies, whether to return numerical encoded value or proceed to return a text.
+    :param spare_positions: A tuple of two integer values, that specifies, what numbers are used as prefixes modulo 10 division of the key.
     :return: Ciphered message.
     """
     text = text.upper().replace(" ", "")
@@ -1128,7 +1129,7 @@ def straddle_checkerboard_cipher_encoding(text: str, key: str, key_number: int =
         raise ValueError("Characters in text should only have letters from Latin alphabet!")
     if any(char not in LATIN_ALPHABET for char in key) or len(key) != 26 or len(set(key)) != len(key):
         raise ValueError("Characters in key should only have letters from Latin alphabet, length equal to 26 and not contain duplicates!")
-    if key_number < 0:
+    if key_number is not None and key_number < 0:
         raise ValueError("Key number should not be negative!")
     if len(spare_positions) != 2 or len(set(spare_positions)) != 2:
         raise ValueError("Spare positions list should contain 2 different elements!")
@@ -1139,13 +1140,7 @@ def straddle_checkerboard_cipher_encoding(text: str, key: str, key_number: int =
     key_dict = {}
     for letter in key:
         letter_number = letter_number + 1 if letter_number in spare_positions else letter_number
-        number_string_to_input = ""
-        if letter_number < 10:
-            pass
-        elif letter_number < 20:
-            number_string_to_input = str(spare_positions[0])
-        elif letter_number < 30:
-            number_string_to_input = str(spare_positions[1])
+        number_string_to_input = "" if not letter_number//10 else str(spare_positions[letter_number//10 - 1])
         number_string_to_input += str(letter_number % 10)
         key_dict[letter] = number_string_to_input
         letter_number += 1
@@ -1153,7 +1148,7 @@ def straddle_checkerboard_cipher_encoding(text: str, key: str, key_number: int =
     added_numbers = ""
     for number_number, number in enumerate(processed_numbers):
         added_numbers += str((int(number) + int(str(key_number)[number_number % len(str(key_number))])) % 10)
-    if key_number == 0:
+    if return_numbers:
         return added_numbers
     processed_text = ""
     enumerated_numbers = enumerate(added_numbers)
@@ -1171,14 +1166,14 @@ def straddle_checkerboard_cipher_encoding(text: str, key: str, key_number: int =
     return processed_text
 
 
-def straddle_checkerboard_cipher_decoding(text: str, key: str, key_number: int = 0, spare_positions: List[int] = (3, 7)) -> str:
+def straddle_checkerboard_cipher_decoding(text: str, key: str, key_number: int = 0, spare_positions: Tuple[int, int] = (3, 7)) -> str:
     """ Straddle checkerboard cipher function for decoding.
     See reference [20] from README file for more information about the cipher.
 
     :param text: Message to be decoded. Can contain only letters from Latin alphabet if the output of encoding was letters and only digits if the output of encoding was digits.
     :param key: Key used to encode the message (generated by "straddle_checkerboard_cipher_generate_random_key" function).
-    :param key_number:
-    :param spare_positions:
+    :param key_number: An integer, that specifies, what number was added with non-carrying addition to partially encoded message.
+    :param spare_positions: A tuple of two integer values, that specifies, what numbers were used as prefixes modulo 10 division of the key.
     :return: Deciphered message.
     """
     text = text.upper().replace(" ", "")
@@ -1198,17 +1193,11 @@ def straddle_checkerboard_cipher_decoding(text: str, key: str, key_number: int =
     key_dict = {}
     for letter in key:
         letter_number = letter_number + 1 if letter_number in spare_positions else letter_number
-        number_string_to_input = ""
-        if letter_number < 10:
-            pass
-        elif letter_number < 20:
-            number_string_to_input = str(spare_positions[0])
-        elif letter_number < 30:
-            number_string_to_input = str(spare_positions[1])
+        number_string_to_input = "" if not letter_number//10 else str(spare_positions[letter_number//10 - 1])
         number_string_to_input += str(letter_number % 10)
         key_dict[letter] = number_string_to_input
         letter_number += 1
-    text = "".join([key_dict[letter] for letter in text]) if key_number != 0 else text
+    text = "".join([key_dict[letter] for letter in text]) if not text[0].isdigit() else text
     added_numbers = ""
     for number_number, number in enumerate(text):
         added_numbers += str((int(number) - int(str(key_number)[number_number % len(str(key_number))]) + 10) % 10)
