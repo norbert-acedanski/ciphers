@@ -6,7 +6,7 @@
 ![GitHub](https://img.shields.io/github/license/norbert-acedanski/ciphers)
 
 # About The Project
-Script gives an oportunity, with Caesar, Vigenère, Bacon Atbash, Simple Substitution, Columnar Transposition, Autokey, Rail-Fence, Bifid, Beaufort, Porta, Running key, Homophonic substitution, Hill, Playfair, Straddle checkerboard ciphers and Morse, Fractionated morse codes, to encode and decode messages.
+Script gives an opportunity, with Caesar, Vigenère, Bacon Atbash, Simple Substitution, Columnar Transposition, Autokey, Rail-Fence, Bifid, Beaufort, Porta, Running key, Homophonic substitution, Hill, Playfair, Straddle checkerboard ciphers and Morse, Fractionated morse codes, to encode and decode messages.
 
 # Built with
 ### Python 3.9.10
@@ -177,7 +177,7 @@ If all tests are passing, you can use the module safely.
 20. ***running_key_cipher*** accepts 3 arguments and 1 optional argument:
     - Required arguments:
         - __text__ - text to cipher (input from the user or from itself after encoding),
-        - __keyphrase__ - phras used as a key to cipher a message (equal in length or longer than text to cipher),
+        - __keyphrase__ - phrase used as a key to cipher a message (equal in length or longer than text to cipher),
         - __alphabet__ - kind of alphabet you work with (latin, polish, etc.) - all are variables in the script.
     - Optional arguments:
         - __mode__ - optional argument used to determine the operation mode of the function (*CIPHER_MODE* and *DECIPHER_MODE* - these are variables in the script) - cipher mode is a default mode.  
