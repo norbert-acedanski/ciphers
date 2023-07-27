@@ -1,6 +1,6 @@
 # ciphers
 
-![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/norbert-acedanski/ciphers/tests?label=tests)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/norbert-acedanski/ciphers/.github/workflows/tests.yml?branch=master)
 ![GitHub last commit](https://img.shields.io/github/last-commit/norbert-acedanski/ciphers)
 ![GitHub repo size](https://img.shields.io/github/repo-size/norbert-acedanski/ciphers)
 ![GitHub](https://img.shields.io/github/license/norbert-acedanski/ciphers)
