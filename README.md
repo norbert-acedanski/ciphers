@@ -67,7 +67,7 @@ If all tests are passing, you can use the module safely.
         - __shift__ - shift of the ciphered alphabet,
         - __alphabet__ - kind of alphabet you work with (latin, polish, etc.) - all are variables in the script,
     - Optional argument:
-        - __includeDigits__ - specifies whether numbers contained in the text should be shifted (_True_/_False_ variable with _False_ being default option).  
+        - __include_digits__ - specifies whether numbers contained in the text should be shifted (_True_/_False_ variable with _False_ being default option).  
 
     Function can be used either to cipher or decipher messages.
 3. ***vigenere_cipher*** accepts 3 arguments and 2 optional arguments:
@@ -77,7 +77,7 @@ If all tests are passing, you can use the module safely.
         - __alphabet__ - kind of alphabet you work with (latin, polish, etc.) - all are variables in the script,
     - Optional arguments:
         - __mode__ - optional argument used to determine the operation mode of the function (*CIPHER_MODE* and *DECIPHER_MODE* - these are variables in the script) - cipher mode is a default mode.
-        - __keywordShift__ - int variable, that specifies, what shift should the keyword have. Default value is _0_.  
+        - __keyword_shift__ - int variable, that specifies, what shift should the keyword have. Default value is _0_.  
 
     Function can be used either to cipher or decipher messages.
 4. ***bacon_cipher_encoding*** accepts 2 arguments and 2 optional arguments:
@@ -85,21 +85,21 @@ If all tests are passing, you can use the module safely.
         - __text__ - text to cipher (input from the user),
         - __alphabet__ - kind of alphabet you work with (latin, polish, etc.) - all are variables in the script,
     - Optional argument:
-        - __lettersToCodeWith__ - list of 2 characters to encode the message with. Default value is _["a", "b"]_,
-        - __uniqueCoding__ - bool variable, that specifies whether to use unique encoding on bacon ciphering. Default value is _False_.
+        - __letters_to_code_with__ - list of 2 characters to encode the message with. Default value is _["a", "b"]_,
+        - __unique_coding__ - bool variable, that specifies whether to use unique encoding on bacon ciphering. Default value is _False_.
 5. ***bacon_cipher_decoding*** accepts 2 arguments and 2 optional arguments:
     - Required arguments:
         - __text__ - text to decipher (from ***bacon_cipher_encoding*** function),
         - __alphabet__ - kind of alphabet you work with (latin, polish, etc.) - all are variables in the script,
     - Optional argument:
-        - __lettersToCodeWith__ - list of 2 characters to decode the message with. Default value is _["a", "b"]_,
-        - __uniqueCoding__ - bool variable, that specifies whether to use unique encoding on bacon deciphering. Default value is _False_.
+        - __letters_to_code_with__ - list of 2 characters to decode the message with. Default value is _["a", "b"]_,
+        - __unique_coding__ - bool variable, that specifies whether to use unique encoding on bacon deciphering. Default value is _False_.
 6. ***atbash_cipher*** accepts 2 arguments and 1 optional argument:
     - Required arguments:
         - __text__ - text to cipher (input from the user or from itself after encoding),
         - __alphabet__ - kind of alphabet you work with (latin, polish, etc.) - all are variables in the script,
     - Optional argument:
-        - __includeDigits__ - specifies whether numbers contained in the text should be ciphered (_True_/_False_ variable with _False_ being default option).  
+        - __include_digits__ - specifies whether numbers contained in the text should be ciphered (_True_/_False_ variable with _False_ being default option).  
 
     Function can be used either to cipher or decipher messages.
 7. ***simple_substitution_generate_random_key*** accepts 1 argument - **alphabet** and 1 optional argument - **save_to_file** - and returns shuffled version (mainly used for simple substitution ciphering) and optionaly saves the key to a file as a default.
@@ -136,13 +136,13 @@ If all tests are passing, you can use the module safely.
 13. ***rail_fence_cipher_encoding*** accepts 2 arguments and 1 optional argument:
     - Required arguments:
         - __text__ - text to cipher (input from the user),
-        - __numberOfRails__ - number of rails the text should be split to,
+        - __number_of_rails__ - number of rails the text should be split to,
     - Optional arguments:
-        - __removeSpaces__ - optional argument, that specifies, whether to remove all spaces from the input text with _False_ as a default value.
+        - __remove_spaces__ - optional argument, that specifies, whether to remove all spaces from the input text with _False_ as a default value.
 14. ***rail_fence_cipher_decoding*** accepts 2 arguments:
     - Required arguments:
         - __text__ - text to decipher (from ***rail_fence_cipher_encoding*** function),
-        - __numberOfRails__ - number of rails the text should be split to,
+        - __number_of_rails__ - number of rails the text should be split to,
 15. ***bifid_cipher_generate_random_key*** accepts 2 optional arguments - **character_to_remove** and **save_to_file** - and returns shuffled alphabet with specified letter removed and optionaly saves the key to a file as a default.
 16. ***bifid_cipher_encoding*** accepts 3 arguments and 2 optional arguments:
     - Required arguments:
