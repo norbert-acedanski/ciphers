@@ -555,8 +555,8 @@ def test_hill_cipher(text_to_input, alphabet, key_matrix, mode, character_to_fil
                           ("foo", LATIN_ALPHABET, [[1, 3], [3, 4]], "", '"character_to_fill" should be one character and not blank space!'),
                           ("foo", LATIN_ALPHABET, [[1, 3], [3, 4]], "xx", '"character_to_fill" should be one character and not blank space!'),
                           ("foo", LATIN_ALPHABET, [[1, 3], [3, 4]], " ", '"character_to_fill" should be one character and not blank space!'),
-                          ("foo", LATIN_ALPHABET, [[1, 4, 7], [2, 5, 8], [3, 6, 9]], "x", "Determinant of the matrix is 0 (matrix is not inversable, thus, no decoding will be possible). Change the key matrix!"),
-                          ("foo", LATIN_ALPHABET, [[1, 3], [5, 3]], "x", "Key matrix determinant (14) has common devisor (2) with the length of the alphabet (26). Change the key matrix!"),
+                          ("foo", LATIN_ALPHABET, [[1, 4, 7], [2, 5, 8], [3, 6, 9]], "x", "Determinant of the matrix is 0 (matrix is not invertable, thus, no decoding will be possible). Change the key matrix!"),
+                          ("foo", LATIN_ALPHABET, [[1, 3], [5, 3]], "x", "Key matrix determinant (14) has common divisor (2) with the length of the alphabet (26). Change the key matrix!"),
                           (TEXT_TO_CIPHER_POLISH, LATIN_ALPHABET, [[1, 3], [3, 4]], "x", "Hill cipher supports only letters from the given alphabet!")])
 def test_hill_cipher_edge_case(text_to_input, alphabet, key_matrix, character_to_fill, error_message):
     with pytest.raises(ValueError) as exception_info:
@@ -747,7 +747,7 @@ def test_straddle_checkerboard_cipher_encoding(text_to_input, key, key_number, r
                           (TEXT_TO_CIPHER_LATIN[:-2], "ANUMYBQXOZERKISLFWDGHPVTJC", 83729, False, (random.randint(-10, -1), random.randint(10, 20)), "Each element in spare_positions list should have a value between 1 and 9 including both ends!"),
                           (TEXT_TO_CIPHER_LATIN_2, "ANUMYBQXOZERKISLFWDGHPVTJC", 83729, False, (random.randint(10, 20), random.randint(-10, -1)), "Each element in spare_positions list should have a value between 1 and 9 including both ends!"),
                           (TEXT_TO_CIPHER_LATIN_2, "ANUMYBQXOZERKISLFWDGHPVTJC", 83729, False, (random.randint(10, 15), random.randint(16, 20)), "Each element in spare_positions list should have a value between 1 and 9 including both ends!"),
-                          (TEXT_TO_CIPHER_LATIN[:-2], "fkmcpdyehbigqrosazlutjnwvx", 83729, False, (3, 7), "Unfortunately this set of parameters cannot be used with this text because of the problem in non-carrying adding. Choose another number!")])
+                          (TEXT_TO_CIPHER_LATIN[:-2], "fkmcpdyehbigqrosazlutjnwvx", 83729, False, (3, 7), "Unfortunately this set of parameters cannot be used with this text, because of the problem in non-carrying adding. Choose another number!")])
 def test_straddle_checkerboard_cipher_encoding_edge_cases(text_to_input, key, key_number, return_numbers, spare_positions, error_message):
     with pytest.raises(ValueError) as exception_info:
         straddle_checkerboard_cipher_encoding(text_to_input, key, key_number, return_numbers, spare_positions)
