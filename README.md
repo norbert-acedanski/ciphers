@@ -269,7 +269,6 @@ If all tests are passing, you can use the module safely.
 
 # To Do:
 
-- Add docstring to each cipher
 - Change tests, that test generating keys to include saving to file
 - Make a package out of this project
 - Add more tests to check *homophonic_substitution_cipher*
