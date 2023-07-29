@@ -112,16 +112,15 @@ def test_columnar_transposition_cipher_encoding(text_to_input, keyword, characte
     assert columnar_transposition_cipher_encoding(text_to_input, keyword, character_to_fill) == expected
 
 
-def test_columnar_transposition_cipher_encoding_edge_cases():
-    with pytest.raises(ValueError) as exception_info:
-        columnar_transposition_cipher_encoding(TEXT_TO_CIPHER_LATIN, "test_")
-    assert str(exception_info.value) == "Keyword must contain only letters!"
-    with pytest.raises(ValueError) as exception_info:
-        columnar_transposition_cipher_encoding(TEXT_TO_CIPHER_LATIN, "test1")
-    assert str(exception_info.value) == "Keyword must contain only letters!"
-    with pytest.raises(Exception) as exception_info:
-        columnar_transposition_cipher_encoding(TEXT_TO_CIPHER_LATIN, "test", "xx")
-    assert str(exception_info.value) == 'Wrong length of "character_that_filled" character (length 1 is the only option)!'
+@pytest.mark.parametrize("text_to_input, keyword, character_to_fill, expected_error, expected_error_message",
+                         [(TEXT_TO_CIPHER_LATIN, "test_", "x", ValueError, "Keyword must contain only letters!"),
+                          (TEXT_TO_CIPHER_LATIN, "test1", "x", ValueError, "Keyword must contain only letters!"),
+                          (TEXT_TO_CIPHER_LATIN, "test", "xx", Exception, 'Wrong length of "character_that_filled" character (length 1 is the only option)!')])
+def test_columnar_transposition_cipher_encoding_edge_cases(text_to_input, keyword, character_to_fill, expected_error,
+                                                           expected_error_message):
+    with pytest.raises(expected_error) as exception_info:
+        columnar_transposition_cipher_encoding(text_to_input, keyword, character_to_fill=character_to_fill)
+    assert str(exception_info.value) == expected_error_message
 
 
 @pytest.mark.parametrize("text_to_input, keyword, character_that_filled, expected",
@@ -133,16 +132,15 @@ def test_columnar_transposition_cipher_decoding(text_to_input, keyword, characte
     assert columnar_transposition_cipher_decoding(text_to_input, keyword, character_that_filled) == expected
 
 
-def test_columnar_transposition_cipher_decoding_edge_cases():
-    with pytest.raises(ValueError) as exception_info:
-        columnar_transposition_cipher_decoding(TEXT_TO_CIPHER_LATIN.replace(" ", ""), "test_")
-    assert str(exception_info.value) == "Keyword must contain only letters!"
-    with pytest.raises(ValueError) as exception_info:
-        columnar_transposition_cipher_decoding(TEXT_TO_CIPHER_LATIN.replace(" ", ""), "test1")
-    assert str(exception_info.value) == "Keyword must contain only letters!"
-    with pytest.raises(Exception) as exception_info:
-        columnar_transposition_cipher_decoding(TEXT_TO_CIPHER_LATIN.replace(" ", ""), "test", "xx")
-    assert str(exception_info.value) == 'Wrong length of "character_that_filled" character (length 1 is the only option)!'
+@pytest.mark.parametrize("text_to_input, keyword, character_that_filled, expected_error, expected_error_message",
+                         [(TEXT_TO_CIPHER_LATIN.replace(" ", ""), "test_", "x", ValueError, "Keyword must contain only letters!"),
+                          (TEXT_TO_CIPHER_LATIN.replace(" ", ""), "test1", "x", ValueError, "Keyword must contain only letters!"),
+                          (TEXT_TO_CIPHER_LATIN.replace(" ", ""), "test", "xx", Exception, 'Wrong length of "character_that_filled" character (length 1 is the only option)!')])
+def test_columnar_transposition_cipher_decoding_edge_cases(text_to_input, keyword, character_that_filled,
+                                                           expected_error, expected_error_message):
+    with pytest.raises(expected_error) as exception_info:
+        columnar_transposition_cipher_decoding(text_to_input, keyword, character_that_filled=character_that_filled)
+    assert str(exception_info.value) == expected_error_message
 
 
 @pytest.mark.parametrize("text_to_input, keyword, alphabet, expected",
@@ -247,16 +245,14 @@ def test_bifid_cipher_encoding(text_to_input, period, key, character_to_replace,
     assert bifid_cipher_encoding(text_to_input, period, key, character_to_replace, character_to_replace_with) == expected
 
 
-def test_bifid_cipher_encoding_edge_cases_1():
-    with pytest.raises(ValueError) as exception_info:
-        bifid_cipher_encoding(TEXT_TO_CIPHER_LATIN, random.randrange(-10, 1), LATIN_ALPHABET[:-1])
-    assert str(exception_info.value) == "Period must be positive!"
-    with pytest.raises(Exception) as exception_info:
-        bifid_cipher_encoding(TEXT_TO_CIPHER_POLISH, 2, LATIN_ALPHABET[:-1])
-    assert str(exception_info.value) == "Please insert letters from the latin alphabet only!"
-    with pytest.raises(ValueError) as exception_info:
-        bifid_cipher_encoding(TEXT_TO_CIPHER_LATIN[:-2], 3, LATIN_ALPHABET)
-    assert str(exception_info.value) == "Key length has to be 1 less than that of the Latin Alphabet!"
+@pytest.mark.parametrize("text_to_input, period, key, expected_error, expected_error_message",
+                         [(TEXT_TO_CIPHER_LATIN, random.randrange(-10, 1), LATIN_ALPHABET[:-1], ValueError, "Period must be positive!"),
+                          (TEXT_TO_CIPHER_POLISH, 2, LATIN_ALPHABET[:-1], Exception, "Please insert letters from the latin alphabet only!"),
+                          (TEXT_TO_CIPHER_LATIN[:-2], 3, LATIN_ALPHABET, ValueError, "Key length has to be 1 less than that of the Latin Alphabet!")])
+def test_bifid_cipher_encoding_edge_cases_1(text_to_input, period, key, expected_error, expected_error_message):
+    with pytest.raises(expected_error) as exception_info:
+        bifid_cipher_encoding(text_to_input, period, key)
+    assert str(exception_info.value) == expected_error_message
 
 
 @pytest.mark.parametrize("character_to_replace, character_to_replace_with",
@@ -282,16 +278,14 @@ def test_bifid_cipher_decoding(text_to_input, period, key, character_to_replace,
     assert bifid_cipher_decoding(text_to_input, period, key, character_to_replace, character_to_replace_with) == expected
 
 
-def test_bifid_cipher_decoding_edge_cases_1():
-    with pytest.raises(ValueError) as exception_info:
-        bifid_cipher_decoding(TEXT_TO_CIPHER_LATIN, random.randrange(-10, 1), LATIN_ALPHABET[:-1])
-    assert str(exception_info.value) == "Period must be positive!"
-    with pytest.raises(Exception) as exception_info:
-        bifid_cipher_decoding(TEXT_TO_CIPHER_POLISH, 2, LATIN_ALPHABET[:-1])
-    assert str(exception_info.value) == "Please insert letters from the latin alphabet only!"
-    with pytest.raises(ValueError) as exception_info:
-        bifid_cipher_decoding(TEXT_TO_CIPHER_LATIN[:-2].replace(" ", ""), 3, LATIN_ALPHABET)
-    assert str(exception_info.value) == "Key length has to be 1 less than that of the Latin Alphabet!"
+@pytest.mark.parametrize("text_to_input, period, key, expected_error, expected_error_message",
+                         [(TEXT_TO_CIPHER_LATIN, random.randrange(-10, 1), LATIN_ALPHABET[:-1], ValueError, "Period must be positive!"),
+                          (TEXT_TO_CIPHER_POLISH, 2, LATIN_ALPHABET[:-1], Exception, "Please insert letters from the latin alphabet only!"),
+                          (TEXT_TO_CIPHER_LATIN[:-2].replace(" ", ""), 3, LATIN_ALPHABET, ValueError, "Key length has to be 1 less than that of the Latin Alphabet!")])
+def test_bifid_cipher_decoding_edge_cases_1(text_to_input, period, key, expected_error, expected_error_message):
+    with pytest.raises(expected_error) as exception_info:
+        bifid_cipher_decoding(text_to_input, period, key)
+    assert str(exception_info.value) == expected_error_message
 
 
 @pytest.mark.parametrize("character_what_was_replaced, character_what_was_replaced_with",
@@ -509,22 +503,16 @@ def test_trifid_cipher_encoding(text_to_input, key, period, expected):
     assert trifid_cipher_encoding(text_to_input, key, period) == expected
 
 
-def test_trifid_cipher_encoding_edge_cases():
-    with pytest.raises(ValueError) as exception_info:
-        assert trifid_cipher_encoding(TEXT_TO_CIPHER_LATIN[:-2], "EPSDUCVWYMaZLKXNBTFGORIJHAQ", 5)
-    assert str(exception_info.value) == "Key appears to have wrong structure not generated by trifid_cipher_generate_random_key function!"
-    with pytest.raises(ValueError) as exception_info:
-        assert trifid_cipher_encoding(TEXT_TO_CIPHER_LATIN[:-2], "EPSDUCVWYM12ZLKXNBTFGORIJHAQ", 5)
-    assert str(exception_info.value) == "Key appears to have wrong structure not generated by trifid_cipher_generate_random_key function!"
-    with pytest.raises(ValueError) as exception_info:
-        assert trifid_cipher_encoding(TEXT_TO_CIPHER_LATIN[:-2], "EPSDUCVWYMZLKXNBTFGORIJHAQ", 5)
-    assert str(exception_info.value) == "Key appears to have wrong structure not generated by trifid_cipher_generate_random_key function!"
-    with pytest.raises(Exception) as exception_info:
-        assert trifid_cipher_encoding(TEXT_TO_CIPHER_POLISH, "EPSDUCVWYM.ZLKXNBTFGORIJHAQ", 5)
-    assert str(exception_info.value) == "Please insert letters from the key only!"
-    with pytest.raises(ValueError) as exception_info:
-        assert trifid_cipher_encoding(TEXT_TO_CIPHER_LATIN[:-2], "EPSDUCVWYM.ZLKXNBTFGORIJHAQ", random.randrange(-10, 1))
-    assert str(exception_info.value) == "Period should be at least 2!"
+@pytest.mark.parametrize("text_to_input, key, period, expected_error, expected_error_message",
+                         [(TEXT_TO_CIPHER_LATIN[:-2], "EPSDUCVWYMaZLKXNBTFGORIJHAQ", 5, ValueError, "Key appears to have wrong structure not generated by trifid_cipher_generate_random_key function!"),
+                          (TEXT_TO_CIPHER_LATIN[:-2], "EPSDUCVWYM12ZLKXNBTFGORIJHAQ", 5, ValueError, "Key appears to have wrong structure not generated by trifid_cipher_generate_random_key function!"),
+                          (TEXT_TO_CIPHER_LATIN[:-2], "EPSDUCVWYMZLKXNBTFGORIJHAQ", 5, ValueError, "Key appears to have wrong structure not generated by trifid_cipher_generate_random_key function!"),
+                          (TEXT_TO_CIPHER_POLISH, "EPSDUCVWYM.ZLKXNBTFGORIJHAQ", 5, Exception, "Please insert letters from the key only!"),
+                          (TEXT_TO_CIPHER_LATIN[:-2], "EPSDUCVWYM.ZLKXNBTFGORIJHAQ", random.randrange(-10, 1), ValueError, "Period should be at least 2!")])
+def test_trifid_cipher_encoding_edge_cases(text_to_input, key, period, expected_error, expected_error_message):
+    with pytest.raises(expected_error) as exception_info:
+        assert trifid_cipher_encoding(text_to_input, key, period)
+    assert str(exception_info.value) == expected_error_message
 
 
 @pytest.mark.parametrize("text_to_input, key, period, expected",
@@ -536,22 +524,16 @@ def test_trifid_cipher_decoding(text_to_input, key, period, expected):
     assert trifid_cipher_decoding(text_to_input, key, period) == expected
 
 
-def test_trifid_cipher_decoding_edge_cases():
-    with pytest.raises(ValueError) as exception_info:
-        assert trifid_cipher_decoding(TEXT_TO_CIPHER_LATIN[:-2], "EPSDUCVWYMaZLKXNBTFGORIJHAQ", 5)
-    assert str(exception_info.value) == "Key appears to have wrong structure not generated by trifid_cipher_generate_random_key function!"
-    with pytest.raises(ValueError) as exception_info:
-        assert trifid_cipher_decoding(TEXT_TO_CIPHER_LATIN[:-2], "EPSDUCVWYM12ZLKXNBTFGORIJHAQ", 5)
-    assert str(exception_info.value) == "Key appears to have wrong structure not generated by trifid_cipher_generate_random_key function!"
-    with pytest.raises(ValueError) as exception_info:
-        assert trifid_cipher_decoding(TEXT_TO_CIPHER_LATIN[:-2], "EPSDUCVWYMZLKXNBTFGORIJHAQ", 5)
-    assert str(exception_info.value) == "Key appears to have wrong structure not generated by trifid_cipher_generate_random_key function!"
-    with pytest.raises(Exception) as exception_info:
-        assert trifid_cipher_decoding(TEXT_TO_CIPHER_POLISH, "EPSDUCVWYM.ZLKXNBTFGORIJHAQ", 5)
-    assert str(exception_info.value) == "Encoded message appears to have characters, that are not in key and are not space!"
-    with pytest.raises(ValueError) as exception_info:
-        assert trifid_cipher_decoding(TEXT_TO_CIPHER_LATIN[:-2], "EPSDUCVWYM.ZLKXNBTFGORIJHAQ", random.randrange(-10, 1))
-    assert str(exception_info.value) == "Period should be at least 2!"
+@pytest.mark.parametrize("text_to_input, key, period, expected_error, expected_error_message",
+                         [(TEXT_TO_CIPHER_LATIN[:-2], "EPSDUCVWYMaZLKXNBTFGORIJHAQ", 5, ValueError, "Key appears to have wrong structure not generated by trifid_cipher_generate_random_key function!"),
+                          (TEXT_TO_CIPHER_LATIN[:-2], "EPSDUCVWYM12ZLKXNBTFGORIJHAQ", 5, ValueError, "Key appears to have wrong structure not generated by trifid_cipher_generate_random_key function!"),
+                          (TEXT_TO_CIPHER_LATIN[:-2], "EPSDUCVWYMZLKXNBTFGORIJHAQ", 5, ValueError, "Key appears to have wrong structure not generated by trifid_cipher_generate_random_key function!"),
+                          (TEXT_TO_CIPHER_POLISH, "EPSDUCVWYM.ZLKXNBTFGORIJHAQ", 5, Exception, "Encoded message appears to have characters, that are not in key and are not space!"),
+                          (TEXT_TO_CIPHER_LATIN[:-2], "EPSDUCVWYM.ZLKXNBTFGORIJHAQ", random.randrange(-10, 1), ValueError, "Period should be at least 2!")])
+def test_trifid_cipher_decoding_edge_cases(text_to_input, key, period, expected_error, expected_error_message):
+    with pytest.raises(expected_error) as exception_info:
+        assert trifid_cipher_decoding(text_to_input, key, period)
+    assert str(exception_info.value) == expected_error_message
 
 
 @pytest.mark.parametrize("text_to_input, alphabet, key_matrix, mode, character_to_fill, expected",
