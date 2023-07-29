@@ -25,7 +25,8 @@ def print_available_alphabets():
 
 
 def caesar_cipher(text: str, shift: int, alphabet: str, include_digits: bool = False) -> str:
-    """ Caesar cipher function. Simple message shifting by a specified value.\n
+    """ Caesar cipher function.\n
+    Simple message shifting by a specified value.\n
     Can be used both for encoding and decoding messages.\n
     See reference [2] from README file for more information about the cipher.
 
@@ -52,9 +53,10 @@ def caesar_cipher(text: str, shift: int, alphabet: str, include_digits: bool = F
 
 
 def vigenere_cipher(text: str, keyword: str, alphabet, mode: int = CIPHER_MODE, keyword_shift: int = 0) -> str:
-    """ Vigenere cipher function. Keyword is repeated until the length is equal to that of ciphered/deciphered text.
-    Then, letter by letter, index of the current letter of encoded/decoded text is a sum of the index of the current
-    letter of repeated keyword and the index of the current letter of provided text.\n
+    """ Vigenere cipher function.\n
+    Keyword is repeated until the length is equal to that of ciphered/deciphered text. Then, letter by letter, index of
+    the current letter of encoded/decoded text is a sum of the index of the current letter of repeated keyword and the
+    index of the current letter of provided text.\n
     Can be used both for encoding and decoding messages.\n
     See reference [3] from README file for more information about the cipher.
 
@@ -80,8 +82,9 @@ def vigenere_cipher(text: str, keyword: str, alphabet, mode: int = CIPHER_MODE, 
 
 
 def bacon_cipher_encoding(text: str, alphabet: str, letters_to_encode_with: Tuple[str] = ("a", "b"), unique_coding: bool = False) -> str:
-    """ Bacon cipher function for encoding messages. Encodes each letter like a binary number. Instead of 0's and 1's,
-    characters from a given list are used. First letter from the list replaces 0's, second - 1's.\n
+    """ Bacon cipher function for encoding messages.\n
+    Encodes each letter like a binary number. Instead of 0's and 1's, characters from a given list are used. First
+    letter from the list replaces 0's, second - 1's.\n
     See reference [4] from README file for more information about the cipher.
 
     :param text: Message to be encoded. Can contain non-letter characters like numbers, punctuation marks, etc.
@@ -107,7 +110,8 @@ def bacon_cipher_encoding(text: str, alphabet: str, letters_to_encode_with: Tupl
 
 
 def bacon_cipher_decoding(text: str, alphabet: str, letters_to_decode_with: Tuple[str] = ("a", "b"), unique_coding: bool = False) -> str:
-    """ Bacon cipher function for decoding messages. Decoding reverses the procedures form encoding function.\n
+    """ Bacon cipher function for decoding messages.\n
+    Decoding reverses the procedures form encoding function.\n
     See reference [4] from README file for more information about the cipher.
 
     :param text: Message to be decoded. Should contain letters only form the provided list, but can contain non-letter characters like numbers, punctuation marks, etc.
@@ -142,8 +146,8 @@ def bacon_cipher_decoding(text: str, alphabet: str, letters_to_decode_with: Tupl
 
 
 def atbash_cipher(text: str, alphabet: str, include_digits: bool = False) -> str:
-    """ Atbash cipher function. Flips all letters or/and numbers to corresponding letters at the other end of the
-    alphabet (e.g. A -> Z, 0 -> 9).\n
+    """ Atbash cipher function.\n
+    Flips all letters or/and numbers to corresponding letters at the other end of the alphabet (e.g. A -> Z, 0 -> 9).\n
     Can be used both for encoding and decoding messages.\n
     See reference [5] from README file for more information about the cipher.
 
@@ -184,7 +188,10 @@ def simple_substitution_generate_random_key(alphabet: str, save_to_file: bool = 
 
 
 def simple_substitution_cipher(text: str, key: str, mode: int = CIPHER_MODE) -> str:
-    """ Simple substitution cipher function. #TODO Write a description
+    """ Simple substitution cipher function.\n
+    Uses a key of shuffled alphabet letters to encode/decode a message. Plain alphabet is compared with the key to get
+    1 to 1 correspondence between a letter, that is supposed to be encoded with a letter, that will take its place.
+    Decoding reverses the procedure.\n
     Can be used both for encoding and decoding messages.\n
     See reference [6] from README file for more information about the cipher.
 
@@ -206,11 +213,11 @@ def simple_substitution_cipher(text: str, key: str, mode: int = CIPHER_MODE) -> 
 
 
 def columnar_transposition_cipher_encoding(text: str, keyword: str, character_to_fill: str = "x") -> str:
-    """ Columnar transposition cipher function for encoding. The message is stripped from spaces, then sliced to chunks
-    with length equal to the length of the keyword. The chunks are placed under the keyword. If the last chunk has length 
-    not equal to the length of the keyword, a specified character fills the chunk. The next step is to sort the keyword 
-    alphabetically and move corresponding columns under each letter to a new position. The last step is to read the
-    encoded message top down left to right.\n
+    """ Columnar transposition cipher function for encoding.\n
+    The message is stripped from spaces, then sliced to chunks with length equal to the length of the keyword.
+    The chunks are placed under the keyword. If the last chunk has length not equal to the length of the keyword,
+    a specified character fills the chunk. The next step is to sort the keyword alphabetically and move corresponding
+    columns under each letter to a new position. The last step is to read the encoded message top down left to right.\n
     See reference [7] from README file for more information about the cipher.
 
     :param text: Message to be encoded. Can contain only letters.
@@ -243,7 +250,8 @@ def columnar_transposition_cipher_encoding(text: str, keyword: str, character_to
 
 
 def columnar_transposition_cipher_decoding(text: str, keyword: str, character_that_filled: str = "x") -> str:
-    """ Columnar transposition cipher function for decoding. Decoding reverses the procedures from encoding function.\n
+    """ Columnar transposition cipher function for decoding.\n
+    Decoding reverses the procedures from encoding function.\n
     See reference [7] from README file for more information about the cipher.
 
     :param text: Message to be decoded. Can contain only letters. The length of the message should be a multiple of the length of the keyword.
@@ -279,9 +287,10 @@ def columnar_transposition_cipher_decoding(text: str, keyword: str, character_th
 
 
 def autokey_cipher_encoding(text: str, keyword: str, alphabet: str) -> str:
-    """ Auto-key cipher function for encoding. The keyword serves as a prefix to a key-phrase, that is generated as a
-    keyword + text and match the length of the text after removing spaces. Then, similarly to Vigenere cipher, a letter
-    from the message is shifted by the index of the letter from key-phrase in given alphabet.\n
+    """ Auto-key cipher function for encoding.\n
+    The keyword serves as a prefix to a key-phrase, that is generated as a keyword + text and match the length of the
+    text after removing spaces. Then, similarly to Vigenere cipher, a letter from the message is shifted by the index
+    of the letter from key-phrase in given alphabet.\n
     See reference [8] from README file for more information about the cipher.
 
     :param text: Message to be encoded. Can contain only letter characters.
@@ -299,7 +308,8 @@ def autokey_cipher_encoding(text: str, keyword: str, alphabet: str) -> str:
 
 
 def autokey_cipher_decoding(text: str, keyword: str, alphabet: str) -> str:
-    """ Auto-key cipher function for decoding. Decoding reverses the procedures from encoding function.\n
+    """ Auto-key cipher function for decoding.\n
+    Decoding reverses the procedures from encoding function.\n
     See reference [8] from README file for more information about the cipher.
 
     :param text: Message to be decoded. Can contain only letter characters.
@@ -321,8 +331,9 @@ def autokey_cipher_decoding(text: str, keyword: str, alphabet: str) -> str:
 
 
 def rail_fence_cipher_encoding(text: str, number_of_rails: int, remove_spaces: bool = False) -> str:
-    """ Rail-fence cipher function for encoding. Splits the message to a saw-like structure with number of rows
-    depending on the number of rails provided. Then, row by row, the message is joined without dots.\n
+    """ Rail-fence cipher function for encoding.\n
+    Splits the message to a saw-like structure with number of rows depending on the number of rails provided. Then,
+    row by row, the message is joined without dots.\n
     See [9] reference from README file for more information about the cipher.
 
     :param text: Message to be encoded. Can contain non-letter characters like numbers, punctuation marks, etc.
@@ -350,7 +361,8 @@ def rail_fence_cipher_encoding(text: str, number_of_rails: int, remove_spaces: b
 
 
 def rail_fence_cipher_decoding(text: str, number_of_rails: int) -> str:
-    """ Rail-fence cipher function for decoding. Decoding reverses the procedures from encoding function.\n
+    """ Rail-fence cipher function for decoding.\n
+    Decoding reverses the procedures from encoding function.\n
     See reference [9] from README file for more information about the cipher.
 
     :param text: Message to be decoded. Can contain non-letter characters like numbers, punctuation marks, etc.
@@ -386,7 +398,7 @@ def rail_fence_cipher_decoding(text: str, number_of_rails: int) -> str:
 
 
 def bifid_cipher_generate_random_key(character_to_remove: str = "J", save_to_file: bool = True) -> str:
-    """ Function, that generates a random key for the usage of Bifid cipher function.
+    """ Function, that generates a random key for the usage of Bifid cipher function.\n
     Shuffles Latin alphabet with one character removed.\n
     See reference [10] from README file for more information about the cipher.
 
@@ -407,11 +419,12 @@ def bifid_cipher_generate_random_key(character_to_remove: str = "J", save_to_fil
 
 def bifid_cipher_encoding(text: str, period: int, key: str, character_to_replace: str = "J",
                           character_to_replace_with: str = "I") -> str:
-    """ Bifid cipher function for encoding. Key is divided into 5 equal length groups (to create 5x5 matrix of letters).
-    Next, each letter from the text is encoded into numbers, that correspond to row and column of the key.
-    These numbers are stored separately (column below row). After full encoding, both row and column numbers are divided
-    into groups of lengths of value stored in "period". Netx step is to join numbers from row and column alternately.
-    Last step is to decode these numbers back to letters using the same matrix as in the first step.\n
+    """ Bifid cipher function for encoding.\n
+    Key is divided into 5 equal length groups (to create 5x5 matrix of letters). Next, each letter from the text is
+    encoded into numbers, that correspond to row and column of the key. These numbers are stored separately (column
+    below row). After full encoding, both row and column numbers are divided into groups of lengths of value stored in
+    "period". Netx step is to join numbers from row and column alternately. Last step is to decode these numbers back
+    to letters using the same matrix as in the first step.\n
     See reference [10] from README file for more information about the cipher.
 
     :param text: Message to be encoded. Can contain only letters from Latin alphabet.
@@ -455,7 +468,8 @@ def bifid_cipher_encoding(text: str, period: int, key: str, character_to_replace
 
 def bifid_cipher_decoding(text: str, period: int, key: str, character_that_was_replaced: str = "J",
                           character_that_was_replaced_with: str = "I") -> str:
-    """ Bifid cipher function for decoding. Decoding reverses the procedures from encoding function.\n
+    """ Bifid cipher function for decoding.\n
+    Decoding reverses the procedures from encoding function.\n
     See reference [10] from README file for more information about the cipher.
 
     :param text: Message to be decoded. Can contain only letters from Latin alphabet.
@@ -498,9 +512,10 @@ def bifid_cipher_decoding(text: str, period: int, key: str, character_that_was_r
 
 
 def beaufort_cipher(text: str, keyword: str, alphabet: str) -> str:
-    """ Beufort cipher function. Keyword is repeated until the length is equal to that of ciphered/deciphered text.
-    Then, letter by letter, index of the current encoded/decoded text is a difference of the current letter from
-    repeated keyword and the index of the current letter from input text.\n
+    """ Beufort cipher function.\n
+    Keyword is repeated until the length is equal to that of ciphered/deciphered text. Then, letter by letter, index of
+    the current encoded/decoded text is a difference of the current letter from repeated keyword and the index of the
+    current letter from input text.\n
     Can be used both for encoding and decoding messages.\n
     See reference [11] from README file for more information about the cipher.
 
@@ -518,13 +533,14 @@ def beaufort_cipher(text: str, keyword: str, alphabet: str) -> str:
 
 
 def porta_cipher(text: str, keyword: str, alphabet: str) -> str:
-    """ Porta cipher function. Keyword is repeated until the length is equal to that of ciphered/deciphered text.
-    Next, a table is created with alphabet letters on the top, and pairs of consecutive letters of the alphabet.
-    The first row of the table is an alphabet divided in two equal parts (that means, that only alphabets, that have
-    even length are valid), and swapped. The next rows are being constructed based on the row above: the letters at the two
-    ends of the row are moved to the center respectively - first from the front, second from the back. To get encoded
-    letter, current letter from repeated keyword is found in the left column of the table, then we go right, until
-    a letter to be encoded/decoded is found at the top.\n
+    """ Porta cipher function.\n
+    Keyword is repeated until the length is equal to that of ciphered/deciphered text. Next, a table is created with
+    alphabet letters on the top, and pairs of consecutive letters of the alphabet. The first row of the table is an
+    alphabet divided in two equal parts (that means, that only alphabets, that have even length are valid), and swapped.
+    The next rows are being constructed based on the row above: the letters at the two ends of the row are moved to the
+    center respectively - first from the front, second from the back. To get encoded letter, current letter from
+    repeated keyword is found in the left column of the table, then we go right, until a letter to be encoded/decoded
+    is found at the top.\n
     Can be used both for encoding and decoding messages.\n
     See reference [12] from README file for more information about the cipher.
 
@@ -555,9 +571,10 @@ def porta_cipher(text: str, keyword: str, alphabet: str) -> str:
 
 
 def running_key_cipher(text: str, keyphrase: str, alphabet: str, mode: int = CIPHER_MODE) -> str:
-    """ Running key cipher function. Uses a quote from a book/poem or any letter string, that is longer than the
-    ciphered text. Letter by letter, index of the processed text is a sum of the index of the current letter from
-    keyphrase and the index of the current letter from ciphered/deciphered text.\n
+    """ Running key cipher function.\n
+    Uses a quote from a book/poem or any letter string, that is longer than the ciphered text. Letter by letter, index
+    of the processed text is a sum of the index of the current letter from keyphrase and the index of the current letter
+    from ciphered/deciphered text.\n
     Can be used both for encoding and decoding messages.\n
     See reference [13] from README file for more information about the cipher.
 
@@ -580,11 +597,12 @@ def running_key_cipher(text: str, keyphrase: str, alphabet: str, mode: int = CIP
 
 
 def homophonic_substitution_generate_letter_connection_dictionary(alphabet: str) -> Dict[str, List[str]]:
-    """ Function, that generates a letter connection dictionary for the usage of "homophonic_substitution_cipher" function.
+    """ Function, that generates a letter connection dictionary for the usage of "homophonic_substitution_cipher"
+    function.\n
     Creates a dictionary of alphabet letters as keys and lists of letters from the alphabet and numbers as values.
     Lists are determined by reading letter frequency of a particular alphabet from wikipedia page.
-    The more common a letter is, the more characters are placed in the list as a value for that letter.
-    See reference [14], [21], [22] from README file for more information about the cipher.
+    The more common a letter is, the more characters are placed in the list as a value for that letter.\n
+    See references [14], [21], [22] from README file for more information about the cipher.
 
     :param alphabet: Ordered letters for a given alphabet (allows alphabets only from given ones).
     :return: Letter connection dictionary.
@@ -642,7 +660,12 @@ def homophonic_substitution_generate_letter_connection_dictionary(alphabet: str)
 
 
 def homophonic_substitution_cipher(text: str, letter_connection_dictionary: Dict[str, List[str]], mode: int = CIPHER_MODE) -> str:
-    """ Homophonic substitution cipher function. #TODO Write a description
+    """ Homophonic substitution cipher function.\n
+    Uses letter_connection_dictionary to encode and decode a message. The letters to be encoded are the keys of the
+    dictionary, and shuffled letters with numbers are the values. The concept is to make ciphered text uniform in
+    context of letters, that make this message. In normal messages some letters appear more often than others, therefore
+    it is easier to break a code, when we can compare occurrences of ciphered letters with those, that exist in a
+    particular language.\n
     Can be used both for encoding and decoding messages.\n
     See reference [14] from README file for more information about the cipher.
 
@@ -677,7 +700,7 @@ def homophonic_substitution_cipher(text: str, letter_connection_dictionary: Dict
 
 
 def trifid_cipher_generate_random_key(additional_character: str = ".", save_to_file: bool = True) -> str:
-    """ Function, that generates a random key for the usage of Trifid cipher function.
+    """ Function, that generates a random key for the usage of Trifid cipher function.\n
     Shuffles Latin alphabet with additionally provided character, that is not in Latin alphabet.\n
     See reference [15] from README file for more information about the cipher.
 
@@ -697,7 +720,14 @@ def trifid_cipher_generate_random_key(additional_character: str = ".", save_to_f
 
 
 def trifid_cipher_encoding(text: str, key: str, period: int) -> str:
-    """ Trifid cipher function for encoding. #TODO Write a description
+    """ Trifid cipher function for encoding.\n
+    The key is split into 3 equal parts (length 9). These chunks are than split into 3 rows to create 3 square matrices
+    of size 3. Each letter of the ciphered test is searched in the matrices. Then, the matrix identification numer (1,
+    2 or 3) is taken, after that the row, and the column in the matrix. These 3 numbers are place one under the other to
+    create 3 lines of numbers. The next step is to divide all lines into chunks of length of specified period. Then line
+    by line, numbers from first, second and third, then repeating to the next set of numbers with one space between. The
+    last step is to find letters, that each subset of 3 numbers corresponds to in the key. The first letter in the
+    subset is the matrix number, the second is the row, the last is the column.\n
     See reference [15] from README file for more information about the cipher.
 
     :param text: Message to be encoded. Can contain only letters from the provided key.
@@ -741,7 +771,8 @@ def trifid_cipher_encoding(text: str, key: str, period: int) -> str:
 
 
 def trifid_cipher_decoding(text: str, key: str, period: int) -> str:
-    """ Trifid cipher function for decoding. Decoding reverses the procedures from encoding function.\n
+    """ Trifid cipher function for decoding.\n
+    Decoding reverses the procedures from encoding function.\n
     See reference [15] from README file for more information about the cipher.
 
     :param text: Message to be decoded. Can contain only letters from the provided key + spaces.
@@ -783,7 +814,19 @@ def trifid_cipher_decoding(text: str, key: str, period: int) -> str:
 
 
 def hill_cipher(text: str, alphabet: str, key_matrix: List[List[int]], mode: int = CIPHER_MODE, character_to_fill: str = "x"):
-    """ Hill cipher function. #TODO Write a description
+    """ Hill cipher function.\n
+    In this cipher, a special matrix is used. It can be any size as long it is square. It contains numbers from 1 to the
+    length of the alphabet used. It is important, that the matrix has non-zero determinant, otherwise it is not possible
+    to cipher/decipher the message. The determinant of the matrix cannot have a divisor larger than 1, that is also a
+    divisor of the length of the alphabet. The text is split into chunks of length equal to the size of the matrix. If
+    there are no more letters at the end, blank spaces are filled with character_to_fill. Then a 1x3 vertical number
+    matrix is constructed from each chunk such that each number is the index of the letter in the alphabet starting at
+    0. After the operation is complete, a matrix multiplication is performed (multiply key_matrix by current chunk 1x3
+    matrix). After that, each number from the 1x3 product matrix has to be modified by modulo operation with the length
+    of the alphabet used (number mod len(alphabet)). The numbers in the ciphered matrix correspond to the indexes of
+    letters in the alphabet, starting at 0. The process is performed for all chunks.\n
+    To decrypt a message, the provided matrix has to be inverted. Then this inverted matrix multiplied by similar 1x3
+    matrices and with modulo operation will get us back the original letters used.\n
     Can be used both for encoding and decoding messages.\n
     See reference [16] from README file for more information about the cipher.
 
@@ -843,7 +886,7 @@ def hill_cipher(text: str, alphabet: str, key_matrix: List[List[int]], mode: int
 
 
 def playfair_cipher_generate_key_square(keyword: str, character_to_remove: str = "J", save_to_file: bool = True) -> str:
-    """ Function, that generates a random key square for the usage of Playfair cipher function.
+    """ Function, that generates a random key square for the usage of Playfair cipher function.\n
     Puts together a provided keyword and shuffled Latin alphabet with removed letters from "keyword" without a specified
     character to get 25-letter keysquare.\n
     See reference [17] from README file for more information about the cipher.
@@ -880,7 +923,23 @@ def playfair_cipher_generate_key_square(keyword: str, character_to_remove: str =
 
 def playfair_cipher_encoding(text: str, key_square: str, character_to_replace: str = "J",
                              character_to_replace_with: str = "I", swap_letter: str = "X") -> str:
-    """ Playfair cipher function for encoding. #TODO Write a description
+    """ Playfair cipher function for encoding.\n
+    Uses a key word as a base for key square (key word should contain
+    letters, that don't repeat). Key square is created with a key word at the beginning and rest of the letters of the
+    Latin alphabet to complete the square with one letter missing (key square has 25 letters). In order to fix that,
+    character to replace has to be specified with character to replace it with. Draw a key square such that it has 5
+    rows and 5 columns. From text, spaces are removed. It should not contain any characters, that are not present in the
+    key_square. Firstly, if the text to cipher contains double letters, then the second letter should be replaced with
+    swap_letter. If the text has odd number of letters, then swap_letter should be added at the end of the text.
+    Then text is broken into pairs of letters. Locate the letters in the key square. Here we have 3 options.\n
+    First: if the letters are in different rows and columns, replace the pair with the letters on the same row
+    respectively, but at the other pair of corners of the rectangle defined by the original pair. The order is important
+    - the first encrypted letter of the pair is the one that lies on the same row as the first letter to be encrypted.\n
+    Second: if the letters appear on the same row of the table, replace them with the letters to their immediate right
+    respectively (wrapping around to the left side of the row if a letter in the original pair was on the right side of
+    the row)\n
+    Third: if the letters appear on the same column of the table, replace them with the letters immediately below
+    respectively (wrapping around similarly to the second case)\n
     See reference [17] from README file for more information about the cipher.
 
     :param text: Message to be encoded. Can contain only letters from Latin alphabet.
@@ -943,7 +1002,8 @@ def playfair_cipher_encoding(text: str, key_square: str, character_to_replace: s
 
 def playfair_cipher_decoding(text: str, key_square: str, character_that_was_replaced: str = "J",
                              character_that_was_replaced_with: str = "I", swap_letter: str = "X") -> str:
-    """ Playfair cipher function for decoding. Decoding reverses the procedures from encoding function.\n
+    """ Playfair cipher function for decoding.\n
+    Decoding reverses the procedures from encoding function.\n
     See reference [17] from README file for more information about the cipher.
 
     :param text: Message to be decoded. Can contain only letters from Latin alphabet.
@@ -1006,7 +1066,10 @@ def playfair_cipher_decoding(text: str, key_square: str, character_that_was_repl
 
 
 def morse_code(text: str, gap_fill: str = " ", mode: int = CIPHER_MODE) -> str:
-    """ Morse code function. #TODO Write a description
+    """ Morse code function.\n
+    When encoding, replaces letters with predefined "dot and dash" equivalents with specified gap_fill in between
+    encoded letters and twice the gap_fill in between words.\n
+    When decoding, the process is done in reverse.\n
     Can be used both for encoding and decoding messages.\n
     See reference [18] from README file for more information about the code.
 
@@ -1048,8 +1111,9 @@ def morse_code(text: str, gap_fill: str = " ", mode: int = CIPHER_MODE) -> str:
 
 
 def fractionated_morse_code_generate_key_table(keyword: str, save_to_file: bool = True) -> str:
-    """ Function, that generates a random key table for the usage of Fractionated morse code function.
-    Puts together provided keyword and shuffled Latin alphabet with removed letters from "keyword" to get 26-letter key_table.\n
+    """ Function, that generates a random key table for the usage of Fractionated morse code function.\n
+    Puts together provided keyword and shuffled Latin alphabet with removed letters from "keyword" to get 26-letter
+    key_table.\n
     See reference [19] from README file for more information about the code.
 
     :param keyword: A word or any set of characters, that don't contain repeating letters.
@@ -1076,8 +1140,14 @@ def fractionated_morse_code_generate_key_table(keyword: str, save_to_file: bool 
 
 
 def fractionated_morse_code(text: str, key_table: str, gap_fill: str = " ", mode: int = CIPHER_MODE) -> str:
-    """ Fractionated morse code function. #TODO Write a description
+    """ Fractionated morse code function.\n
+    Firstly, the message is encoded with standard morse code (see reference [18] from README file for more information
+    about the morse code). Then, each letter from key_table is encoded in base 3, and then
+    0 -> ".", 1 -> "-", 2 -> gap_fill (e.g. T -> "-.x"). With this encoded key_table we search each 3 take out of the
+    morse encoded message and encode it to get letter back (e.g. A -- with morse encoding --> ".-" -- with
+    key_table --> T).\n
     Can be used both for encoding and decoding messages.\n
+    When decoding, the process is done in reverse.\n
     See reference [19], [23] from README file for more information about the code.
 
     :param text: Message to be encoded or decoded. Can contain only letters from Latin alphabet and when CIPHER_MODE - additionaly spaces.
@@ -1123,7 +1193,7 @@ def fractionated_morse_code(text: str, key_table: str, gap_fill: str = " ", mode
 
 
 def straddle_checkerboard_cipher_generate_random_key(save_to_file: bool = True) -> str:
-    """ Function, that generates a random key for the usage of Straddle checkerboard cipher function.
+    """ Function, that generates a random key for the usage of Straddle checkerboard cipher function.\n
     Shuffles all letters from Latin alphabet.\n
     See reference [20] from README file for more information about the cipher.
 
@@ -1139,7 +1209,17 @@ def straddle_checkerboard_cipher_generate_random_key(save_to_file: bool = True) 
 
 def straddle_checkerboard_cipher_encoding(text: str, key: str, key_number: int = 0, return_numbers: bool = False,
                                           spare_positions: Tuple[int, int] = (3, 7)) -> str:
-    """ Straddle checkerboard cipher function for encoding. #TODO Write a description
+    """ Straddle checkerboard cipher function for encoding.\n
+    The key provided is translated to a dictionary of letters from key as keys and numbers as values. Numbers are
+    constructed as follows: We create a table with numbers from 0 to 9 as a top row and empty string, first number from
+    spare_positions and second number from spare positions as a first column. Now we fill the table with letters from
+    the key from left to right, from top to bottom. Additional rule is that, if we are on the first row and under a
+    number, that is in spare_positions, we skip it and go to the next cell. To get an encoding number for a letter we
+    take the row number from the left, and the column number from the top and create a string out of them. If we are in
+    the first row (empty string), then we take only the column value. Now letter by letter we encode the text with
+    numbers from the dictionary and join them together. If the key_number is 0, we return it as encoded message.
+    Otherwise, we add it to the created number (if it's too short, we repeat it) with non-carrying addition. The last
+    step is to encode a new number with a previously created dictionary and return a string as encoded message.\n
     See reference [20] from README file for more information about the cipher.
 
     :param text: Message to be encoded. Can contain only letters from Latin alphabet.
@@ -1159,7 +1239,7 @@ def straddle_checkerboard_cipher_encoding(text: str, key: str, key_number: int =
         raise ValueError("Key number should not be negative!")
     if len(spare_positions) != 2 or len(set(spare_positions)) != 2:
         raise ValueError("Spare positions list should contain 2 different elements!")
-    if not (0 <= spare_positions[0] < 10) or not (0 <= spare_positions[1] < 10):
+    if spare_positions[0] not in range(10) or spare_positions[1] not in range(10):
         raise ValueError("Each element in spare_positions list should have a value between 1 and 9 including both ends!")
     spare_positions = sorted(spare_positions)
     letter_number = 0
@@ -1193,7 +1273,8 @@ def straddle_checkerboard_cipher_encoding(text: str, key: str, key_number: int =
 
 
 def straddle_checkerboard_cipher_decoding(text: str, key: str, key_number: int = 0, spare_positions: Tuple[int, int] = (3, 7)) -> str:
-    """ Straddle checkerboard cipher function for decoding. Decoding reverses the procedures from encoding function.\n
+    """ Straddle checkerboard cipher function for decoding.\n
+    Decoding reverses the procedures from encoding function.\n
     See reference [20] from README file for more information about the cipher.
 
     :param text: Message to be decoded. Can contain only letters from Latin alphabet if the output of encoding was letters and only digits if the output of encoding was digits.
