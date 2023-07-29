@@ -589,22 +589,23 @@ def homophonic_substitution_generate_letter_connection_dictionary(alphabet: str)
     :param alphabet: Ordered letters for a given alphabet (allows alphabets only from given ones).
     :return: Letter connection dictionary.
     """
-    if alphabet in [LATIN_ALPHABET, POLISH_ALPHABET]:
-        scrapping_url = "https://en.wikipedia.org/wiki/Letter_frequency"
-    elif alphabet == RUSSIAN_ALPHABET:
-        scrapping_url = "https://en.wikipedia.org/wiki/Russian_alphabet"
-    else:
-        raise ValueError("For now, this function accepts only three alphabets (Latin, Polish and Russian)! Frequency of other alphabets is not accessible on wikipedia page.")
+    if alphabet not in [LATIN_ALPHABET, POLISH_ALPHABET, RUSSIAN_ALPHABET]:
+        raise ValueError("For now, this function accepts only three alphabets (Latin, Polish and Russian)! "
+                         "Frequency of other alphabets is not accessible on wikipedia page.")
+    extension_dict = {LATIN_ALPHABET: "Letter_frequency", POLISH_ALPHABET: "Letter_frequency",
+                      RUSSIAN_ALPHABET: "Russian_alphabet"}
+    extension = extension_dict[alphabet]
+    scrapping_url = "https://en.wikipedia.org/wiki/" + extension
     scrapping_response = requests.get(scrapping_url)
     soup = BeautifulSoup(scrapping_response.text, "html.parser")
-    if alphabet in [LATIN_ALPHABET, POLISH_ALPHABET]:
-        letter_frequency = soup.find_all("table", {"class": "wikitable"})[2]
-    elif alphabet == RUSSIAN_ALPHABET:
-        letter_frequency = soup.find_all("table", {"class": "wikitable"})[5]
+    index_dict = {LATIN_ALPHABET: 2, POLISH_ALPHABET: 2, RUSSIAN_ALPHABET: 5}
+    letter_frequency = soup.find_all("table", {"class": "wikitable"})[index_dict[alphabet]]
     data_frame = pandas.read_html(str(letter_frequency))
     data_frame = pandas.DataFrame(data_frame[0])
     if alphabet in [LATIN_ALPHABET, POLISH_ALPHABET]:
-        data = data_frame.drop(["French[22]", "German[23]", "Spanish[24]", "Portuguese[25]", "Esperanto[26]", "Italian[27]", "Turkish[28]", "Swedish[29]", "Dutch[31]", "Danish[32]", "Icelandic[33]", "Finnish[34]", "Czech[citation needed]"], axis=1)
+        to_drop = [column for column in data_frame
+                   if not any(left_column in column for left_column in ["Letter", "English", "Polish"])]
+        data = data_frame.drop(to_drop, axis=1)
         data = data.rename(columns={"English[citation needed]": "English", "Polish[30]": "Polish"})
     elif alphabet == RUSSIAN_ALPHABET:
         data = data_frame.drop(["Rank", "Other information", "English comparison"], axis=1)
