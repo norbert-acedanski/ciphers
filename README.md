@@ -6,7 +6,9 @@
 ![GitHub](https://img.shields.io/github/license/norbert-acedanski/ciphers)
 
 # About The Project
-Script gives an opportunity, with Caesar, Vigenère, Bacon Atbash, Simple Substitution, Columnar Transposition, Autokey, Rail-Fence, Bifid, Beaufort, Porta, Running key, Homophonic substitution, Hill, Playfair, Straddle checkerboard ciphers and Morse, Fractionated morse codes, to encode and decode messages.
+Script gives an opportunity, with Caesar, Vigenère, Bacon, Atbash, Simple Substitution, Columnar Transposition, Autokey, 
+Rail-Fence, Bifid, Beaufort, Porta, Running key, Homophonic substitution, Hill, Playfair, Straddle checkerboard ciphers 
+and Morse, Fractionated morse codes, to encode and decode messages.
 
 # Built with
 ### Python 3.9.10
