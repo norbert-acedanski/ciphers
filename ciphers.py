@@ -594,7 +594,7 @@ def homophonic_substitution_generate_letter_connection_dictionary(alphabet: str)
     elif alphabet == RUSSIAN_ALPHABET:
         scrapping_url = "https://en.wikipedia.org/wiki/Russian_alphabet"
     else:
-        raise ValueError("For now, this function accepts only three alphabets (Latin, Polish and Russian)! Frequency of other alphabets is not accesible on wikipedia page.")
+        raise ValueError("For now, this function accepts only three alphabets (Latin, Polish and Russian)! Frequency of other alphabets is not accessible on wikipedia page.")
     scrapping_response = requests.get(scrapping_url)
     soup = BeautifulSoup(scrapping_response.text, "html.parser")
     if alphabet in [LATIN_ALPHABET, POLISH_ALPHABET]:

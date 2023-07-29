@@ -392,8 +392,8 @@ def test_homophonic_substitution_cipher_generate_letter_connection_dictionar(alp
 
 
 @pytest.mark.parametrize("alphabet, error_message",
-                         [(GREEK_ALPHABET, "For now, this function accepts only three alphabets (Latin, Polish and Russian)! Frequency of other alphabets is not accesible on wikipedia page."),
-                          (HEBREW_ALPHABET, "For now, this function accepts only three alphabets (Latin, Polish and Russian)! Frequency of other alphabets is not accesible on wikipedia page.")])
+                         [(GREEK_ALPHABET, "For now, this function accepts only three alphabets (Latin, Polish and Russian)! Frequency of other alphabets is not accessible on wikipedia page."),
+                          (HEBREW_ALPHABET, "For now, this function accepts only three alphabets (Latin, Polish and Russian)! Frequency of other alphabets is not accessible on wikipedia page.")])
 def test_homophonic_substitution_cipher_generate_letter_connection_dictionary_edge_cases(alphabet, error_message):
     with pytest.raises(ValueError) as exception_info:
         homophonic_substitution_generate_letter_connection_dictionary(alphabet)
