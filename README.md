@@ -12,7 +12,7 @@ Script gives an opportunity, with Caesar, Vigenère, Bacon Atbash, Simple Substi
 ### Python 3.9.10
 
 # Supported by
-### Python: **2.7, 3.5, 3.6, 3.7, 3.8, 3.9, 3.10**  
+### Python: **3.8, 3.9, 3.10, 3.11**  
 ### Platforms: **Windows, Ubuntu, MacOS**
 
 # Getting started
@@ -31,7 +31,7 @@ pip install -r requirements.txt
 As a first step, it is recommended to run test from tests/test_project.py file.
 This can be done in two ways:  
 - with your current version of python with pytest  
-- with 3 versions of python from the tox.ini file (currently py38, py39, py310)  
+- with 4 versions of python from the tox.ini file (currently py38, py39, py310, py311)  
 
 If you choose the first option, you should follow the 1st instruction, is second - 2nd instruction.
 
