@@ -382,7 +382,7 @@ def test_running_key_cipher_edge_cases(text_to_input, alphabet, error_message):
                          [LATIN_ALPHABET,
                           POLISH_ALPHABET,
                           RUSSIAN_ALPHABET])
-def test_homophonic_substitution_cipher_generate_letter_connection_dictionar(alphabet):
+def test_homophonic_substitution_cipher_generate_letter_connection_dictionary(alphabet):
     letter_dictionary = homophonic_substitution_generate_letter_connection_dictionary(alphabet)
     assert sorted(list(letter_dictionary.keys())) == sorted(alphabet)
     every_character = []
