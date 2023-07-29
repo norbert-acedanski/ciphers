@@ -260,14 +260,14 @@ def test_bifid_cipher_encoding_edge_cases_1():
 
 
 @pytest.mark.parametrize("character_to_replace, character_to_replace_with",
-                        [("", ""),
-                         ("", "J"),
-                         ("J", ""),
-                         ("JJ", ""),
-                         ("", "JJ"),
-                         ("Ą", ""),
-                         ("", "Ą"),
-                         ("A", "A")])
+                         [("", ""),
+                          ("", "J"),
+                          ("J", ""),
+                          ("JJ", ""),
+                          ("", "JJ"),
+                          ("Ą", ""),
+                          ("", "Ą"),
+                          ("A", "A")])
 def test_bifid_cipher_encoding_edge_cases_2(character_to_replace, character_to_replace_with):
     with pytest.raises(ValueError) as exception_info:
         bifid_cipher_encoding(TEXT_TO_CIPHER_LATIN[:-2], 5, LATIN_ALPHABET[:-1], character_to_replace, character_to_replace_with)
@@ -295,14 +295,14 @@ def test_bifid_cipher_decoding_edge_cases_1():
 
 
 @pytest.mark.parametrize("character_what_was_replaced, character_what_was_replaced_with",
-                        [("", ""),
-                         ("", "J"),
-                         ("J", ""),
-                         ("JJ", ""),
-                         ("", "JJ"),
-                         ("Ą", ""),
-                         ("", "Ą"),
-                         ("A", "A")])
+                         [("", ""),
+                          ("", "J"),
+                          ("J", ""),
+                          ("JJ", ""),
+                          ("", "JJ"),
+                          ("Ą", ""),
+                          ("", "Ą"),
+                          ("A", "A")])
 def test_bifid_cipher_decoding_edge_case_2(character_what_was_replaced, character_what_was_replaced_with):
     with pytest.raises(ValueError) as exception_info:
         bifid_cipher_decoding("WLEMUKVBBVWPYKEKTUPZGXEOZPCAECCKDOG", 5, LATIN_ALPHABET[:-1], character_what_was_replaced, character_what_was_replaced_with)
