@@ -55,7 +55,7 @@ pip install tox
 tox --skip-missing-interpreters
 ```
 
-Currently, there should be **306 tests passed**.  
+Currently, there should be **334 tests passed**.  
 If all tests are passing, you can use the module safely.
 
 
