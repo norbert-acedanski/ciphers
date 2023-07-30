@@ -248,7 +248,7 @@ def columnar_transposition_cipher_encoding(text: str, keyword: str, character_to
               f'Consider changing the "character_to_fill" to be different than "{text[-1]}"')
     separated_list = [text[i:i + len(keyword)] for i in range(0, len(text), len(keyword))]
     if len(separated_list[-1]) < len(keyword):
-        separated_list[-1] += "".join([character_to_fill for i in range(len(keyword) - len(separated_list[-1]))])
+        separated_list[-1] += "".join([character_to_fill for _ in range(len(keyword) - len(separated_list[-1]))])
     sorted_keyword = "".join(sorted(keyword))
     transposed_list = list(map(list, zip(*separated_list)))
     transposed_list_joined = ["".join(element) for element in transposed_list]
@@ -359,15 +359,14 @@ def rail_fence_cipher_encoding(text: str, number_of_rails: int, remove_spaces: b
     if remove_spaces:
         text = text.replace(" ", "")
     text = text.upper()
-    lists_of_text = [["" for j in range(len(text))] for i in range(number_of_rails)]
+    lists_of_text = [["" for _ in range(len(text))] for __ in range(number_of_rails)]
     for rail in range(number_of_rails):
         lists_of_text[rail][rail] = text[rail]
     for letter in range(number_of_rails, len(text)):
-        if ((letter - number_of_rails) // (number_of_rails - 1)) % 2 == 0:
-            lists_of_text[number_of_rails - 1 - ((letter - number_of_rails) % (number_of_rails - 1) + 1)][letter] = \
-                text[letter]
-        else:
-            lists_of_text[((letter - number_of_rails) % (number_of_rails - 1) + 1)][letter] = text[letter]
+        index = number_of_rails - 1 - ((letter - number_of_rails) % (number_of_rails - 1) + 1) \
+            if ((letter - number_of_rails) // (number_of_rails - 1)) % 2 == 0 \
+            else ((letter - number_of_rails) % (number_of_rails - 1) + 1)
+        lists_of_text[index][letter] = text[letter]
     processed_text_list = []
     processed_text_list += ["".join(processed_list) for processed_list in lists_of_text]
     processed_text = "".join(processed_text_list)
@@ -386,7 +385,7 @@ def rail_fence_cipher_decoding(text: str, number_of_rails: int) -> str:
     if number_of_rails < 2:
         raise ValueError("Number of rails should be at least 2!")
     text = text.upper()
-    lists_of_text = [["" for j in range(len(text))] for i in range(number_of_rails)]
+    lists_of_text = [["" for _ in range(len(text))] for __ in range(number_of_rails)]
     text_index, last_text_index = 0, 0
     indexes_list = [[2*(number_of_rails - i - 1), 2*i] for i in range(number_of_rails)]
     for list_index in range(number_of_rails):
@@ -455,7 +454,8 @@ def bifid_cipher_encoding(text: str, period: int, key: str, character_to_replace
         raise Exception("Please insert letters from the latin alphabet only!")
     if len(key) != len(LATIN_ALPHABET) - 1:
         raise ValueError("Key length has to be 1 less than that of the Latin Alphabet!")
-    if len(character_to_replace) != 1 or len(character_to_replace_with) != 1 or character_to_replace not in LATIN_ALPHABET \
+    if len(character_to_replace) != 1 or len(character_to_replace_with) != 1 \
+            or character_to_replace not in LATIN_ALPHABET \
             or character_to_replace_with not in LATIN_ALPHABET or character_to_replace == character_to_replace_with:
         raise ValueError("Invalid character_that_was_replaced or character_that_was_replaced_with. "
                          "Characters have to be single, different letters and have to be in Latin Alphabet!")
@@ -647,7 +647,9 @@ def homophonic_substitution_generate_letter_connection_dictionary(alphabet: str)
         to_drop = [column for column in data_frame
                    if not any(left_column in column for left_column in ["Letter", "English", "Polish"])]
         data = data_frame.drop(to_drop, axis=1)
-        data = data.rename(columns={"English[citation needed]": "English", "Polish[30]": "Polish"})
+        english_column_name = [column for column in data_frame if "English" in column][0]
+        polish_column_name = [column for column in data_frame if "Polish" in column][0]
+        data = data.rename(columns={english_column_name: "English", polish_column_name: "Polish"})
     elif alphabet == RUSSIAN_ALPHABET:
         data = data_frame.drop(["Rank", "Other information", "English comparison"], axis=1)
     dict_data = data.to_dict()
@@ -1000,9 +1002,9 @@ def playfair_cipher_encoding(text: str, key_square: str, character_to_replace: s
         raise ValueError(f"Key square appears to be wrong length - {len(key_square)}, should be 25!")
     if len(swap_letter) != 1:
         raise ValueError("Swap letter should be a single character!")
-    if len(character_to_replace) != 1 or len(character_to_replace_with) != 1 or \
-           character_to_replace not in LATIN_ALPHABET or character_to_replace_with not in LATIN_ALPHABET or \
-           character_to_replace == character_to_replace_with:
+    if len(character_to_replace) != 1 or len(character_to_replace_with) != 1 \
+            or character_to_replace not in LATIN_ALPHABET or character_to_replace_with not in LATIN_ALPHABET \
+            or character_to_replace == character_to_replace_with:
         raise ValueError("Characters, that are replaced and replaced with should be single, "
                          "not equal letters and be in Latin alphabet!")
     if character_to_replace in key_square:
@@ -1026,8 +1028,7 @@ def playfair_cipher_encoding(text: str, key_square: str, character_to_replace: s
                 raise ValueError(f"Text appears to have a double letter pair, "
                                  f"that equals to the swap_letter: {swap_letter}. Please change the swap_letter!")
             pair = pair[0] + swap_letter
-        first_letter = get_row_and_column(pair[0])
-        second_letter = get_row_and_column(pair[1])
+        first_letter, second_letter = get_row_and_column(pair[0]), get_row_and_column(pair[1])
         if first_letter["row"] == second_letter["row"]:
             processed_text += sliced_key_square[first_letter["row"]][(first_letter["column"] + 1) % 5] + \
                               sliced_key_square[second_letter["row"]][(second_letter["column"] + 1) % 5]
@@ -1328,7 +1329,8 @@ def straddle_checkerboard_cipher_encoding(text: str, key: str, key_number: int =
     return processed_text
 
 
-def straddle_checkerboard_cipher_decoding(text: str, key: str, key_number: int = 0, spare_positions: Tuple[int, int] = (3, 7)) -> str:
+def straddle_checkerboard_cipher_decoding(text: str, key: str, key_number: int = 0,
+                                          spare_positions: Tuple[int, int] = (3, 7)) -> str:
     """ Straddle checkerboard cipher function for decoding.\n
     Decoding reverses the procedures from encoding function.\n
     See reference [20] from README file for more information about the cipher.
