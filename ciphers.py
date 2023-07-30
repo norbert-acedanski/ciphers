@@ -177,7 +177,8 @@ def atbash_cipher(text: str, alphabet: str, include_digits: bool = False) -> str
             else:
                 processed_text += character
         return processed_text
-    processed_text = "".join([alphabet[len(alphabet) - alphabet.index(character) - 1] if character in alphabet else character for character in text])
+    processed_text = "".join([alphabet[len(alphabet) - alphabet.index(character) - 1]
+                              if character in alphabet else character for character in text])
     return processed_text
 
 
