@@ -34,7 +34,7 @@ jobs:
     - name: Install dependencies
       run: |
         pip install -r requirements_dev.txt
-        python -m pip install --upgrade setuptools pip wheel tox
+        pip install --upgrade pip setuptools wheel
         python -m pip install tox-gh-actions
     - name: Test with tox
       run: tox
