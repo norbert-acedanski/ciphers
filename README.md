@@ -33,7 +33,7 @@ pip install -r requirements.txt
 As a first step, it is recommended to run test from tests/test_project.py file.
 This can be done in two ways:  
 - with your current version of python with pytest  
-- with 4 versions of python from the tox.ini file (currently py38, py39, py310, py311)  
+- with 5 versions of python from the tox.ini file (currently py38, py39, py310, py311, py312)  
 
 If you choose the first option, you should follow the 1st instruction, is second - 2nd instruction.
 
