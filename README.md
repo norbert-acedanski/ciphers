@@ -10,6 +10,9 @@ Script gives an opportunity, with Caesar, Vigenère, Bacon, Atbash, Simple Subst
 Rail-Fence, Bifid, Beaufort, Porta, Running key, Homophonic substitution, Hill, Playfair, Straddle checkerboard ciphers 
 and Morse, Fractionated morse codes, to encode and decode messages.
 
+# PyPi
+Package is available at Test PyPi at [ciphers · TestPyPI](https://test.pypi.org/project/ciphers/0.0.1/)
+
 # Built with
 ### Python 3.9.10
 
