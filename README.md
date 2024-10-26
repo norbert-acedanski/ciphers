@@ -307,6 +307,14 @@ Project also contains basic examples of ciphering and deciphering as test cases.
 [23] Quotes from "Moving Pictures" by Terry Pratchet - [Chris Jones Writing][moving_pictures_quotes]  
 [24] Quotes from Stanisław Lem's books - [Lubimy czytać][lem_books_quotes]
 
+
+Packaging:\
+[Packaging Python Projects - Python Packaging User Guide](https://packaging.python.org/en/latest/guides/using-testpypi/)\
+[Using TestPyPi - Python Packaging User Guide](https://packaging.python.org/en/latest/guides/using-testpypi/)\
+[Core metadata specifications - Python Packaging User Guide](https://packaging.python.org/en/latest/specifications/core-metadata/)\
+[PEP 301 – Package Index and Metadata for Distutils | peps.python.org](https://peps.python.org/pep-0301/)\
+[Classifiers · PyPI](https://pypi.org/classifiers/)
+
 # Licence
 Distributed under the MIT License. See LICENSE file for more information.
 
