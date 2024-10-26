@@ -3,5 +3,7 @@
 /*.egg-info
 /.tox
 /venv
+.eggs
 .idea
 .venv
+dist
