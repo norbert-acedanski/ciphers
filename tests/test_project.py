@@ -3,7 +3,7 @@ import os
 import sys
 
 sys.path.append("../ciphers")
-from ciphers import *
+from ciphers.ciphers import *
 
 TEXT_TO_CIPHER_LATIN = "THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG 5"
 TEXT_TO_CIPHER_LATIN_2 = "DEFEND THE EAST WALL OF THE CASTLE"
