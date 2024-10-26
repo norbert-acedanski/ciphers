@@ -16,7 +16,7 @@ setup(
     install_requires=[],
     keywords="ciphers",
     classifiers=[
-        "Development Status :: 1 - Production/Stable",
+        "Development Status :: 5 - Production/Stable",
         "Framework :: tox",
         "Intended Audience :: Users",
         "License :: OSI Approved :: MIT License",
