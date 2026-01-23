@@ -637,7 +637,8 @@ def homophonic_substitution_generate_letter_connection_dictionary(alphabet: str)
                       RUSSIAN_ALPHABET: "Russian_alphabet"}
     extension = extension_dict[alphabet]
     scrapping_url = "https://en.wikipedia.org/wiki/" + extension
-    scrapping_response = requests.get(scrapping_url)
+    scrapping_response = requests.get(scrapping_url,
+                                      headers={"User-Agent": "LetterDictionariesBot/0.0 (norbert97a@o2.pl)"})
     soup = BeautifulSoup(scrapping_response.text, "html.parser")
     index_dict = {LATIN_ALPHABET: 2, POLISH_ALPHABET: 2, RUSSIAN_ALPHABET: 5}
     letter_frequency = soup.find_all("table", {"class": "wikitable"})[index_dict[alphabet]]
